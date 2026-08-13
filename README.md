@@ -41,9 +41,9 @@ CyberOS ليس مجموعة Scripts أمنية عامة، ولا يعيد بنا
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
-│                         CYBEROS COMMAND CENTER                              │
+│                         CYBEROS COMMAND CENTER                             │
 ├──────────────────────┬──────────────────────┬──────────────────────────────┤
-│ Web UI / CLI          │ Application Services │ Scope Validation & Auth       │
+│ Web UI / CLI          │ Application Services │ Scope Validation & Auth     │
 └──────────┬───────────┴──────────┬───────────┴──────────────┬───────────────┘
            │                      │                          │
            ▼                      ▼                          ▼
