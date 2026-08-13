@@ -195,3 +195,31 @@
 - [x] تأكيد عدم إضافة Domain Tables أو features مستقبلية
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] إنشاء checkpoint الإغلاق النهائي لـModule 0.3
+
+## Module 0.4 — Target & Scope Management (Design Approved; 0.4.a In Progress)
+
+- [x] تثبيت حدود Module 0.4 وسلسلة Engagement → Scope → Target
+- [x] تعريف Scope وTarget domain models وtyped identifiers
+- [x] تحديد include/exclude semantics وScope Matcher rules
+- [x] تحديد authorization وsafety guards ومنع out-of-scope actions
+- [x] تصميم 0003_target_scope.sql والقيود والفهارس وFK policies
+- [x] تعريف ScopeRepository وTargetRepository وScopeValidationService ports
+- [x] تصميم CLI commands وJSON/text output contracts
+- [x] إعداد خطة الاختبارات الأمنية والوظيفية وحالات الرفض
+- [x] إعداد خطة التنفيذ المرحلي 0.4.a وما بعدها
+- [x] مراجعة واعتماد وثيقة تصميم Module 0.4 قبل التنفيذ
+
+### 0.4.a — Domain Primitives + Target Canonicalization
+
+- [x] تعريف ScopeId وTargetId كـUUID4 typed identifiers
+- [x] تعريف ScopeStatus وTargetRule وTargetKind enums
+- [x] تعريف typed validation errors الخاصة بالـcanonicalization
+- [x] تنفيذ CandidateParser وTargetCanonicalizer دون network side effects
+- [x] دعم canonicalization لـFQDN وwildcard وIPv4 وIPv6 وCIDR وURL
+- [x] رفض control characters وcredentials/fragments وwildcards غير الآمنة
+- [x] رفض IPv4/IPv6 default routes والتمثيلات الغامضة
+- [x] كتابة pure unit tests للـprimitives والأنواع الستة وحالات الرفض
+- [x] تنفيذ boundary/security review وعدم إضافة SQLite أو CLI أو Matcher
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] تحديث توثيق 0.4.a
+- [ ] إنشاء checkpoint لـ0.4.a
