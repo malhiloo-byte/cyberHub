@@ -476,3 +476,10 @@
 - [x] توثيق قرارات GitHub governance المتبقية: branch protection وDependabot وVulnerability Reporting
 - [x] تشغيل فحوصات النواة والواجهة
 - [x] حفظ checkpoint بعد التسليم
+
+### GitHub Premium Presentation Revision
+
+- [ ] إعادة صياغة README كواجهة منتج لا كملف كود فقط
+- [ ] إصلاح architecture rendering إلى ASCII متوافق مع GitHub
+- [ ] إضافة روابط مباشرة للـCommand Center وقرارات التصميم والـvisual verification
+- [ ] رفع revision النهائي إلى cyberHub والتحقق من CI

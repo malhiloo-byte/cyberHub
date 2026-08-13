@@ -1,4 +1,10 @@
-# CyberOS — Personal Cybersecurity Engineering OS
+# CYBEROS
+
+### Personal Cybersecurity Engineering OS
+
+> **A private command layer for scope, execution, evidence, and deliberate security growth.**
+
+[Open the live Command Center](https://3000-iykopgya8sos5tf9mekyr-d41d7d27.us4.manus.computer) · [View the GitHub repository](https://github.com/malhiloo-byte/cyberHub) · [Read the security policy](SECURITY.md)
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](cyberos-core/pyproject.toml)
 [![Tests](https://img.shields.io/badge/tests-278%20passing-2ea44f?logo=pytest&logoColor=white)](cyberos-core/tests/)
@@ -7,6 +13,11 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 > **الحالة الحالية:** Module 0 مغلق رسميًا بعد Zero-State E2E Audit، مع 278 اختبارًا ناجحًا وبنية محلية آمنة جاهزة للبدء في Module 1 — Recon Orchestrator.
+
+| 278 passing tests | Module 0 closed | Local-first | Fail-closed by default |
+|---|---|---|---|
+
+The repository is deliberately presented as a product surface, not a code dump. The dashboard direction is **Obsidian Command Center**: graphite materials, aged-brass authority signals, mono evidence metadata, and an asymmetric operational canvas.
 
 ## الرؤية التنفيذية
 
@@ -28,19 +39,24 @@ CyberOS ليس مجموعة Scripts أمنية عامة، ولا يعيد بنا
 
 ## المعمارية
 
-```mermaid
-flowchart TD
-    UI[Web UI — future operator console] --> CLI[CLI / API boundaries]
-    CLI --> APP[Application Services]
-    APP --> AUTH[Scope Validation & Execution Authorization]
-    APP --> TASK[Task Orchestration]
-    TASK --> EXEC[SafeSubprocessRunner / TaskExecutionEngine]
-    APP --> UOW[UnitOfWork]
-    UOW --> REPO[Repositories & Mappers]
-    REPO --> DB[(SQLite local database)]
-    DOMAIN[Typed Domain Models & Policies] --> APP
-    DOMAIN --> REPO
-    PLUGINS[Future Plugin / Engine Adapters] --> APP
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                         CYBEROS COMMAND CENTER                              │
+├──────────────────────┬──────────────────────┬──────────────────────────────┤
+│ Web UI / CLI          │ Application Services │ Scope Validation & Auth       │
+└──────────┬───────────┴──────────┬───────────┴──────────────┬───────────────┘
+           │                      │                          │
+           ▼                      ▼                          ▼
+      Task Orchestration ── SafeSubprocessRunner       Typed Domain Policies
+           │                      │                          │
+           └──────────────┬───────┴──────────────┬───────────┘
+                          ▼                      ▼
+                 Repositories & Mappers ─── UnitOfWork
+                          │
+                          ▼
+                    SQLite local-first DB
+
+Future plugin adapters connect only through authorized Task contracts.
 ```
 
 الحدود الأساسية هي: **Domain → Persistence Mappers → Repositories → Application Services → CLI**. الـDomain لا يعرف SQLite أو SQL أو CLI، والـCLI لا يملك business logic. كل تنفيذ يمر عبر `ExecutionAuthorization` صريح، ويُغلق افتراضيًا عند الشك.
@@ -116,6 +132,10 @@ cyberos task show <task-id> --json
 CyberOS مصمم وفق **Fail-Closed Security**. لا يجوز تشغيل أي Task إلا بعد وجود `ExecutionAuthorization` صادر من Scope authorized وغير منتهٍ، ويجب أن يطابق `scope_id` و`target_id` المطلوبين. قواعد `exclude` لها أولوية على `include`، والهدف غير المطابق مرفوض افتراضيًا. الاستخدام يجب أن يكون على أهداف مملوكة أو مصرح بها صراحة؛ لا يهدف المشروع إلى تجاوز التفويض أو تنفيذ نشاط ضار.
 
 راجع [SECURITY.md](SECURITY.md) للإفصاح المسؤول، و[cyberos-core/README.md](cyberos-core/README.md) لتفاصيل حزمة Python، و[التدقيق النهائي](cyberos-core/docs/development/module-0-final-audit.md) لنتائج Module 0.
+
+## واجهة Command Center
+
+الواجهة الحالية ليست صفحة template؛ إنها لوحة تشغيل تعرض Operational Posture، Authorization Brief، Audit Activity، Scope Register، Task Execution، System Health، ومسار البناء نحو Recon. الهوية موثقة في [ideas.md](ideas.md)، ونتائج التحقق البصري desktop/mobile في [frontend-visual-verification.md](docs/development/frontend-visual-verification.md). لا تعتمد الأرقام المعروضة في الواجهة على مصدر خارجي؛ هي **local snapshot presentation data** إلى أن تُربط طبقة UI بــAPI حقيقي في مرحلة لاحقة.
 
 ## التطوير والاختبارات
 
