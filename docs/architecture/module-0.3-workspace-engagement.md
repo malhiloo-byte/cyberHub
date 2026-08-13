@@ -2,8 +2,8 @@
 
 ## Workspace & Engagement Domain Layer
 
-**الحالة:** التصميم معتمد؛ 0.3.a إلى 0.3.d منفّذة ومختبرة  
-**الإصدار المقترح:** 0.3.0-design / 0.3.d  
+**الحالة:** التصميم معتمد؛ 0.3.a إلى 0.3.e منفّذة ومختبرة  
+**الإصدار المقترح:** 0.3.0-design / 0.3.e  
 **يعتمد على:** Module 0.1 — Core Contracts وModule 0.2 — Persistence Kernel  
 **نطاق الوثيقة:** أول Domain Layer فقط؛ لا تشمل Targets أو Findings أو Evidence أو Recon
 
@@ -13,7 +13,7 @@
 
 ### حالة التنفيذ
 
-تم تنفيذ **0.3.a** و**0.3.b** و**0.3.c — Schema/Migration 0002** و**0.3.d — Workspace Repository + Persistence Mapping** داخل `cyberos-core/`. أضيفت persistence mapping دقيقة وWorkspaceRepository مع UnitOfWork وoptimistic concurrency وtyped errors. لم يُنفذ EngagementRepository أو CLI بعد.
+تم تنفيذ **0.3.a** و**0.3.b** و**0.3.c — Schema/Migration 0002** و**0.3.d — Workspace Repository + Persistence Mapping** و**0.3.e — Engagement Repository + Persistence Mapping** داخل `cyberos-core/`. أضيفت mapping ثنائية الاتجاه وrepositories مع Workspace guards وoptimistic concurrency وtyped errors. لم تُنفذ Application Services أو CLI بعد.
 
 يضيف Module 0.3 أول كيانين لهما معنى عملي داخل CyberOS: **Workspace** لتنظيم مساحة عمل طويلة الأمد، و**Engagement** لتمثيل نشاط أو اختبار أو مختبر محدد داخل تلك المساحة.
 

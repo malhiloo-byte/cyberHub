@@ -155,3 +155,18 @@
 - [x] اختبار UnitOfWork commit وrollback والعزل
 - [x] تشغيل regression وRuff وmypy strict وformatting وwheel build
 - [x] توثيق 0.3.d وإنشاء checkpoint قبل EngagementRepository
+
+### 0.3.e — Engagement Repository + Persistence Mapping
+
+- [x] تعريف EngagementRepository port domain-specific
+- [x] تنفيذ Engagement SQLite mapper round-trip
+- [x] تحويل UUID وEnums وUTC timestamps والحقول الاختيارية بدقة
+- [x] تنفيذ add/get/list_by_workspace/update/transition/archive
+- [x] تطبيق Workspace FK وactive/archived guards
+- [x] ترجمة WORKSPACE_NOT_FOUND وWORKSPACE_ARCHIVED
+- [x] ترجمة duplicate name إلى ENGAGEMENT_NAME_CONFLICT
+- [x] تطبيق optimistic concurrency على update/transition/archive
+- [x] منع sqlite3.Row أو SQL details من التسرب خارج repository
+- [x] اختبار UnitOfWork commit وrollback والعزل
+- [x] تشغيل regression وRuff وmypy strict وformatting وwheel build
+- [x] توثيق 0.3.e وإنشاء checkpoint قبل CLI/Application Services
