@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cyberos-core"
+version = "0.1.0"
+description = "Local-first core contracts and CLI foundation for CyberOS"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "CyberOS" }]
+dependencies = ["pydantic>=2.8,<3", "typer>=0.12,<1", "structlog>=24.4,<26"]
+
+[project.scripts]
+cyberos = "cyberos.cli.app:main"
+
+[project.optional-dependencies]
+dev = ["mypy>=1.11,<2", "pytest>=8.3,<9", "pytest-cov>=5,<7", "ruff>=0.6,<1", "build>=1.2,<2"]
+
+[dependency-groups]
+dev = ["mypy>=1.11,<2", "pytest>=8.3,<9", "pytest-cov>=5,<7", "ruff>=0.6,<1", "build>=1.2,<2"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cyberos"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers --strict-config"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+ignore = ["S101"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/cyberos"]
+plugins = ["pydantic.mypy"]
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true

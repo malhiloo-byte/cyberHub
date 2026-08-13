@@ -1,0 +1,13 @@
+[app]
+name = "cyberos"
+environment = "development"
+
+[runtime]
+data_dir = "~/.cyberos"
+log_dir = "~/.cyberos/logs"
+log_level = "INFO"
+log_format = "text"
+
+[cli]
+output_format = "text"
+color = true
