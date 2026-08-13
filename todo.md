@@ -43,3 +43,14 @@
 - [x] تحويل أخطاء SQLite إلى typed errors من Module 0.1
 - [x] كتابة اختبارات lifecycle وclose وPRAGMA وintegrity
 - [x] تشغيل quality gates وتوثيق 0.2.b قبل Migrations
+
+### 0.2.c — Migration Metadata + Runner
+
+- [x] تعريف MigrationRecord وmetadata schema
+- [x] إنشاء 0001_persistence_kernel.sql دون Domain Tables
+- [x] تنفيذ SQL migration loader مع version/order validation
+- [x] تنفيذ SHA-256 checksum normalization والتحقق
+- [x] تنفيذ Migration Runner بمعاملة ذرية وrollback
+- [x] التعامل مع checksum mismatch وinvalid order وduplicate version
+- [x] اختبار idempotent apply وschema version بعد reopen
+- [x] تشغيل quality gates وتوثيق 0.2.c قبل UnitOfWork

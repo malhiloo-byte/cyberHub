@@ -1,1 +1,15 @@
-"""Persistence kernel primitives; SQLite connection code arrives in 0.2.b."""
+"""Persistence kernel primitives for local SQLite storage."""
+
+from cyberos.persistence.connection import (
+    ManagedSQLiteConnection,
+    SQLiteConnectionFactory,
+    SQLitePragmaState,
+)
+from cyberos.persistence.health import DatabaseHealthResult
+
+__all__ = [
+    "DatabaseHealthResult",
+    "ManagedSQLiteConnection",
+    "SQLiteConnectionFactory",
+    "SQLitePragmaState",
+]
