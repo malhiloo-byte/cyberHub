@@ -76,3 +76,27 @@
 - [x] التأكد من عدم إضافة Domain Tables
 - [x] تشغيل quality gates النهائية وتحديث كامل التوثيق
 - [x] إنشاء checkpoint إغلاق Module 0.2
+
+## Module 0.3 — Workspace & Engagement Design
+
+- [ ] تحديد نطاق Workspace وEngagement وحدودهما
+- [ ] تعريف lifecycle وstatus transitions والحقول الأساسية
+- [ ] تصميم العلاقات والقيود وcascade policy
+- [ ] تصميم 0002_workspace_engagement.sql وchecksum compatibility
+- [ ] تعريف Domain Models وvalidation وtyped errors
+- [ ] تعريف Repository Interfaces وApplication Services
+- [ ] تصميم CLI commands وoutput contracts
+- [ ] تصميم Unit وIntegration وCLI Tests
+- [ ] مراجعة security وprivacy وmigration safety
+- [ ] اعتماد وثيقة التصميم قبل التنفيذ
+
+### 0.3.a — Domain Primitives + Workspace Model
+
+- [x] إنشاء domain package وعقود Workspace
+- [x] تعريف WorkspaceStatus وWorkspaceId primitives
+- [x] تطبيق name trim وlength validation
+- [x] تطبيق description validation
+- [x] تطبيق UUID4 وUTC-aware timestamps
+- [x] تطبيق archive invariant وversioning
+- [x] كتابة Unit Tests دون SQLite أو Engagement
+- [x] تشغيل الجودة والتوثيق وإنشاء checkpoint لـ0.3.a
