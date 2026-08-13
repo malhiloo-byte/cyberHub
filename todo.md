@@ -196,7 +196,7 @@
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] إنشاء checkpoint الإغلاق النهائي لـModule 0.3
 
-## Module 0.4 — Target & Scope Management (Design Approved; 0.4.a In Progress)
+## Module 0.4 — Target & Scope Management (Design Approved; 0.4.b In Progress)
 
 - [x] تثبيت حدود Module 0.4 وسلسلة Engagement → Scope → Target
 - [x] تعريف Scope وTarget domain models وtyped identifiers
@@ -223,3 +223,20 @@
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] تحديث توثيق 0.4.a
 - [x] إنشاء checkpoint لـ0.4.a
+
+### 0.4.b — Scope & Target Aggregates
+
+- [x] إضافة typed domain errors لـScope وTarget lifecycle
+- [x] تنفيذ Target immutable domain model
+- [x] تطبيق Target UTC/archive/version invariants
+- [x] تنفيذ Scope immutable aggregate model
+- [x] تطبيق Scope draft/validated/authorized/archived transitions
+- [x] تطبيق authorization_reference وauthorized_at guards
+- [x] تطبيق expiry وtimestamp/version invariants
+- [x] منع تعديل أو إضافة أو أرشفة Target داخل Scope authorized
+- [x] منع أي تعديل عكسي لـScope archived
+- [x] كتابة pure unit tests للـTarget وScope وجميع edge cases
+- [x] تنفيذ boundary/security review دون SQLite أو migration أو Matcher أو CLI
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] تحديث توثيق 0.4.b
+- [x] إنشاء checkpoint لـ0.4.b

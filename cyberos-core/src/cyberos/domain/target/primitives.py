@@ -10,6 +10,11 @@ from cyberos.core.ids import new_id
 TargetId = NewType("TargetId", UUID)
 
 
+class TargetStatus(StrEnum):
+    ACTIVE = "active"
+    ARCHIVED = "archived"
+
+
 class TargetRule(StrEnum):
     INCLUDE = "include"
     EXCLUDE = "exclude"
