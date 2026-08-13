@@ -141,3 +141,17 @@
 - [x] تشغيل quick_check وforeign_key_check
 - [x] تشغيل regression وRuff وmypy strict وformatting وwheel build
 - [x] توثيق deviation/security review وإنشاء checkpoint لـ0.3.c
+
+### 0.3.d — Workspace Repository + Persistence Mapping
+
+- [x] تعريف WorkspaceRepository port domain-specific
+- [x] تنفيذ Workspace SQLite mapper round-trip
+- [x] تحويل UUID وUTC ISO-8601 وstatus/version بدقة
+- [x] تنفيذ add/get/list/exists/update/archive
+- [x] تطبيق ترتيب list حسب created_at DESC ثم id ASC
+- [x] تطبيق optimistic concurrency expected_version
+- [x] ترجمة duplicate name إلى WORKSPACE_NAME_CONFLICT
+- [x] منع sqlite3.Row أو SQL details من التسرب خارج repository
+- [x] اختبار UnitOfWork commit وrollback والعزل
+- [x] تشغيل regression وRuff وmypy strict وformatting وwheel build
+- [x] توثيق 0.3.d وإنشاء checkpoint قبل EngagementRepository
