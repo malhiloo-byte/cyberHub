@@ -32,3 +32,14 @@
 - [x] رفض المسارات غير الصالحة أو غير القابلة للكتابة بأخطاء typed
 - [x] كتابة unit وsecurity tests للحالات الطبيعية والحدية
 - [x] تحديث config example وREADME وتوثيق 0.2.a
+
+### 0.2.b — Connection Factory + PRAGMA Hardening
+
+- [x] تعريف SQLite connection contract وhealth result
+- [x] تنفيذ Connection Factory بالاعتماد على DatabaseSettings
+- [x] تطبيق PRAGMA allowlist بشكل حتمي والتحقق من القيم الفعلية
+- [x] تنفيذ lifecycle وclose آمن للاتصالات
+- [x] تنفيذ quick_check وintegrity health check
+- [x] تحويل أخطاء SQLite إلى typed errors من Module 0.1
+- [x] كتابة اختبارات lifecycle وclose وPRAGMA وintegrity
+- [x] تشغيل quality gates وتوثيق 0.2.b قبل Migrations
