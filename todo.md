@@ -370,4 +370,4 @@
 - [x] كتابة integration tests لنتائج TaskExecutionEngine والانتقالات
 - [x] تحديث تصميم 0.5.b وتوثيق Option A والحدود
 - [x] إعادة تشغيل quality gates والمراجعة الأمنية النهائية
-- [ ] إنشاء checkpoint لـ0.5.b
+- [x] إنشاء checkpoint لـ0.5.b
