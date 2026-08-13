@@ -240,3 +240,21 @@
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] تحديث توثيق 0.4.b
 - [x] إنشاء checkpoint لـ0.4.b
+
+### 0.4.c — Schema Design Review + Migration 0003
+
+- [x] مراجعة توافق Domain models مع Schema 0003
+- [x] إنشاء 0003_target_scope.sql دون IF NOT EXISTS أو BEGIN/COMMIT
+- [x] إنشاء جدول scopes بقيود status/length/timestamp/version وFK
+- [x] إنشاء جدول targets بقيود rule/kind/status/value/version وFK
+- [x] إضافة unique indexes المطلوبة لـScope وTarget
+- [x] تطبيق ON DELETE/UPDATE RESTRICT في العلاقات
+- [x] اختبار migration ordering وchecksum وforward-only behavior
+- [x] اختبار schema creation وquick_check وforeign_key_check
+- [x] اختبار uniqueness وstatus/rule/kind/length constraints
+- [x] اختبار FK enforcement وRESTRICT وعدم التأثير على 0001/0002
+- [x] اختبار atomic rollback عند فشل migration
+- [x] تنفيذ boundary/security review دون repositories أو matcher أو CLI
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] تحديث توثيق 0.4.c
+- [x] إنشاء checkpoint لـ0.4.c
