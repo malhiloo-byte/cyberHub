@@ -6,43 +6,13 @@ import asyncio
 import os
 import time
 from collections.abc import Mapping
-from dataclasses import dataclass
-from enum import StrEnum
 from pathlib import Path
 
 from cyberos.core.errors import CyberOSError, ErrorCode
+from cyberos.domain.task.result import ExecutionFailureReason, ExecutionResult
 from cyberos.domain.task.spec import ExecutionSpec
 
-
-class ExecutionFailureReason(StrEnum):
-    """Machine-readable reasons for a non-normal execution outcome."""
-
-    TIMEOUT_EXCEEDED = "TIMEOUT_EXCEEDED"
-
-
-@dataclass(frozen=True, slots=True)
-class ExecutionResult:
-    """Immutable, bounded result returned by :class:`SafeSubprocessRunner`."""
-
-    exit_code: int | None
-    stdout: bytes
-    stderr: bytes
-    truncated: bool
-    duration_seconds: float
-    timeout_exceeded: bool
-    failure_reason: ExecutionFailureReason | None = None
-
-    def __post_init__(self) -> None:
-        if not isinstance(self.stdout, bytes) or not isinstance(self.stderr, bytes):
-            raise TypeError("ExecutionResult streams must be bytes")
-        if self.duration_seconds < 0:
-            raise ValueError("ExecutionResult duration cannot be negative")
-        if self.timeout_exceeded and (
-            self.failure_reason is not ExecutionFailureReason.TIMEOUT_EXCEEDED
-        ):
-            raise ValueError("Timed-out results must use TIMEOUT_EXCEEDED")
-        if not self.timeout_exceeded and self.failure_reason is not None:
-            raise ValueError("Non-timeout results cannot carry a failure reason")
+__all__ = ["ExecutionFailureReason", "ExecutionResult", "SafeSubprocessRunner"]
 
 
 class SafeSubprocessRunner:
@@ -106,6 +76,9 @@ class SafeSubprocessRunner:
             duration_seconds=max(0.0, time.monotonic() - started),
             timeout_exceeded=timeout_exceeded,
             failure_reason=(ExecutionFailureReason.TIMEOUT_EXCEEDED if timeout_exceeded else None),
+            error_message=(
+                ExecutionFailureReason.TIMEOUT_EXCEEDED.value if timeout_exceeded else None
+            ),
         )
 
     @staticmethod

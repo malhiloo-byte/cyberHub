@@ -89,21 +89,28 @@ def test_migration_applies_schema_and_records_checksum(tmp_path: Path) -> None:
         item[0] for item in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")
     }
     connection.close()
-    assert [migration.version for migration in result.applied] == [1, 2, 3]
+    assert [migration.version for migration in result.applied] == [1, 2, 3, 4]
     assert row == (
         2,
         "workspace_engagement",
         checksum_sql(migration_path.read_text(encoding="utf-8")),
     )
-    assert tables == {"schema_migrations", "workspaces", "engagements", "scopes", "targets"}
+    assert tables == {
+        "schema_migrations",
+        "workspaces",
+        "engagements",
+        "scopes",
+        "targets",
+        "tasks",
+    }
 
 
 def test_migration_is_idempotent(tmp_path: Path) -> None:
     first = make_runner(tmp_path).run()
     second = make_runner(tmp_path).run()
-    assert [migration.version for migration in first.applied] == [1, 2, 3]
+    assert [migration.version for migration in first.applied] == [1, 2, 3, 4]
     assert second.applied == ()
-    assert second.current_version == 3
+    assert second.current_version == 4
 
 
 def test_schema_health_and_foreign_key_check_are_clean(tmp_path: Path) -> None:
@@ -114,7 +121,7 @@ def test_schema_health_and_foreign_key_check_are_clean(tmp_path: Path) -> None:
         foreign_keys = managed.raw.execute("PRAGMA foreign_keys").fetchone()[0]
         foreign_key_errors = managed.raw.execute("PRAGMA foreign_key_check").fetchall()
         assert report.healthy is True
-        assert report.schema_version == 3
+        assert report.schema_version == 4
         assert report.quick_check.details["result"] == "ok"
         assert report.pragma_state["journal_mode"] == "wal"
         assert foreign_keys == 1
@@ -304,4 +311,11 @@ def test_no_future_domain_tables_are_created(tmp_path: Path) -> None:
         item[0] for item in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")
     }
     connection.close()
-    assert tables == {"schema_migrations", "workspaces", "engagements", "scopes", "targets"}
+    assert tables == {
+        "schema_migrations",
+        "workspaces",
+        "engagements",
+        "scopes",
+        "targets",
+        "tasks",
+    }

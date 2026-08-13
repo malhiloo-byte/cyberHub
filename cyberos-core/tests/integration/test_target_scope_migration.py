@@ -126,9 +126,16 @@ def test_migration_0003_schema_and_checksum(tmp_path: Path) -> None:
     connection.close()
 
     migration_path = MIGRATIONS_DIR / "0003_target_scope.sql"
-    assert [migration.version for migration in result.applied] == [1, 2, 3]
+    assert [migration.version for migration in result.applied] == [1, 2, 3, 4]
     assert row == (3, "target_scope", checksum_sql(migration_path.read_text(encoding="utf-8")))
-    assert tables == {"schema_migrations", "workspaces", "engagements", "scopes", "targets"}
+    assert tables == {
+        "schema_migrations",
+        "workspaces",
+        "engagements",
+        "scopes",
+        "targets",
+        "tasks",
+    }
 
 
 def test_migration_0003_is_idempotent_and_forward_only(tmp_path: Path) -> None:
@@ -136,9 +143,9 @@ def test_migration_0003_is_idempotent_and_forward_only(tmp_path: Path) -> None:
     second = make_runner(tmp_path).run()
     source = (MIGRATIONS_DIR / "0003_target_scope.sql").read_text(encoding="utf-8")
 
-    assert [migration.version for migration in first.applied] == [1, 2, 3]
+    assert [migration.version for migration in first.applied] == [1, 2, 3, 4]
     assert second.applied == ()
-    assert second.current_version == 3
+    assert second.current_version == 4
     assert "IF NOT EXISTS" not in source.upper()
     assert "BEGIN" not in source.upper()
     assert "COMMIT" not in source.upper()
@@ -150,7 +157,7 @@ def test_schema_health_and_foreign_key_check_are_clean(tmp_path: Path) -> None:
     with factory.connect() as managed:
         report = managed.health()
         assert report.healthy is True
-        assert report.schema_version == 3
+        assert report.schema_version == 4
         assert managed.raw.execute("PRAGMA foreign_key_check").fetchall() == []
         assert managed.raw.execute("PRAGMA quick_check").fetchone()[0] == "ok"
 

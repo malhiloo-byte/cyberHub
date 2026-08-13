@@ -371,3 +371,26 @@
 - [x] تحديث تصميم 0.5.b وتوثيق Option A والحدود
 - [x] إعادة تشغيل quality gates والمراجعة الأمنية النهائية
 - [x] إنشاء checkpoint لـ0.5.b
+
+### 0.5.c — Task Persistence & Migration 0004
+
+- [x] نقل ExecutionResult إلى عقد Domain محايد مع re-export متوافق من execution.runner
+- [x] تعريف TaskRecord immutable projection من Task وExecutionResult
+- [x] تصميم واعتماد mapping بين Task/ExecutionResult وجدول tasks
+- [x] تنفيذ 0004_tasks.sql دون IF NOT EXISTS أو معاملات داخلية
+- [x] إضافة قيود status/timestamps/version/lengths وFK RESTRICT
+- [x] إضافة json_valid checks لـcommand_json وenv_policy_json
+- [x] إضافة status/result consistency checks لـpending/running/completed/failed/cancelled
+- [x] إضافة فهارس scope/status وtarget/status
+- [x] اختبار migration checksum وforward-only وatomic rollback
+- [x] تنفيذ TaskMapper مع UUID/UTC/enums/optional fields round-trip
+- [x] تنفيذ TaskRepository add/get/list_by_scope/list_by_target
+- [x] تنفيذ update_status_and_result مع optimistic concurrency
+- [x] حفظ واسترجاع ExecutionResult والمخرجات المقتطعة بأمان
+- [x] تطبيق FK protection لـScope وTarget غير الموجودين
+- [x] دمج repository مع UnitOfWork دون تسريب sqlite3.Row أو SQL
+- [x] كتابة migration وrepository integration tests
+- [x] تنفيذ boundary/security review دون CLI أو subprocess أو network tools
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] تحديث توثيق 0.5.c
+- [x] إنشاء checkpoint لـ0.5.c
