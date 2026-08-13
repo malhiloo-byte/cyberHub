@@ -7,7 +7,12 @@ from typing import Self
 
 from cyberos.config.models import DatabaseSettings
 from cyberos.core.errors import CyberOSError, ErrorCode
-from cyberos.persistence.health import DatabaseHealthResult, run_quick_check
+from cyberos.persistence.health import (
+    DatabaseHealthReport,
+    DatabaseHealthResult,
+    collect_database_health,
+    run_quick_check,
+)
 from cyberos.persistence.path_policy import PreparedDatabasePath, prepare_database_path
 
 
@@ -139,6 +144,9 @@ class ManagedSQLiteConnection:
 
     def quick_check(self) -> DatabaseHealthResult:
         return run_quick_check(self.raw)
+
+    def health(self) -> DatabaseHealthReport:
+        return collect_database_health(self)
 
     def close(self) -> None:
         if not self._closed:

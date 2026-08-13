@@ -5,12 +5,13 @@ from cyberos.persistence.connection import (
     SQLiteConnectionFactory,
     SQLitePragmaState,
 )
-from cyberos.persistence.health import DatabaseHealthResult
+from cyberos.persistence.health import DatabaseHealthReport, DatabaseHealthResult
 from cyberos.persistence.ports import Repository, UnitOfWorkPort
 from cyberos.persistence.unit_of_work import SQLiteUnitOfWork, TransactionState
 
 __all__ = [
     "DatabaseHealthResult",
+    "DatabaseHealthReport",
     "ManagedSQLiteConnection",
     "Repository",
     "SQLiteConnectionFactory",

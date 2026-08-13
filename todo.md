@@ -10,17 +10,17 @@
 
 ## Module 0.2 — Persistence Kernel
 
-- [ ] اعتماد تصميم SQLite المحلي المحصّن
-- [ ] تحديد Database layout وconnection lifecycle
-- [ ] تحديد schema versioning وmigration runner
-- [ ] تحديد transaction وconcurrency policy
-- [ ] تعريف Repository Interfaces وpersistence contracts
-- [ ] كتابة contract tests للـCRUD والـtransactions
-- [ ] اختبار rollback وعدم فقدان أو فساد البيانات
-- [ ] اختبار migration upgrade وdowngrade policy
-- [ ] مراجعة SQLite security وfile permissions وbackup boundaries
-- [ ] تنفيذ التوثيق والأمثلة وquality gates
-- [ ] إنشاء checkpoint وتسليم Module 0.2
+- [x] اعتماد تصميم SQLite المحلي المحصّن
+- [x] تحديد Database layout وconnection lifecycle
+- [x] تحديد schema versioning وmigration runner
+- [x] تحديد transaction وconcurrency policy
+- [x] تعريف Repository Interfaces وpersistence contracts
+- [x] كتابة contract tests للـCRUD والـtransactions
+- [x] اختبار rollback وعدم فقدان أو فساد البيانات
+- [x] اختبار migration upgrade وdowngrade policy
+- [x] مراجعة SQLite security وfile permissions وbackup boundaries
+- [x] تنفيذ التوثيق والأمثلة وquality gates
+- [x] إنشاء checkpoint وتسليم Module 0.2
 
 ### 0.2.a — Database Settings + Path/Security Policy
 
@@ -65,3 +65,14 @@
 - [x] إنشاء test repository محدود للاختبارات دون Domain Tables
 - [x] اختبار commit وrollback وisolation وclose
 - [x] تشغيل quality gates وتوثيق 0.2.d قبل contract tests الأوسع
+
+### 0.2.e — Contract Tests + Persistence Health Integration
+
+- [x] تعريف DatabaseHealth contract النهائي
+- [x] ربط schema version مع migration metadata
+- [x] ربط PRAGMA state وquick_check بنتيجة health موحدة
+- [x] إكمال contract tests للـRepository وUnitOfWork
+- [x] اختبار health على قاعدة سليمة وفشل integrity وschema mismatch
+- [x] التأكد من عدم إضافة Domain Tables
+- [x] تشغيل quality gates النهائية وتحديث كامل التوثيق
+- [x] إنشاء checkpoint إغلاق Module 0.2
