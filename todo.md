@@ -347,3 +347,27 @@
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] تحديث توثيق 0.5.a
 - [x] إنشاء checkpoint لـ0.5.a
+
+### 0.5.b — Safe Subprocess Execution Engine
+
+- [x] تثبيت عقد SafeSubprocessRunner وحدود الطبقة دون تعديل Domain أو Persistence
+- [x] تعريف ExecutionResult immutable value object: exit_code/stdout/stderr/truncated/duration/timeout_exceeded
+- [x] تنفيذ argv-only عبر asyncio.create_subprocess_exec دون shell=True أو shell parsing
+- [x] تطبيق EnvPolicy allowlist مع بيئة معزولة وعدم توريث المتغيرات الحساسة
+- [x] تطبيق output cap مستقل وآمن لـstdout وstderr مع توثيق truncated
+- [x] تطبيق timeout مع SIGTERM ثم SIGKILL عند عدم الاستجابة
+- [x] ترجمة نتائج timeout والفشل إلى حالات typed قابلة للتدقيق دون تسريب stack traces
+- [x] كتابة integration tests محلية محايدة لـecho وsleep وpython -c فقط
+- [x] اختبار shell injection prevention كـarguments عادية
+- [x] اختبار timeout/process killing وoutput truncation وenvironment isolation
+- [x] تنفيذ boundary/security review دون migration أو repositories أو CLI أو network tools
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] تحديث توثيق 0.5.b
+- [x] تنفيذ TaskExecutionEngine فوق SafeSubprocessRunner
+- [x] تطبيق Task transition إلى RUNNING قبل التنفيذ
+- [x] تطبيق COMPLETED عند exit_code == 0 وبدون timeout
+- [x] تطبيق FAILED عند timeout أو exit_code != 0
+- [x] كتابة integration tests لنتائج TaskExecutionEngine والانتقالات
+- [x] تحديث تصميم 0.5.b وتوثيق Option A والحدود
+- [x] إعادة تشغيل quality gates والمراجعة الأمنية النهائية
+- [ ] إنشاء checkpoint لـ0.5.b
