@@ -446,3 +446,13 @@
 - [x] مراجعة secrets وgenerated artifacts وعدم تضمين بيانات حساسة
 - [x] تشغيل quality checks وCI-equivalent validation
 - [x] توثيق أوامر commit وremote وpush دون تنفيذ push فعلي
+
+### GitHub Remote & Push — malhiloo-byte/cyberHub
+
+- [ ] فحص الوصول إلى مستودع GitHub وحالة gh/git authentication
+- [ ] التحقق من local branch وworking tree وcommit c197ea9
+- [ ] إضافة remote باسم github دون تغيير remote origin المُدار
+- [ ] التحقق من default branch وremote refs قبل الرفع
+- [ ] رفع commit c197ea9 إلى GitHub دون force push أو history rewrite
+- [ ] التحقق من commit والـCI workflow بعد الرفع
+- [ ] توثيق أي إعدادات يدوية متبقية مثل branch protection وDependabot
