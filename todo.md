@@ -77,18 +77,18 @@
 - [x] تشغيل quality gates النهائية وتحديث كامل التوثيق
 - [x] إنشاء checkpoint إغلاق Module 0.2
 
-## Module 0.3 — Workspace & Engagement Design
+## Module 0.3 — Workspace & Engagement Design (Closed)
 
-- [ ] تحديد نطاق Workspace وEngagement وحدودهما
-- [ ] تعريف lifecycle وstatus transitions والحقول الأساسية
-- [ ] تصميم العلاقات والقيود وcascade policy
-- [ ] تصميم 0002_workspace_engagement.sql وchecksum compatibility
-- [ ] تعريف Domain Models وvalidation وtyped errors
-- [ ] تعريف Repository Interfaces وApplication Services
-- [ ] تصميم CLI commands وoutput contracts
-- [ ] تصميم Unit وIntegration وCLI Tests
-- [ ] مراجعة security وprivacy وmigration safety
-- [ ] اعتماد وثيقة التصميم قبل التنفيذ
+- [x] تحديد نطاق Workspace وEngagement وحدودهما
+- [x] تعريف lifecycle وstatus transitions والحقول الأساسية
+- [x] تصميم العلاقات والقيود وcascade policy
+- [x] تصميم 0002_workspace_engagement.sql وchecksum compatibility
+- [x] تعريف Domain Models وvalidation وtyped errors
+- [x] تعريف Repository Interfaces وApplication Services
+- [x] تصميم CLI commands وoutput contracts
+- [x] تصميم Unit وIntegration وCLI Tests
+- [x] مراجعة security وprivacy وmigration safety
+- [x] اعتماد وثيقة التصميم قبل التنفيذ
 
 ### 0.3.a — Domain Primitives + Workspace Model
 
@@ -185,3 +185,13 @@
 - [x] اختبار CLI text/JSON/errors/deterministic output
 - [x] تشغيل regression وRuff وmypy strict وformatting وwheel build
 - [x] توثيق 0.3.f وإنشاء checkpoint قبل 0.3.g
+
+### 0.3.g — Documentation + Final Module Checkpoint
+
+- [x] تنفيذ Cross-Layer Boundary Review النهائي
+- [x] تحديث README وArchitecture documentation
+- [x] إضافة أمثلة CLI text وJSON
+- [x] توثيق Transition Matrix وarchive/versioning policies
+- [x] تأكيد عدم إضافة Domain Tables أو features مستقبلية
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] إنشاء checkpoint الإغلاق النهائي لـModule 0.3

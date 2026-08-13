@@ -2,8 +2,8 @@
 
 ## Workspace & Engagement Domain Layer
 
-**الحالة:** التصميم معتمد؛ 0.3.a إلى 0.3.f منفّذة ومختبرة  
-**الإصدار المقترح:** 0.3.0-design / 0.3.f  
+**الحالة:** Module 0.3 مغلق؛ 0.3.a إلى 0.3.g منفّذة ومراجعة  
+**الإصدار المقترح:** 0.3.0  
 **يعتمد على:** Module 0.1 — Core Contracts وModule 0.2 — Persistence Kernel  
 **نطاق الوثيقة:** أول Domain Layer فقط؛ لا تشمل Targets أو Findings أو Evidence أو Recon
 
@@ -13,7 +13,7 @@
 
 ### حالة التنفيذ
 
-تم تنفيذ **0.3.a** إلى **0.3.e** ثم **0.3.f — Application Services + CLI Integration** داخل `cyberos-core/`. أضيفت services تنسق UnitOfWork وrepositories، وCLI بأوامر Workspace وEngagement ومخرجات JSON/text وcorrelation IDs وexit codes. لم تُنفذ HTTP API أو Web UI أو Scope أو execution features.
+تم تنفيذ وإغلاق **0.3.a** إلى **0.3.g** داخل `cyberos-core/`. تشمل النتيجة Domain Models، Migration 0002، mappers، repositories، Application Services، CLI، Cross-Layer Boundary Review، والتوثيق النهائي. لم تُنفذ HTTP API أو Web UI أو Scope أو execution features.
 
 يضيف Module 0.3 أول كيانين لهما معنى عملي داخل CyberOS: **Workspace** لتنظيم مساحة عمل طويلة الأمد، و**Engagement** لتمثيل نشاط أو اختبار أو مختبر محدد داخل تلك المساحة.
 
