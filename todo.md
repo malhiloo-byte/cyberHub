@@ -449,10 +449,17 @@
 
 ### GitHub Remote & Push — malhiloo-byte/cyberHub
 
-- [ ] فحص الوصول إلى مستودع GitHub وحالة gh/git authentication
-- [ ] التحقق من local branch وworking tree وcommit c197ea9
-- [ ] إضافة remote باسم github دون تغيير remote origin المُدار
-- [ ] التحقق من default branch وremote refs قبل الرفع
-- [ ] رفع commit c197ea9 إلى GitHub دون force push أو history rewrite
-- [ ] التحقق من commit والـCI workflow بعد الرفع
-- [ ] توثيق أي إعدادات يدوية متبقية مثل branch protection وDependabot
+- [x] فحص الوصول إلى مستودع GitHub وحالة gh/git authentication
+- [x] التحقق من local branch وworking tree وcommit c197ea9
+- [x] إضافة remote باسم github دون تغيير remote origin المُدار
+- [x] التحقق من default branch وremote refs قبل الرفع
+- [x] رفع commit c197ea9 إلى GitHub دون force push أو history rewrite
+- [x] التحقق من commit والـCI workflow بعد الرفع
+- [x] توثيق أي إعدادات يدوية متبقية مثل branch protection وDependabot
+
+### GitHub Push Retry — cyberHub
+
+- [x] إعادة فحص GitHub authentication بعد إعادة المصادقة
+- [x] التحقق من working tree وremote refs قبل retry
+- [x] إعادة push آمن إلى `github/main` دون force
+- [x] التحقق من commit وActions بعد النجاح أو توثيق سبب الفشل
