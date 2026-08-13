@@ -105,6 +105,28 @@ temp/
 *.sqlite
 *.sqlite3
 
+# Python environments, caches, coverage, and packages
+**/.venv/
+**/venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+*.whl
+
+# Local CyberOS runtime and configuration
+.cyberos/
+**/.cyberos/
+*.secret
+*.secrets
+*.secrets.*
+*.pem
+*.key
+
 # Webdev artifacts (checkpoint zips, migrations, etc.)
 .webdev/
 

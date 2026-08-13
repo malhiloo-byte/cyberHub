@@ -1,0 +1,45 @@
+name: CyberOS CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Python quality gates
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cyberos-core
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: cyberos-core/pyproject.toml
+
+      - name: Install package and development tools
+        run: python -m pip install --upgrade pip && python -m pip install -e '.[dev]'
+
+      - name: Run pytest
+        run: pytest -q
+
+      - name: Ruff lint
+        run: ruff check .
+
+      - name: Ruff format check
+        run: ruff format --check .
+
+      - name: Mypy strict
+        run: mypy --strict src
+
+      - name: Build wheel
+        run: python -m build

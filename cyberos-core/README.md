@@ -101,6 +101,19 @@ cyberos scope evaluate <scope-uuid> --kind fqdn --value api.example.com --json
 
 `scope evaluate` is read-only. Its JSON result is an `OperationResult` envelope containing the decision, reason, matching rule, matched Target ID, Scope status, and version. An `INCLUDED` evaluation exits with code `0`; an `EXCLUDED` or `DENIED_OUT_OF_SCOPE` evaluation exits with code `2`; invalid input and lifecycle/contract errors use code `1` for these Scope commands. Human-readable output shows the decision, reason, and correlation ID. No command performs DNS, HTTP, subprocess, scanner, or Task Runner activity.
 
+Authorized Task execution is explicit and target-bound. The CLI requires a Scope ID, Target ID, explicit TargetKind/value, and an argv command. Use `--` before command arguments when they contain flags such as Python's `-c`:
+
+```bash
+cyberos task run <scope-uuid> <target-uuid> \
+  --kind fqdn --value api.example.com --json -- \
+  echo "authorized local task"
+cyberos task list --scope-id <scope-uuid> --json
+cyberos task list --target-id <target-uuid>
+cyberos task show <task-uuid> --json
+```
+
+Every run passes through `ExecutionAuthorization`, persists a pending Task, executes outside the SQLite transaction through the safe argv-only engine, and persists the terminal `ExecutionResult` with optimistic concurrency. Exit code `0` means success, `1` means input/domain error, and `2` means security rejection or failed/timeout execution. `task show` remains a successful read even when the stored Task has status `failed`.
+
 ## Layer boundaries
 
 The intended dependency direction is:
@@ -117,4 +130,4 @@ Domain models do not import SQLite, SQL, repositories, or CLI. Mappers are the o
 ./scripts/check.sh
 ```
 
-The package-level designs are documented in `../docs/architecture/`. Module 0.4 implementation notes are in `docs/development/target-0.4a.md` through `target-0.4g.md`; the final closure note is `docs/development/target-0.4-closure.md`. Module 0.3 implementation notes remain documented in their corresponding `docs/development/` files.
+The package-level designs are documented in `../docs/architecture/`. Module 0.5 is closed with 278 passing tests, including the zero-state audit in `tests/e2e/test_full_system_pipeline.py`. Its architecture and closure notes are in `../docs/architecture/module-0.5d-task-cli-audit.md`, `docs/development/module-0.5-closure.md`, and `docs/development/module-0-final-audit.md`.

@@ -433,3 +433,16 @@
 - [x] توثيق known limitations/technical debt ونتيجة audit
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] حفظ checkpoint التراكمي وإغلاق Module 0 رسميًا
+
+### GitHub Repository Setup — Portfolio & Production Grade
+
+- [x] مراجعة حالة Git وREADME والملفات الحالية فوق checkpoint 80001bf3
+- [x] كتابة README احترافي: badges وvision وarchitecture وroadmap وquickstart وsecurity policy
+- [x] إضافة Mermaid/ASCII architecture يوضح Module 0 إلى Module 14
+- [x] إضافة `.github/workflows/ci.yml` لـpytest وRuff وmypy strict وwheel build
+- [x] تحديث `.gitignore` لقواعد البيانات والبيئات والكاش والأسرار وartifacts
+- [x] إضافة MIT LICENSE
+- [x] إضافة SECURITY.md لسياسة الإفصاح والاستخدام المصرح
+- [x] مراجعة secrets وgenerated artifacts وعدم تضمين بيانات حساسة
+- [x] تشغيل quality checks وCI-equivalent validation
+- [x] توثيق أوامر commit وremote وpush دون تنفيذ push فعلي
