@@ -7,5 +7,13 @@ from cyberos.domain.scope.primitives import (
     new_scope_id,
     validate_scope_id,
 )
+from cyberos.domain.scope.repository import ScopeRepository
 
-__all__ = ["Scope", "ScopeId", "ScopeStatus", "new_scope_id", "validate_scope_id"]
+__all__ = [
+    "Scope",
+    "ScopeId",
+    "ScopeRepository",
+    "ScopeStatus",
+    "new_scope_id",
+    "validate_scope_id",
+]

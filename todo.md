@@ -258,3 +258,20 @@
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] تحديث توثيق 0.4.c
 - [x] إنشاء checkpoint لـ0.4.c
+
+### 0.4.e — Scope & Target Repositories + Persistence Mapping
+
+- [x] تعريف ScopeRepository وTargetRepository ports
+- [x] تنفيذ ScopeMapper round-trip مع UUID/UTC/enums/invariants
+- [x] تنفيذ TargetMapper round-trip مع canonical values وUUID/UTC/enums
+- [x] تنفيذ ScopeRepository add/get/list_by_engagement/exists/update/archive
+- [x] تنفيذ TargetRepository add/get/list_by_scope/exists/update/archive
+- [x] تطبيق optimistic concurrency expected_version
+- [x] ترجمة SCOPE_NAME_CONFLICT وTARGET_DUPLICATE وبقية أخطاء SQLite
+- [x] تطبيق Engagement/Scope existence وarchive guards
+- [x] ضمان UnitOfWork commit/rollback وعدم تسريب sqlite3.Row أو SQL details
+- [x] كتابة اختبارات round-trip وCRUD وconcurrency وtyped errors وFK protection
+- [x] تنفيذ boundary/security review دون Matcher أو ScopeValidationService أو CLI أو network
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] تحديث توثيق 0.4.e
+- [x] إنشاء checkpoint لـ0.4.e

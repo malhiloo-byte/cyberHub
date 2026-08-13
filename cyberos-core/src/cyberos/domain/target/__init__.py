@@ -14,12 +14,14 @@ from cyberos.domain.target.primitives import (
     new_target_id,
     validate_target_id,
 )
+from cyberos.domain.target.repository import TargetRepository
 
 __all__ = [
     "CandidateParser",
     "CanonicalTarget",
     "TargetCanonicalizer",
     "Target",
+    "TargetRepository",
     "TargetId",
     "TargetKind",
     "TargetRule",
