@@ -222,4 +222,4 @@
 - [x] تنفيذ boundary/security review وعدم إضافة SQLite أو CLI أو Matcher
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] تحديث توثيق 0.4.a
-- [ ] إنشاء checkpoint لـ0.4.a
+- [x] إنشاء checkpoint لـ0.4.a
