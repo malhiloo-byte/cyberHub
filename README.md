@@ -1,101 +1,139 @@
+<div align="center">
+
 # CYBEROS
 
 ### Personal Cybersecurity Engineering OS
 
-> **A private command layer for scope, execution, evidence, and deliberate security growth.**
+**A private command layer for scope, execution, evidence, and deliberate security growth.**
 
-[Open the live Command Center](https://3000-iykopgya8sos5tf9mekyr-d41d7d27.us4.manus.computer) · [View the GitHub repository](https://github.com/malhiloo-byte/cyberHub) · [Read the security policy](SECURITY.md)
+<p>
+  <a href="https://github.com/malhiloo-byte/cyberHub/actions/workflows/ci.yml"><img src="https://github.com/malhiloo-byte/cyberHub/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status" /></a>
+  <a href="cyberos-core/pyproject.toml"><img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white" alt="Python 3.11+" /></a>
+  <a href="cyberos-core/tests/"><img src="https://img.shields.io/badge/tests-278%20passing-238636?logo=pytest&logoColor=white" alt="278 tests passing" /></a>
+  <a href="https://docs.astral.sh/ruff/"><img src="https://img.shields.io/badge/style-Ruff-D7FF64?logo=ruff&logoColor=111111" alt="Ruff" /></a>
+  <a href="https://mypy.readthedocs.io/"><img src="https://img.shields.io/badge/types-mypy%20strict-1674B1" alt="mypy strict" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea44f.svg" alt="MIT license" /></a>
+</p>
 
-[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](cyberos-core/pyproject.toml)
-[![Tests](https://img.shields.io/badge/tests-278%20passing-2ea44f?logo=pytest&logoColor=white)](cyberos-core/tests/)
-[![Ruff](https://img.shields.io/badge/code%20style-Ruff-D7FF64?logo=ruff&logoColor=111111)](https://docs.astral.sh/ruff/)
-[![Mypy](https://img.shields.io/badge/type%20checking-mypy%20strict-1674B1)](https://mypy.readthedocs.io/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+<p>
+  <a href="https://3000-iykopgya8sos5tf9mekyr-d41d7d27.us4.manus.computer">Open Command Center</a>
+  ·
+  <a href="cyberos-core/README.md">Read the core package guide</a>
+  ·
+  <a href="SECURITY.md">Security policy</a>
+</p>
 
-> **الحالة الحالية:** Module 0 مغلق رسميًا بعد Zero-State E2E Audit، مع 278 اختبارًا ناجحًا وبنية محلية آمنة جاهزة للبدء في Module 1 — Recon Orchestrator.
+</div>
 
-| 278 passing tests | Module 0 closed | Local-first | Fail-closed by default |
-|---|---|---|---|
+> **Current release posture** — Module 0 is closed after a clean zero-state end-to-end audit: **278 tests passing**, migrations 0001–0004 verified, and the execution boundary is fail-closed by default. Module 1 begins with design review, not premature implementation.
 
-The repository is deliberately presented as a product surface, not a code dump. The dashboard direction is **Obsidian Command Center**: graphite materials, aged-brass authority signals, mono evidence metadata, and an asymmetric operational canvas.
+---
 
-## الرؤية التنفيذية
+## The product surface
 
-CyberOS ليس مجموعة Scripts أمنية عامة، ولا يعيد بناء أدوات ممتازة موجودة أصلًا دون سبب. إنه **Personal Cybersecurity Engineering OS**: طبقة شخصية Local-first وPrivacy-first فوق المعرفة والأدوات والـengines الموجودة، تساعد صاحب المسار على التعلم والتدريب وتنفيذ Labs وPentesting المصرح به وتنظيم الأدلة وتحليل النتائج وكتابة التقارير وأتمتة الأعمال المتكررة وقياس التطور الحقيقي.
+CyberOS is not another collection of disconnected security scripts. It is a **personal engineering layer** above proven tools, engines, and knowledge: a local-first system for learning, lab execution, authorized testing, evidence organization, result analysis, reporting, repeatable automation, AI red teaming, and measurable professional growth.
 
-المسار الذي تخدمه المنظومة هو: **Web Penetration Testing → Network / AD / Cloud Security → API Security → Python / Data / ML → Deep Learning → LLM Security → AI Red Teaming → AI Security Engineering / Research**.
+The platform follows one deliberate rule: **build the missing personal operating layer instead of rebuilding every tool that already exists.**
 
-## الوضع الحالي
-
-| المجال | الحالة |
+| Principle | What it means in CyberOS |
 |---|---|
-| Core contracts, configuration, logging, typed errors | مكتمل ضمن Module 0 |
-| SQLite persistence, migrations, UnitOfWork | مكتمل حتى Migration 0004 |
-| Workspace / Engagement / Scope / Target lifecycle | مكتمل ومختبر |
-| Fail-closed authorization and target-bound tasks | مكتمل ومختبر |
-| Safe argv execution and Task CLI | مكتمل ومختبر |
-| Zero-State E2E audit | ناجح — 278 اختبارًا |
-| Reconnaissance tooling | مؤجل إلى Module 1 بعد اعتماد التصميم |
+| **Local-first** | Personal workspaces and SQLite persistence begin on the operator’s machine. |
+| **Privacy-first** | Sensitive operational data is not sent to a remote service by default. |
+| **Fail-closed** | Unknown, expired, excluded, or unapproved targets are denied. |
+| **API-minded** | Domain contracts and structured JSON outputs keep future interfaces composable. |
+| **Evidence-oriented** | Tasks, results, timestamps, versions, and authorization context remain auditable. |
 
-## المعمارية
+## What is already real
+
+| Capability | Delivery status |
+|---|---|
+| Core contracts, configuration, typed errors, and structured logging | **Complete** |
+| SQLite persistence, migrations, integrity checks, and UnitOfWork | **Complete through Migration 0004** |
+| Workspace and Engagement lifecycle | **Complete and tested** |
+| Scope, Target, canonicalization, and include/exclude policy | **Complete and tested** |
+| Target-bound, time-aware execution authorization | **Complete and tested** |
+| Safe argv-only subprocess execution with bounded output | **Complete and tested** |
+| Task persistence, optimistic concurrency, and CLI | **Complete and tested** |
+| Zero-state full-system integration audit | **Passed — 278 tests** |
+| Reconnaissance tooling | **Next — design first** |
+
+## Operating model
 
 ```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│                         CYBEROS COMMAND CENTER                             │
-├──────────────────────┬──────────────────────┬──────────────────────────────┤
-│ Web UI / CLI         │ Application Services │  Scope Validation & Auth     │
-└──────────┬───────────┴──────────┬───────────┴──────────────┬───────────────┘
-           │                      │                          │
-           ▼                      ▼                          ▼
-      Task Orchestration ── SafeSubprocessRunner       Typed Domain Policies
-           │                      │                          │
-           └──────────────┬───────┴──────────────┬───────────┘
-                          ▼                      ▼
-                 Repositories & Mappers ─── UnitOfWork
-                          │
-                          ▼
-                    SQLite local-first DB
+                              CYBEROS COMMAND CENTER
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  CLI / Web Surface  →  Application Services  →  Domain Contracts             │
+└───────────────┬──────────────────────────────┬─────────────────────────────┘
+                │                              │
+                ▼                              ▼
+       Task Orchestration              Scope Validation & Authorization
+                │                              │
+                └──────────────┬───────────────┘
+                               ▼
+                    Safe Execution Boundary
+             argv-only · isolated env · bounded output
+                               │
+                               ▼
+                   Repositories + Persistence Mappers
+                               │
+                               ▼
+                    UnitOfWork → SQLite local store
 
-Future plugin adapters connect only through authorized Task contracts.
+       Future engines and plugins connect through authorized Task contracts only.
 ```
 
-الحدود الأساسية هي: **Domain → Persistence Mappers → Repositories → Application Services → CLI**. الـDomain لا يعرف SQLite أو SQL أو CLI، والـCLI لا يملك business logic. كل تنفيذ يمر عبر `ExecutionAuthorization` صريح، ويُغلق افتراضيًا عند الشك.
+The boundary is intentional: **Domain → Persistence Mappers → Repositories → Application Services → CLI**. The domain does not know SQLite, SQL, or Click/Typer. The CLI does not own business logic. Execution never bypasses `ExecutionAuthorization`.
 
-## خارطة الطريق
+## Security posture
 
-| Module | الاتجاه | الحالة |
+> **Authorization is a prerequisite, not a post-processing label.**
+
+Every executable Task must carry an explicit authorization whose `scope_id`, `target_id`, decision, and expiry are bound to the requested operation. Exclude rules take precedence over include rules. An unauthorized, expired, malformed, or unknown target is denied without inference.
+
+The execution boundary accepts an **argv tuple**, never a shell command string. The child process receives an isolated allowlisted environment, output is capped, and timeouts escalate from termination to kill. SQL details and raw tracebacks are not exposed through the CLI contract.
+
+CyberOS is intended for **owned systems, approved labs, and explicitly authorized engagements**. It is not designed to bypass authorization or facilitate harmful activity. See the complete [responsible disclosure and acceptable-use policy](SECURITY.md).
+
+## Learning path
+
+The roadmap is aligned to a long-term security engineering path rather than a list of unrelated features.
+
+| Stage | Focus | Status |
 |---:|---|---|
-| 0 | Core Domain, Scope Safety, Task Execution, Persistence, CLI Audit | **مكتمل** |
-| 1 | Recon Orchestrator | التالي — تصميم أولًا |
-| 2 | Web Pentest Workflow & Evidence Capture | مخطط |
-| 3 | Network / Active Directory Security | مخطط |
-| 4 | Cloud Security Operations | مخطط |
-| 5 | API Security Engineering | مخطط |
-| 6 | Python, Data & ML Security Analytics | مخطط |
-| 7 | Deep Learning Security | مخطط |
-| 8 | LLM Security | مخطط |
-| 9 | AI Red Teaming | مخطط |
-| 10 | AI Security Engineering | مخطط |
-| 11 | Research Workbench | مخطط |
-| 12 | Knowledge, Evidence & Findings Graph | مخطط |
-| 13 | Reporting, Metrics & Progress Measurement | مخطط |
-| 14 | Platform Hardening, Extensibility & Operations | مخطط |
+| 0 | Core domain, scope safety, task execution, persistence, and audit | **Closed** |
+| 1 | Recon Orchestrator | **Next — architecture review** |
+| 2 | Web Pentest Workflow and Evidence Capture | Planned |
+| 3 | Network and Active Directory Security | Planned |
+| 4 | Cloud Security Operations | Planned |
+| 5 | API Security Engineering | Planned |
+| 6 | Python, Data, and ML Security Analytics | Planned |
+| 7 | Deep Learning Security | Planned |
+| 8 | LLM Security | Planned |
+| 9 | AI Red Teaming | Planned |
+| 10 | AI Security Engineering | Planned |
+| 11 | Research Workbench | Planned |
+| 12 | Knowledge, Evidence, and Findings Graph | Planned |
+| 13 | Reporting, Metrics, and Progress Measurement | Planned |
+| 14 | Platform Hardening, Extensibility, and Operations | Planned |
 
-## التثبيت والتشغيل السريع
+## Quickstart
 
-يتطلب النواة Python 3.11 أو أحدث. يفضل تشغيلها داخل virtual environment محلي وعدم وضع أسرار داخل ملفات الإعداد أو المستودع.
+The core package targets **Python 3.11+**. The recommended workflow is an isolated virtual environment with runtime data outside the repository.
 
 ```bash
-git clone <your-github-repository-url> cyberos
+git clone https://github.com/malhiloo-byte/cyberHub.git cyberos
 cd cyberos/cyberos-core
+
 python3.11 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -e '.[dev]'
+
+# Run the complete local quality gate.
 ./scripts/check.sh
 ```
 
-يمكن استخدام ملف TOML معزول للتجارب:
+For a local configuration, keep paths explicit and use a private runtime directory:
 
 ```toml
 [database]
@@ -106,42 +144,68 @@ data_dir = "/absolute/path/to/cyberos-runtime"
 log_dir = "/absolute/path/to/cyberos-runtime/logs"
 ```
 
-## أمثلة CLI
+## CLI walkthrough
 
-جميع المعرفات صريحة، ولا يوجد auto-inference لنوع Target. تدعم الأوامر التشغيل النصي و`--json`، وتخفي SQL وtracebacks من واجهة المستخدم.
+CyberOS requires target kinds to be explicit. There is no automatic target inference, and every output can be rendered as human-readable text or structured JSON.
 
 ```bash
+# Establish the hierarchy.
 cyberos workspace create "Web Security Lab" --json
 cyberos engagement create <workspace-id> "Authorized API Lab" --kind learning --json
 cyberos scope create <engagement-id> "Approved API Scope" --json
+
+# Add explicit include and exclude rules.
 cyberos target add <scope-id> --rule include --kind fqdn --value api.example.com --json
 cyberos target add <scope-id> --rule exclude --kind fqdn --value admin.example.com --json
-cyberos scope authorize <scope-id> --authorization-reference approval-123 --json
-cyberos scope evaluate <scope-id> --kind fqdn --value api.example.com --json
+cyberos scope authorize <scope-id> \
+  --authorization-reference approval-123 \
+  --json
 
-# يجب أن يسبق argv delimiter الأمر المراد تشغيله، خصوصًا إذا احتوى على flags مثل -c.
+# Evaluate before execution.
+cyberos scope evaluate <scope-id> \
+  --kind fqdn \
+  --value api.example.com \
+  --json
+
+# The argv delimiter is mandatory before the command being executed.
 cyberos task run <scope-id> <target-id> \
-  --kind fqdn --value api.example.com --json -- \
+  --kind fqdn \
+  --value api.example.com \
+  --json -- \
   echo "authorized local task"
+
 cyberos task list --scope-id <scope-id> --json
 cyberos task show <task-id> --json
 ```
 
-## سياسة الأمان والنطاق
+## Repository map
 
-CyberOS مصمم وفق **Fail-Closed Security**. لا يجوز تشغيل أي Task إلا بعد وجود `ExecutionAuthorization` صادر من Scope authorized وغير منتهٍ، ويجب أن يطابق `scope_id` و`target_id` المطلوبين. قواعد `exclude` لها أولوية على `include`، والهدف غير المطابق مرفوض افتراضيًا. الاستخدام يجب أن يكون على أهداف مملوكة أو مصرح بها صراحة؛ لا يهدف المشروع إلى تجاوز التفويض أو تنفيذ نشاط ضار.
+```text
+cyberHub/
+├── cyberos-core/                 Python package and domain kernel
+│   ├── src/cyberos/domain/       Immutable domain models and policies
+│   ├── src/cyberos/application/  Orchestration and boundary services
+│   ├── src/cyberos/persistence/  SQLite mappers, repositories, UnitOfWork
+│   ├── src/cyberos/execution/    Safe subprocess execution boundary
+│   ├── src/cyberos/cli/          Structured Typer/Click interface
+│   ├── migrations/               Forward-only schema migrations 0001–0004
+│   ├── tests/                    Unit, integration, CLI, and E2E tests
+│   └── docs/                     Architecture, reviews, and module records
+├── client/                       React Command Center presentation layer
+├── docs/                         Project-level reports and design records
+├── .github/workflows/ci.yml      Automated quality gates
+├── SECURITY.md                   Responsible disclosure and use policy
+└── LICENSE                       MIT license
+```
 
-راجع [SECURITY.md](SECURITY.md) للإفصاح المسؤول، و[cyberos-core/README.md](cyberos-core/README.md) لتفاصيل حزمة Python، و[التدقيق النهائي](cyberos-core/docs/development/module-0-final-audit.md) لنتائج Module 0.
+## Quality gates
 
-## واجهة Command Center
-
-الواجهة الحالية ليست صفحة template؛ إنها لوحة تشغيل تعرض Operational Posture، Authorization Brief، Audit Activity، Scope Register، Task Execution، System Health، ومسار البناء نحو Recon. الهوية موثقة في [ideas.md](ideas.md)، ونتائج التحقق البصري desktop/mobile في [frontend-visual-verification.md](docs/development/frontend-visual-verification.md). لا تعتمد الأرقام المعروضة في الواجهة على مصدر خارجي؛ هي **local snapshot presentation data** إلى أن تُربط طبقة UI بــAPI حقيقي في مرحلة لاحقة.
-
-## التطوير والاختبارات
+Every meaningful change is expected to pass the same gates locally and in GitHub Actions:
 
 ```bash
 cd cyberos-core
 source .venv/bin/activate
+
 pytest -q
 ruff check .
 ruff format --check .
@@ -149,8 +213,30 @@ mypy --strict src
 python -m build
 ```
 
-بوابة الجودة الموحدة موجودة في `cyberos-core/scripts/check.sh`، ويعاد تشغيلها تلقائيًا في GitHub Actions عند كل `push` و`pull_request`.
+The canonical command is `./scripts/check.sh`. Continuous integration runs on every `push` and `pull_request` through [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
-## الترخيص
+## Project documentation
 
-هذا المشروع مرخص بموجب [MIT License](LICENSE). يبقى الاستخدام الأمني خاضعًا للتفويض والقوانين والسياسات المعمول بها.
+| Document | Purpose |
+|---|---|
+| [`cyberos-core/README.md`](cyberos-core/README.md) | Core package installation, contracts, and development workflow |
+| [`cyberos-core/docs/development/module-0-final-audit.md`](cyberos-core/docs/development/module-0-final-audit.md) | Final Module 0 zero-state audit and limitations |
+| [`docs/reports/cyberos-complete-project-report-ar.md`](docs/reports/cyberos-complete-project-report-ar.md) | Project chronology and engineering record |
+| [`ideas.md`](ideas.md) | Command Center visual direction and design decisions |
+| [`SECURITY.md`](SECURITY.md) | Security reporting and responsible-use boundaries |
+
+## Status and next decision
+
+The foundation is intentionally stable before Module 1 begins. The next architectural decision is the **Recon Orchestrator contract**: plugin boundaries, capability declarations, evidence ownership, dry-run behavior, authorization hand-off, and deterministic result envelopes. No reconnaissance engine is added until that design is reviewed and approved.
+
+<div align="center">
+
+### Built deliberately. Authorized explicitly. Audited continuously.
+
+<sub>CyberOS is a personal cybersecurity engineering workspace for disciplined, authorized practice.</sub>
+
+</div>
+
+---
+
+This project is licensed under the [MIT License](LICENSE). Security work remains subject to authorization, applicable law, and the policies of the systems being tested.

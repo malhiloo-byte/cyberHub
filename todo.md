@@ -483,6 +483,7 @@
 - [x] إصلاح architecture rendering إلى ASCII متوافق مع GitHub
 - [x] إضافة روابط مباشرة للـCommand Center وقرارات التصميم والـvisual verification
 - [x] رفع revision النهائي إلى cyberHub والتحقق من CI
+- [ ] تنفيذ GitHub repository presentation polish جديد ومحسّن — README فقط، دون تعديل React UI أو Python core
 
 ### Comprehensive Project Report
 
