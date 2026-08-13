@@ -275,3 +275,20 @@
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] تحديث توثيق 0.4.e
 - [x] إنشاء checkpoint لـ0.4.e
+
+### 0.4.f — Scope Matcher Engine + Safety Policy
+
+- [x] تعريف MatchDecision وMatchResult value objects
+- [x] تعريف ScopeMatcher pure interface دون network side effects
+- [x] تطبيق precedence exclude > include > deny
+- [x] تطبيق fail-closed للـScope غير authorized وغير المطابق
+- [x] دعم FQDN exact وwildcard وIPv4 وIPv6 وCIDR وURL host extraction
+- [x] تطبيق URL parsing محليًا مع رفض credentials/fragments غير الآمنة
+- [x] كتابة Matrix Unit Tests شاملة للـprecedence والحدود
+- [x] اختبار IPv4/IPv6/CIDR داخل وخارج الشبكات
+- [x] اختبار wildcard root/subdomain boundaries
+- [x] تنفيذ boundary/security review لمنع DNS/HTTP/subprocess
+- [x] تأكيد عدم إضافة ScopeValidationService أو Application Services أو CLI
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] تحديث توثيق 0.4.f
+- [x] إنشاء checkpoint لـ0.4.f
