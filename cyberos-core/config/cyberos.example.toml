@@ -11,3 +11,12 @@ log_format = "text"
 [cli]
 output_format = "text"
 color = true
+
+[database]
+path = "~/.cyberos/cyberos.sqlite3"
+timeout_seconds = 5.0
+journal_mode = "wal"
+synchronous = "full"
+foreign_keys = true
+secure_delete = true
+create_parent = true

@@ -28,6 +28,13 @@ def _apply_env_overrides(data: dict[str, Any], environ: dict[str, str]) -> dict[
         "CYBEROS_LOG_FORMAT": ("runtime", "log_format"),
         "CYBEROS_OUTPUT_FORMAT": ("cli", "output_format"),
         "CYBEROS_COLOR": ("cli", "color"),
+        "CYBEROS_DATABASE_PATH": ("database", "path"),
+        "CYBEROS_DATABASE_TIMEOUT_SECONDS": ("database", "timeout_seconds"),
+        "CYBEROS_DATABASE_JOURNAL_MODE": ("database", "journal_mode"),
+        "CYBEROS_DATABASE_SYNCHRONOUS": ("database", "synchronous"),
+        "CYBEROS_DATABASE_FOREIGN_KEYS": ("database", "foreign_keys"),
+        "CYBEROS_DATABASE_SECURE_DELETE": ("database", "secure_delete"),
+        "CYBEROS_DATABASE_CREATE_PARENT": ("database", "create_parent"),
     }
     for env_key, (section, key) in mapping.items():
         if env_key in environ:
