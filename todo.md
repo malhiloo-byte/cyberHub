@@ -414,3 +414,22 @@
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] تحديث توثيق Module 0.5 وإغلاقه
 - [x] إنشاء checkpoint لـ0.5.d وإغلاق Module 0.5
+
+### Final Module 0 — Zero-State E2E Integration Audit
+
+- [x] إنشاء قاعدة SQLite جديدة وتشغيل migrations 0001–0004
+- [x] التحقق من quick_check وforeign_key_check وschema version
+- [x] تدقيق Workspace → Engagement → Scope → Target hierarchy
+- [x] اختبار include/exclude وFQDN/wildcard/IPv4/CIDR/URL matching
+- [x] اختبار authorized Scope مع expires_at وExecutionAuthorization
+- [x] اختبار Task.create وTaskExecutionEngine وSafeSubprocessRunner وTaskRecord persistence
+- [x] تنفيذ CLI walkthrough لـscope/target/task run/list/show
+- [x] اختبار JSON/text envelopes وexit codes 0/1/2
+- [x] اختبار excluded/out-of-scope وdraft/expired Scope fail-closed
+- [x] اختبار cross-target authorization reuse rejection
+- [x] اختبار shell injection literal argv
+- [x] اختبار optimistic concurrency stale version
+- [x] كتابة `tests/e2e/test_full_system_pipeline.py`
+- [x] توثيق known limitations/technical debt ونتيجة audit
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] حفظ checkpoint التراكمي وإغلاق Module 0 رسميًا
