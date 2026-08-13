@@ -394,3 +394,23 @@
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] تحديث توثيق 0.5.c
 - [x] إنشاء checkpoint لـ0.5.c
+
+### 0.5.d — Task CLI & Full System Integration Audit
+
+- [x] مراجعة CLI/Application boundaries وتصميم Task CLI contract
+- [x] تثبيت transaction policy: pending commit ثم execution خارج transaction ثم terminal update
+- [x] تثبيت safe JSON serialization للـbytes وexecution metadata
+- [x] تنفيذ Task application service لتنسيق authorization وexecution وpersistence
+- [x] فرض ExecutionAuthorization لكل task run دون direct execution bypass
+- [x] إضافة `cyberos task run` مع argv explicit وtext/JSON envelopes
+- [x] إضافة `cyberos task list` بترتيب deterministic حسب scope/target
+- [x] إضافة `cyberos task show` مع stdout/stderr/exit_code والـexecution metadata
+- [x] تطبيق exit codes: 0 نجاح، 1 input/domain error، 2 security rejection أو task failure
+- [x] كتابة CLI integration tests للـrun/list/show وJSON/text/error handling
+- [x] كتابة E2E audit على SQLite جديدة من migrations 0001–0004 حتى persistence
+- [x] اختبار fail-closed لهدف EXCLUDED ورفض إنشاء/تنفيذ Task
+- [x] اختبار argv shell-injection prevention عبر CLI integration
+- [x] تنفيذ boundary/security review دون network tools أو Module 1 features
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] تحديث توثيق Module 0.5 وإغلاقه
+- [x] إنشاء checkpoint لـ0.5.d وإغلاق Module 0.5

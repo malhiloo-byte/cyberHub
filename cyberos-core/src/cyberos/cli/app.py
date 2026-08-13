@@ -18,6 +18,7 @@ from cyberos.application.services.engagement import (
     parse_engagement_id,
 )
 from cyberos.application.services.scope import ScopeService, TargetService
+from cyberos.application.services.task import TaskService, parse_task_id
 from cyberos.application.services.workspace import WorkspaceService, parse_workspace_id
 from cyberos.application.version import get_version_info
 from cyberos.config.loader import load_config
@@ -30,7 +31,10 @@ from cyberos.core.serialization import dumps
 from cyberos.domain.engagement.model import EngagementKind, EngagementStatus
 from cyberos.domain.scope.matcher import MatchDecision
 from cyberos.domain.scope.primitives import ScopeId, validate_scope_id
-from cyberos.domain.target.primitives import TargetKind, TargetRule
+from cyberos.domain.target.primitives import TargetId, TargetKind, TargetRule
+from cyberos.domain.task.primitives import TaskStatus
+from cyberos.domain.task.record import TaskRecord
+from cyberos.domain.task.spec import ExecutionSpec
 from cyberos.domain.workspace.model import WorkspaceStatus
 from cyberos.logging.setup import bind_context, configure_logging
 from cyberos.persistence.connection import SQLiteConnectionFactory
@@ -42,11 +46,13 @@ workspace_app = typer.Typer(no_args_is_help=True)
 engagement_app = typer.Typer(no_args_is_help=True)
 scope_app = typer.Typer(no_args_is_help=True)
 target_app = typer.Typer(no_args_is_help=True)
+task_app = typer.Typer(no_args_is_help=True)
 app.add_typer(config_app, name="config")
 app.add_typer(workspace_app, name="workspace")
 app.add_typer(engagement_app, name="engagement")
 app.add_typer(scope_app, name="scope")
 app.add_typer(target_app, name="target")
+app.add_typer(task_app, name="task")
 
 T = TypeVar("T")
 MIGRATIONS_DIR = Path(__file__).resolve().parents[1] / "persistence" / "migrations" / "versions"
@@ -94,7 +100,65 @@ def _parse_enum(value: str, enum_type: type[Any], label: str) -> Any:
 
 
 def _result_payload(result: OperationResult[Any]) -> dict[str, Any]:
-    return result.model_dump(mode="json")
+    if isinstance(result.data, TaskRecord):
+        data: object = _task_record_payload(result.data, include_output=True)
+    elif isinstance(result.data, (list, tuple)) and all(
+        isinstance(item, TaskRecord) for item in result.data
+    ):
+        data = [_task_record_payload(item, include_output=False) for item in result.data]
+    else:
+        return result.model_dump(mode="json")
+    return {
+        "ok": result.ok,
+        "data": data if result.ok else None,
+        "error": result.error.model_dump(mode="json") if result.error is not None else None,
+        "meta": result.meta.model_dump(mode="json"),
+    }
+
+
+def _task_record_payload(record: TaskRecord, *, include_output: bool) -> dict[str, Any]:
+    task = record.task
+    payload: dict[str, Any] = {
+        "id": str(task.id),
+        "scope_id": str(task.scope_id),
+        "target_id": str(task.target_id),
+        "status": task.status.value,
+        "version": task.version,
+        "command": list(task.execution_spec.command),
+        "timeout_seconds": task.execution_spec.timeout_seconds,
+        "max_output_bytes": task.execution_spec.max_output_bytes,
+        "env_policy": list(task.execution_spec.env_policy.allowed_keys),
+        "authorization_expires_at": (
+            task.authorization_expires_at.isoformat()
+            if task.authorization_expires_at is not None
+            else None
+        ),
+        "created_at": task.created_at.isoformat(),
+        "updated_at": task.updated_at.isoformat(),
+        "started_at": task.started_at.isoformat() if task.started_at is not None else None,
+        "completed_at": task.completed_at.isoformat() if task.completed_at is not None else None,
+        "failed_at": task.failed_at.isoformat() if task.failed_at is not None else None,
+        "cancelled_at": task.cancelled_at.isoformat() if task.cancelled_at is not None else None,
+    }
+    if record.result is not None:
+        result = record.result
+        result_payload: dict[str, Any] = {
+            "exit_code": result.exit_code,
+            "truncated": result.truncated,
+            "duration_ms": round(result.duration_seconds * 1000),
+            "timeout_exceeded": result.timeout_exceeded,
+            "failure_reason": (
+                result.failure_reason.value if result.failure_reason is not None else None
+            ),
+            "error_message": result.error_message,
+        }
+        if include_output:
+            result_payload["stdout"] = result.stdout.decode("utf-8", errors="replace")
+            result_payload["stderr"] = result.stderr.decode("utf-8", errors="replace")
+        payload["result"] = result_payload
+    else:
+        payload["result"] = None
+    return payload
 
 
 def _human_data(data: Any) -> str:
@@ -118,6 +182,25 @@ def _human_data(data: Any) -> str:
                 lines.append(f"matched_target_id: {data['matched_target_id']}")
             if data.get("matching_rule") is not None:
                 lines.append(f"matching_rule: {data['matching_rule']}")
+            return "\n".join(lines)
+        if "scope_id" in data and "target_id" in data and "status" in data:
+            lines = [
+                f"id: {data['id']}",
+                f"scope_id: {data['scope_id']}",
+                f"target_id: {data['target_id']}",
+                f"status: {data['status']}",
+                f"version: {data['version']}",
+            ]
+            result = data.get("result")
+            if isinstance(result, dict):
+                lines.extend(
+                    f"{key}: {result[key]}"
+                    for key in ("exit_code", "truncated", "duration_ms", "timeout_exceeded")
+                    if result.get(key) is not None
+                )
+                for key in ("stdout", "stderr"):
+                    if key in result:
+                        lines.append(f"{key}: {result[key]}")
             return "\n".join(lines)
         preferred = (
             "id",
@@ -158,6 +241,7 @@ def _invoke(
     json_output: bool,
     *,
     error_exit_code: Callable[[CyberOSError], int] | None = None,
+    failed_result_exit_code: int | None = None,
 ) -> None:
     context = OperationContext()
     started_at = time.perf_counter()
@@ -174,6 +258,13 @@ def _invoke(
             else EXIT_CODES[rendered_error.code]
         )
         raise typer.Exit(code=code)
+    if (
+        failed_result_exit_code is not None
+        and result.ok
+        and isinstance(result.data, TaskRecord)
+        and result.data.task.status is TaskStatus.FAILED
+    ):
+        raise typer.Exit(code=failed_result_exit_code)
 
 
 def _invoke_scope_evaluation(
@@ -202,6 +293,22 @@ def _scope_cli_exit(error: CyberOSError) -> int:
         ErrorCode.SCOPE_ARCHIVED,
         ErrorCode.TARGET_EXCLUDED,
         ErrorCode.TARGET_OUT_OF_SCOPE,
+    }:
+        return 2
+    return 1
+
+
+def _task_cli_exit(error: CyberOSError) -> int:
+    if error.code in {
+        ErrorCode.SCOPE_NOT_AUTHORIZED,
+        ErrorCode.SCOPE_EXPIRED,
+        ErrorCode.SCOPE_ARCHIVED,
+        ErrorCode.TARGET_EXCLUDED,
+        ErrorCode.TARGET_OUT_OF_SCOPE,
+        ErrorCode.TASK_AUTHORIZATION_REQUIRED,
+        ErrorCode.TASK_AUTHORIZATION_SCOPE_MISMATCH,
+        ErrorCode.TASK_AUTHORIZATION_TARGET_MISMATCH,
+        ErrorCode.TASK_AUTHORIZATION_EXPIRED,
     }:
         return 2
     return 1
@@ -520,6 +627,68 @@ def scope_evaluate(
     )
 
 
+@task_app.command("run")
+def task_run(
+    scope_id: Annotated[str, typer.Argument()],
+    target_id: Annotated[str, typer.Argument()],
+    command: Annotated[list[str], typer.Argument()],
+    kind: Annotated[str, typer.Option("--kind")],
+    value: Annotated[str, typer.Option("--value")],
+    json_output: Annotated[bool, typer.Option("--json")] = False,
+    file: Annotated[Path | None, typer.Option("--file", exists=True, dir_okay=False)] = None,
+) -> None:
+    """Authorize and execute one explicit argv-bound Task."""
+    if not command:
+        raise typer.BadParameter("At least one command argv part is required.")
+    _invoke(
+        lambda context: TaskService(_service_factory(file)).run(
+            parse_scope_id(scope_id),
+            _parse_task_target_id(target_id),
+            TargetCandidate(value, _parse_enum(kind, TargetKind, "kind")),
+            ExecutionSpec(command=tuple(command)),
+            context=context,
+        ),
+        json_output,
+        error_exit_code=_task_cli_exit,
+        failed_result_exit_code=2,
+    )
+
+
+@task_app.command("list")
+def task_list(
+    scope_id: Annotated[str | None, typer.Option("--scope-id")] = None,
+    target_id: Annotated[str | None, typer.Option("--target-id")] = None,
+    json_output: Annotated[bool, typer.Option("--json")] = False,
+    file: Annotated[Path | None, typer.Option("--file", exists=True, dir_okay=False)] = None,
+) -> None:
+    """List Tasks by exactly one Scope or Target filter."""
+    _invoke(
+        lambda context: TaskService(_service_factory(file)).list(
+            scope_id=parse_scope_id(scope_id) if scope_id else None,
+            target_id=_parse_task_target_id(target_id) if target_id else None,
+            context=context,
+        ),
+        json_output,
+        error_exit_code=_task_cli_exit,
+    )
+
+
+@task_app.command("show")
+def task_show(
+    task_id: Annotated[str, typer.Argument()],
+    json_output: Annotated[bool, typer.Option("--json")] = False,
+    file: Annotated[Path | None, typer.Option("--file", exists=True, dir_okay=False)] = None,
+) -> None:
+    """Show one persisted Task snapshot and its execution result."""
+    _invoke(
+        lambda context: TaskService(_service_factory(file)).show(
+            parse_task_id(task_id), context=context
+        ),
+        json_output,
+        error_exit_code=_task_cli_exit,
+    )
+
+
 def _evaluate_cli_candidate(
     context: OperationContext,
     file: Path | None,
@@ -535,6 +704,16 @@ def _evaluate_cli_candidate(
         ),
         context=context,
     )
+
+
+def _parse_task_target_id(value: str) -> TargetId:
+    try:
+        identifier = UUID(value)
+    except ValueError as exc:
+        raise CyberOSError(ErrorCode.INVALID_INPUT, "Target ID must be a valid UUID4.") from exc
+    if identifier.version != 4:
+        raise CyberOSError(ErrorCode.INVALID_INPUT, "Target ID must be a valid UUID4.")
+    return TargetId(identifier)
 
 
 def main() -> None:

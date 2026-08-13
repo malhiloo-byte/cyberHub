@@ -20,10 +20,17 @@ from cyberos.domain.task.spec import ExecutionSpec
 class ExecutionAuthorizationContract(Protocol):
     """Structural contract accepted from the application authorization boundary."""
 
-    scope_id: ScopeId
-    matched_target_id: TargetId
-    matching_rule: TargetRule
-    expires_at: datetime | None
+    @property
+    def scope_id(self) -> ScopeId: ...
+
+    @property
+    def matched_target_id(self) -> TargetId: ...
+
+    @property
+    def matching_rule(self) -> TargetRule: ...
+
+    @property
+    def expires_at(self) -> datetime | None: ...
 
 
 class Task(BaseModel):
