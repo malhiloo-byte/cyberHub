@@ -2,8 +2,8 @@
 
 ## Persistence Kernel
 
-**الحالة:** التصميم معتمد؛ 0.2.a و0.2.b و0.2.c منفّذة ومختبرة  
-**الإصدار المقترح:** 0.2.0-design / 0.2.c  
+**الحالة:** التصميم معتمد؛ 0.2.a و0.2.b و0.2.c و0.2.d منفّذة ومختبرة  
+**الإصدار المقترح:** 0.2.0-design / 0.2.d  
 **يعتمد على:** Module 0.1 — Bootstrap & Core Contracts  
 **النطاق:** SQLite محلية، migrations، connection lifecycle، transaction boundary، وrepository contracts
 
@@ -13,7 +13,7 @@
 
 ### حالة التنفيذ
 
-تم تنفيذ الأجزاء الفرعية **0.2.a** و**0.2.b** و**0.2.c — Migration Metadata + Runner** داخل `cyberos-core/`. أضيف Migration Runner ذري مع metadata schema وSHA-256 checksum والتحقق من order وrollback وidempotency. لا توجد Domain Tables بعد؛ وهذه ستدخل فقط مع وحدات المجال اللاحقة.
+تم تنفيذ الأجزاء الفرعية **0.2.a** و**0.2.b** و**0.2.c** و**0.2.d — UnitOfWork + Repository Ports** داخل `cyberos-core/`. أضيفت transaction boundary صريحة مع commit وrollback وisolation tests، وRepository Port عامة مستقلة عن SQL. لا توجد Domain Tables بعد؛ وهذه ستدخل فقط مع وحدات المجال اللاحقة.
 
 يضيف Module 0.2 طبقة persistence محلية وقابلة للاختبار فوق عقود Module 0.1. الغرض ليس إنشاء جداول Workspace أو Target أو Finding الآن؛ بل بناء **محرك تخزين صغير ومستقر** تستطيع الوحدات القادمة استخدامه دون إعادة اختراع طريقة فتح قاعدة البيانات، إدارة المعاملات، تطبيق migrations، أو التعامل مع أخطاء SQLite.
 

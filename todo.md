@@ -54,3 +54,14 @@
 - [x] التعامل مع checksum mismatch وinvalid order وduplicate version
 - [x] اختبار idempotent apply وschema version بعد reopen
 - [x] تشغيل quality gates وتوثيق 0.2.c قبل UnitOfWork
+
+### 0.2.d — UnitOfWork + Repository Ports
+
+- [x] تعريف transaction state وUnitOfWork protocol
+- [x] تنفيذ UnitOfWork فوق ManagedSQLiteConnection
+- [x] تطبيق commit صريح وrollback تلقائي عند exception
+- [x] منع commit/rollback خارج lifecycle الصحيح
+- [x] تعريف Repository Port العام المعزول عن SQL
+- [x] إنشاء test repository محدود للاختبارات دون Domain Tables
+- [x] اختبار commit وrollback وisolation وclose
+- [x] تشغيل quality gates وتوثيق 0.2.d قبل contract tests الأوسع
