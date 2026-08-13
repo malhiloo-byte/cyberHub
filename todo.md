@@ -112,3 +112,32 @@
 - [x] تعريف typed domain errors لكل transition غير صالح
 - [x] كتابة Unit Tests شاملة دون SQLite أو Migration 0002
 - [x] تشغيل regression وquality gates والتوثيق وإنشاء checkpoint لـ0.3.b
+
+### 0.3.c — Schema Design Review (Approved)
+
+- [x] مراجعة Workspace table mapping
+- [x] مراجعة Engagement table mapping
+- [x] تثبيت keys وNOT NULL وUNIQUE وCHECK constraints
+- [x] تثبيت timestamp وversion وstatus representations
+- [x] تثبيت indexes وforeign-key enforcement
+- [x] مراجعة ON DELETE/ON UPDATE وfuture relationship space
+- [x] تحديد migration ordering وrollback وupgrade compatibility
+- [x] تحديد SQL-vs-domain invariants
+- [x] إعداد integrity/security/compatibility test plan
+- [x] اعتماد schema review قبل كتابة أو تنفيذ 0002
+
+### 0.3.c — Migration 0002 Implementation
+
+- [x] تثبيت عدم تعديل 0001 أو migrations السابقة
+- [x] إنشاء 0002_workspace_engagement.sql دون IF NOT EXISTS
+- [x] إنشاء workspaces table والقيود المعتمدة
+- [x] إنشاء engagements table والقيود المعتمدة
+- [x] إضافة UNIQUE(workspace_id, name COLLATE NOCASE)
+- [x] إضافة indexes وON DELETE/ON UPDATE policies
+- [x] اختبار migration ordering وchecksum وidempotency
+- [x] اختبار constraint failures وFK enforcement
+- [x] اختبار ON DELETE/ON UPDATE RESTRICT وatomic rollback
+- [x] اختبار schema inventory وعدم وجود future Domain tables
+- [x] تشغيل quick_check وforeign_key_check
+- [x] تشغيل regression وRuff وmypy strict وformatting وwheel build
+- [x] توثيق deviation/security review وإنشاء checkpoint لـ0.3.c
