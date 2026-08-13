@@ -326,3 +326,24 @@
 - [x] تنفيذ final boundary/security review للموديول كاملًا
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] إنشاء checkpoint النهائي وإغلاق Module 0.4
+
+## Module 0.5 — Task Execution Foundation
+
+### 0.5.a — Task Domain Models + Execution Specs
+
+- [x] تحديث ExecutionAuthorization وScopeEvaluationResult بإضافة expires_at
+- [x] توثيق Target-Bound وTime-Aware authorization contract
+- [x] تعريف TaskId كـUUID4 typed identifier
+- [x] تعريف TaskStatus وقواعد state machine الصارمة
+- [x] تعريف EnvPolicy immutable value object
+- [x] تعريف ExecutionSpec بقيود command/timeout/max_output/env
+- [x] تعريف Task aggregate مع ScopeId وtimestamps وversion
+- [x] فرض ExecutionAuthorization صالح لإنشاء Task
+- [x] رفض raw target strings أو authorization غير المطابق/المنتهي
+- [x] تطبيق الانتقالات PENDING → RUNNING → COMPLETED/FAILED/CANCELLED
+- [x] تعريف typed errors للانتقالات والتفويض والـspec
+- [x] كتابة pure unit tests للـTask وExecutionSpec والحالات الأمنية
+- [x] تنفيذ boundary/security review دون subprocess أو migration أو repositories أو CLI
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] تحديث توثيق 0.5.a
+- [x] إنشاء checkpoint لـ0.5.a

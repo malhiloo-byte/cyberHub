@@ -10,9 +10,9 @@
 
 ## Service operations
 
-`evaluate_candidate(scope_id, candidate, evaluated_at)` يقرأ Scope وTargets داخل UnitOfWork، يغلق المعاملة دون تعديل، يعيد بناء aggregate للتحقق، ثم يمرر candidate مباشرة إلى ScopeMatcher. النتيجة `ScopeEvaluationResult` تحتوي Scope ID، candidate، decision، matched Target ID، matching rule، reason، evaluation timestamp، Scope status، وScope version، بحيث تكون قابلة للتدقيق دون SQL leakage.
+`evaluate_candidate(scope_id, candidate, evaluated_at)` يقرأ Scope وTargets داخل UnitOfWork، يغلق المعاملة دون تعديل، يعيد بناء aggregate للتحقق، ثم يمرر candidate مباشرة إلى ScopeMatcher. النتيجة `ScopeEvaluationResult` تحتوي Scope ID، candidate، decision، matched Target ID، matching rule، reason، evaluation timestamp، `expires_at`، Scope status، وScope version، بحيث تكون قابلة للتدقيق دون SQL leakage.
 
-`authorize_execution(scope_id, candidate, evaluated_at)` لا ينشئ execution job ولا ينفذ action. يحول نتيجة INCLUDED فقط إلى `ExecutionAuthorization` تحتوي Scope ID وcandidate وauthorization timestamp وmatched Target ID وInclude rule وreason وScope version. كل نتيجة أخرى تفشل typed وبشكل fail-closed.
+`authorize_execution(scope_id, candidate, evaluated_at)` لا ينشئ execution job ولا ينفذ action. يحول نتيجة INCLUDED فقط إلى `ExecutionAuthorization` تحتوي Scope ID وcandidate وauthorization timestamp و`expires_at` وmatched Target ID وInclude rule وreason وScope version. أصبح هذا العقد Target-Bound وTime-Aware؛ أي Task مستقبلي يجب أن يطابق Scope ID وTarget ID ويرفض التفويض بعد expiry. كل نتيجة أخرى تفشل typed وبشكل fail-closed.
 
 ## Boundary policy
 

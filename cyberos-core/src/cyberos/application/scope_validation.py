@@ -50,6 +50,7 @@ class ScopeEvaluationResult:
     matching_rule: TargetRule | None
     reason: str
     evaluated_at: datetime
+    expires_at: datetime | None
     scope_status: ScopeStatus
     scope_version: int
 
@@ -59,6 +60,7 @@ class ExecutionAuthorization:
     scope_id: ScopeId
     candidate: TargetCandidate
     authorized_at: datetime
+    expires_at: datetime | None
     matched_target_id: TargetId
     matching_rule: TargetRule
     reason: str
@@ -94,6 +96,7 @@ class ScopeValidationService:
             matching_rule=match.matching_rule,
             reason=match.reason,
             evaluated_at=timestamp,
+            expires_at=scope.expires_at,
             scope_status=scope.status,
             scope_version=scope.version,
         )
@@ -117,6 +120,7 @@ class ScopeValidationService:
             scope_id=result.scope_id,
             candidate=result.candidate,
             authorized_at=result.evaluated_at,
+            expires_at=result.expires_at,
             matched_target_id=result.matched_target_id,
             matching_rule=result.matching_rule,
             reason="execution_authorized_by_scope",
