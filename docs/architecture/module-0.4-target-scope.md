@@ -2,7 +2,7 @@
 
 ## Architecture & Schema Design Document
 
-**الحالة:** مقترح للمراجعة والاعتماد — لا يوجد تنفيذ كودي في هذه الوثيقة  
+**الحالة:** معتمد ومنفذ ومغلق — هذه الوثيقة هي المرجع المعماري لـModule 0.4  
 **الإصدار:** `0.4.0-design`  
 **يعتمد على:** Module 0.1 — Core Contracts، Module 0.2 — Persistence Kernel، Module 0.3 — Workspace & Engagement  
 **المسار الإلزامي:** `Workspace → Engagement → Scope → Target → Scope Validation → Authorized Target → Job/Action`
@@ -485,14 +485,13 @@ cyberos target archive <target-id> --expected-version N [--json]
 |---|---|---|---|
 | 0.4.a | Domain primitives وTarget canonicalization | IDs، enums، parsers، pure tests | SQLite وCLI |
 | 0.4.b | Scope aggregate وlifecycle | Scope model، authorization transitions، tests | Migration |
-| 0.4.c | Schema Design Review | مراجعة SQL وconstraint matrix | تنفيذ migration |
-| 0.4.d | Migration 0003 | الجداول والقيود والفهارس والاختبارات | Repositories |
+| 0.4.c | Schema Design Review + Migration 0003 | الجداول والقيود والفهارس والاختبارات | Repositories |
 | 0.4.e | Scope/Target repositories | mappers، CRUD، concurrency، FK guards | Matcher orchestration |
 | 0.4.f | Matcher وScopeValidationService | deterministic decisions، safety policy، tests | Network execution |
 | 0.4.g | Application Services | create/validate/authorize/evaluate/archive | Web UI وHTTP API |
 | 0.4.h | CLI integration وclosure | commands، regression، docs، checkpoint | Recon/scanners/jobs |
 
-كل شريحة ستتبع المسار: تصميم/مراجعة عند الحاجة → تنفيذ محدود → unit/integration tests → Ruff/mypy/format/wheel → توثيق → checkpoint. لا يبدأ 0.4.d قبل اعتماد Schema Design Review، ولا يبدأ أي Job/Action قبل اكتمال authorization enforcement واختبارات bypass.
+كل شريحة اتبعت المسار: تصميم/مراجعة عند الحاجة → تنفيذ محدود → unit/integration tests → Ruff/mypy/format/wheel → توثيق → checkpoint. لا يبدأ أي Job/Action قبل اكتمال authorization enforcement واختبارات bypass.
 
 ---
 
@@ -512,9 +511,9 @@ cyberos target archive <target-id> --expected-version N [--json]
 
 ---
 
-## 15. طلب الاعتماد
+## 15. سجل الاعتماد والإغلاق
 
-أطلب مراجعة واعتماد القرارات التالية قبل كتابة الكود:
+تم اعتماد القرارات التالية وتنفيذها ضمن الشرائح 0.4.a إلى 0.4.h:
 
 1. اعتماد جدولي `scopes` و`targets` فقط في `0003_target_scope.sql`.
 2. اعتماد lifecycle: `draft → validated → authorized → archived` مع deny خارج `authorized`.
@@ -524,7 +523,9 @@ cyberos target archive <target-id> --expected-version N [--json]
 6. اعتماد authorization reference وoptional expiry كشرطين للتفويض.
 7. اعتماد تنفيذ الشرائح 0.4.a إلى 0.4.h بالترتيب، مع موافقة منفصلة قبل كل slice كبيرة.
 
-بعد الاعتماد، ستكون الخطوة الأولى المقترحة هي **0.4.a — Domain Primitives & Target Canonicalization**، دون SQLite أو CLI أو أي network activity.
+تم إغلاق Module 0.4 رسميًا بعد إضافة CLI ونجاح **233 اختبارًا** وجميع quality gates. Checkpoint الإغلاق النهائي هو `17e66812`. لا يشمل الإغلاق أي Recon أو Scanner أو Task Runner أو Job execution أو network activity.
+
+الخطوة التالية المقترحة هي **Module 0.5.a — Task Domain Models & Execution Specs**، ويجب أن تستقبل أي طبقة تنفيذ مستقبلية `ExecutionAuthorization` فقط، لا raw target strings.
 
 ## References
 

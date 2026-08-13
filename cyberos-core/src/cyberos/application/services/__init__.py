@@ -7,13 +7,16 @@ from cyberos.application.scope_validation import (
     TargetCandidate,
 )
 from cyberos.application.services.engagement import EngagementService
+from cyberos.application.services.scope import ScopeService, TargetService
 from cyberos.application.services.workspace import WorkspaceService
 
 __all__ = [
     "EngagementService",
     "ExecutionAuthorization",
     "ScopeEvaluationResult",
+    "ScopeService",
     "ScopeValidationService",
     "TargetCandidate",
+    "TargetService",
     "WorkspaceService",
 ]

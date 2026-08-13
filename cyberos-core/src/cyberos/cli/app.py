@@ -5,15 +5,19 @@ from collections.abc import Callable
 from datetime import datetime
 from pathlib import Path
 from typing import Annotated, Any, TypeVar
+from uuid import UUID
 
 import typer
 
 from cyberos import __version__
 from cyberos.application.doctor import run_doctor
+from cyberos.application.scope_validation import ScopeValidationService, TargetCandidate
+from cyberos.application.services.common import execute_service
 from cyberos.application.services.engagement import (
     EngagementService,
     parse_engagement_id,
 )
+from cyberos.application.services.scope import ScopeService, TargetService
 from cyberos.application.services.workspace import WorkspaceService, parse_workspace_id
 from cyberos.application.version import get_version_info
 from cyberos.config.loader import load_config
@@ -24,6 +28,9 @@ from cyberos.core.errors import EXIT_CODES, CyberOSError, ErrorCode
 from cyberos.core.result import OperationResult
 from cyberos.core.serialization import dumps
 from cyberos.domain.engagement.model import EngagementKind, EngagementStatus
+from cyberos.domain.scope.matcher import MatchDecision
+from cyberos.domain.scope.primitives import ScopeId, validate_scope_id
+from cyberos.domain.target.primitives import TargetKind, TargetRule
 from cyberos.domain.workspace.model import WorkspaceStatus
 from cyberos.logging.setup import bind_context, configure_logging
 from cyberos.persistence.connection import SQLiteConnectionFactory
@@ -33,9 +40,13 @@ app = typer.Typer(no_args_is_help=True, add_completion=False)
 config_app = typer.Typer(no_args_is_help=True)
 workspace_app = typer.Typer(no_args_is_help=True)
 engagement_app = typer.Typer(no_args_is_help=True)
+scope_app = typer.Typer(no_args_is_help=True)
+target_app = typer.Typer(no_args_is_help=True)
 app.add_typer(config_app, name="config")
 app.add_typer(workspace_app, name="workspace")
 app.add_typer(engagement_app, name="engagement")
+app.add_typer(scope_app, name="scope")
+app.add_typer(target_app, name="target")
 
 T = TypeVar("T")
 MIGRATIONS_DIR = Path(__file__).resolve().parents[1] / "persistence" / "migrations" / "versions"
@@ -98,6 +109,16 @@ def _human_data(data: Any) -> str:
             )
         return "\n".join(lines)
     if isinstance(data, dict):
+        if "decision" in data:
+            lines = [
+                f"decision: {data['decision']}",
+                f"reason: {data.get('reason', '')}",
+            ]
+            if data.get("matched_target_id") is not None:
+                lines.append(f"matched_target_id: {data['matched_target_id']}")
+            if data.get("matching_rule") is not None:
+                lines.append(f"matching_rule: {data['matching_rule']}")
+            return "\n".join(lines)
         preferred = (
             "id",
             "name",
@@ -132,16 +153,66 @@ def _render_result(result: OperationResult[Any], json_output: bool) -> None:
         typer.echo(f"correlation_id: {correlation_id}")
 
 
-def _invoke(operation: Callable[[OperationContext], OperationResult[T]], json_output: bool) -> None:
+def _invoke(
+    operation: Callable[[OperationContext], OperationResult[T]],
+    json_output: bool,
+    *,
+    error_exit_code: Callable[[CyberOSError], int] | None = None,
+) -> None:
     context = OperationContext()
     started_at = time.perf_counter()
     try:
         result = operation(context)
-    except CyberOSError as error:
-        result = OperationResult.failure(error, context, started_at)
+    except CyberOSError as caught_error:
+        result = OperationResult.failure(caught_error, context, started_at)
     _render_result(result, json_output)
     if not result.ok and result.error is not None:
-        raise typer.Exit(code=EXIT_CODES[ErrorCode(result.error.code)])
+        rendered_error = CyberOSError(ErrorCode(result.error.code), result.error.message)
+        code = (
+            error_exit_code(rendered_error)
+            if error_exit_code is not None
+            else EXIT_CODES[rendered_error.code]
+        )
+        raise typer.Exit(code=code)
+
+
+def _invoke_scope_evaluation(
+    operation: Callable[[OperationContext], OperationResult[Any]], json_output: bool
+) -> None:
+    context = OperationContext()
+    started_at = time.perf_counter()
+    try:
+        result = operation(context)
+    except CyberOSError as caught_error:
+        result = OperationResult.failure(caught_error, context, started_at)
+    _render_result(result, json_output)
+    if not result.ok:
+        if result.error is None:
+            raise typer.Exit(code=1)
+        rendered_error = CyberOSError(ErrorCode(result.error.code), result.error.message)
+        raise typer.Exit(code=_scope_cli_exit(rendered_error))
+    if result.data is not None and result.data.decision is not MatchDecision.INCLUDED:
+        raise typer.Exit(code=2)
+
+
+def _scope_cli_exit(error: CyberOSError) -> int:
+    if error.code in {
+        ErrorCode.SCOPE_NOT_AUTHORIZED,
+        ErrorCode.SCOPE_EXPIRED,
+        ErrorCode.SCOPE_ARCHIVED,
+        ErrorCode.TARGET_EXCLUDED,
+        ErrorCode.TARGET_OUT_OF_SCOPE,
+    }:
+        return 2
+    return 1
+
+
+def parse_scope_id(value: str) -> ScopeId:
+    try:
+        identifier = UUID(value)
+    except ValueError as exc:
+        raise CyberOSError(ErrorCode.INVALID_INPUT, "Scope ID must be a valid UUID4.") from exc
+    return validate_scope_id(identifier)
 
 
 @app.command()
@@ -360,6 +431,109 @@ def engagement_archive(
             parse_engagement_id(engagement_id), expected_version=expected_version, context=context
         ),
         json_output,
+    )
+
+
+@scope_app.command("create")
+def scope_create(
+    engagement_id: Annotated[str, typer.Argument()],
+    name: Annotated[str, typer.Argument()],
+    description: Annotated[str, typer.Option("--description")] = "",
+    json_output: Annotated[bool, typer.Option("--json")] = False,
+    file: Annotated[Path | None, typer.Option("--file", exists=True, dir_okay=False)] = None,
+) -> None:
+    """Create a draft Scope for an Engagement."""
+    _invoke(
+        lambda context: ScopeService(_service_factory(file)).create(
+            parse_engagement_id(engagement_id),
+            name,
+            description,
+            context=context,
+        ),
+        json_output,
+        error_exit_code=_scope_cli_exit,
+    )
+
+
+@scope_app.command("authorize")
+def scope_authorize(
+    scope_id: Annotated[str, typer.Argument()],
+    authorization_reference: Annotated[str, typer.Option("--authorization-reference")],
+    expires_at: Annotated[str | None, typer.Option("--expires-at")] = None,
+    json_output: Annotated[bool, typer.Option("--json")] = False,
+    file: Annotated[Path | None, typer.Option("--file", exists=True, dir_okay=False)] = None,
+) -> None:
+    """Authorize a Scope with an explicit reference and optional expiry."""
+    _invoke(
+        lambda context: ScopeService(_service_factory(file)).authorize(
+            parse_scope_id(scope_id),
+            authorization_reference,
+            _parse_datetime(expires_at, "expires_at"),
+            context=context,
+        ),
+        json_output,
+        error_exit_code=_scope_cli_exit,
+    )
+
+
+@target_app.command("add")
+def target_add(
+    scope_id: Annotated[str, typer.Argument()],
+    rule: Annotated[str, typer.Option("--rule")],
+    kind: Annotated[str, typer.Option("--kind")],
+    value: Annotated[str, typer.Option("--value")],
+    json_output: Annotated[bool, typer.Option("--json")] = False,
+    file: Annotated[Path | None, typer.Option("--file", exists=True, dir_okay=False)] = None,
+) -> None:
+    """Add a Target with explicit rule, kind, and value."""
+    _invoke(
+        lambda context: TargetService(_service_factory(file)).add(
+            parse_scope_id(scope_id),
+            _parse_enum(rule, TargetRule, "rule"),
+            _parse_enum(kind, TargetKind, "kind"),
+            value,
+            context=context,
+        ),
+        json_output,
+        error_exit_code=_scope_cli_exit,
+    )
+
+
+@scope_app.command("evaluate")
+def scope_evaluate(
+    scope_id: Annotated[str, typer.Argument()],
+    kind: Annotated[str, typer.Option("--kind")],
+    value: Annotated[str, typer.Option("--value")],
+    json_output: Annotated[bool, typer.Option("--json")] = False,
+    file: Annotated[Path | None, typer.Option("--file", exists=True, dir_okay=False)] = None,
+) -> None:
+    """Evaluate an explicit TargetCandidate against a Scope without executing it."""
+    _invoke_scope_evaluation(
+        lambda context: _evaluate_cli_candidate(
+            context,
+            file,
+            scope_id,
+            kind,
+            value,
+        ),
+        json_output,
+    )
+
+
+def _evaluate_cli_candidate(
+    context: OperationContext,
+    file: Path | None,
+    scope_id: str,
+    kind: str,
+    value: str,
+) -> OperationResult[Any]:
+    target_kind = _parse_enum(kind, TargetKind, "kind")
+    candidate = TargetCandidate(value, target_kind)
+    return execute_service(
+        lambda: ScopeValidationService(_service_factory(file)).evaluate_candidate(
+            parse_scope_id(scope_id), candidate
+        ),
+        context=context,
     )
 
 

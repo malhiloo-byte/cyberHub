@@ -310,3 +310,19 @@
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] تحديث توثيق 0.4.g
 - [x] إنشاء checkpoint لـ0.4.g
+
+### 0.4.h — Scope CLI Interface + Module 0.4 Final Wrap-up
+
+- [x] إضافة cyberos scope create
+- [x] إضافة cyberos scope authorize
+- [x] إضافة cyberos target add مع فرض rule/kind/value صراحة
+- [x] إضافة cyberos scope evaluate مع TargetCandidate DTO
+- [x] إضافة JSON/text output envelopes قابلة للتدقيق
+- [x] تطبيق exit codes 0/1/2 للنجاح والمدخلات والرفض الأمني
+- [x] منع auto-inference وsubprocess وnetwork activity
+- [x] كتابة CLI E2E lifecycle tests للإنشاء والإضافة والتفويض والتقييم
+- [x] اختبار INCLUDED وEXCLUDED وDENIED وinvalid input ومخرجات بلا traceback
+- [x] تحديث README وArchitecture وModule 0.4 closure documentation
+- [x] تنفيذ final boundary/security review للموديول كاملًا
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] إنشاء checkpoint النهائي وإغلاق Module 0.4

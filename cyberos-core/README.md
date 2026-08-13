@@ -1,6 +1,6 @@
 # CyberOS Core — Module 0.1
 
-This package is the Python nucleus for CyberOS. It provides shared contracts, safe configuration loading, structured logging, typed errors, SQLite persistence, Workspace and Engagement domain models, repositories, application services, and a local CLI. It does not execute scanners, access targets, start an HTTP API, or implement Scope, Target, Finding, Evidence, Scan, Job, Report, Recon, or AI features.
+This package is the Python nucleus for CyberOS. It provides shared contracts, safe configuration loading, structured logging, typed errors, SQLite persistence, Workspace, Engagement, Scope, and Target domain models, repositories, application services, and a local CLI. It does not execute scanners, access targets, start an HTTP API, or implement Finding, Evidence, Scan, Job, Report, Recon, or AI features.
 
 ## Development setup
 
@@ -87,6 +87,20 @@ draft / active / paused / completed → archived
 
 An `authorized_assessment` requires a non-empty authorization reference before activation. Completion records `end_at`; archiving records `archived_at` and increments the optimistic version. There is no hard-delete command.
 
+## Scope, Target, and execution-boundary CLI
+
+Scope commands require an explicit Engagement ID. Target commands require all three of `--rule`, `--kind`, and `--value`; TargetKind is never inferred from raw input.
+
+```bash
+cyberos scope create <engagement-uuid> "Authorized API Scope" --json
+cyberos target add <scope-uuid> --rule include --kind fqdn --value api.example.com --json
+cyberos target add <scope-uuid> --rule exclude --kind fqdn --value admin.example.com --json
+cyberos scope authorize <scope-uuid> --authorization-reference approval-123 --json
+cyberos scope evaluate <scope-uuid> --kind fqdn --value api.example.com --json
+```
+
+`scope evaluate` is read-only. Its JSON result is an `OperationResult` envelope containing the decision, reason, matching rule, matched Target ID, Scope status, and version. An `INCLUDED` evaluation exits with code `0`; an `EXCLUDED` or `DENIED_OUT_OF_SCOPE` evaluation exits with code `2`; invalid input and lifecycle/contract errors use code `1` for these Scope commands. Human-readable output shows the decision, reason, and correlation ID. No command performs DNS, HTTP, subprocess, scanner, or Task Runner activity.
+
 ## Layer boundaries
 
 The intended dependency direction is:
@@ -103,4 +117,4 @@ Domain models do not import SQLite, SQL, repositories, or CLI. Mappers are the o
 ./scripts/check.sh
 ```
 
-The package-level designs are documented in `../docs/architecture/`. Module 0.3 implementation notes are in `docs/development/domain-0.3a.md`, `domain-0.3b.md`, `schema-0.3c.md`, `repository-0.3d.md`, `repository-0.3e.md`, and `services-cli-0.3f.md`.
+The package-level designs are documented in `../docs/architecture/`. Module 0.4 implementation notes are in `docs/development/target-0.4a.md` through `target-0.4g.md`; the final closure note is `docs/development/target-0.4-closure.md`. Module 0.3 implementation notes remain documented in their corresponding `docs/development/` files.
