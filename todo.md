@@ -170,3 +170,18 @@
 - [x] اختبار UnitOfWork commit وrollback والعزل
 - [x] تشغيل regression وRuff وmypy strict وformatting وwheel build
 - [x] توثيق 0.3.e وإنشاء checkpoint قبل CLI/Application Services
+
+### 0.3.f — Application Services + CLI Integration
+
+- [x] تعريف service ports وOperationResult output contract
+- [x] تنفيذ WorkspaceService create/list/show/archive
+- [x] تنفيذ EngagementService create/list/show/transition/archive
+- [x] تطبيق authorization guard وUTC completion time داخل services
+- [x] إضافة CLI workspace commands
+- [x] إضافة CLI engagement commands
+- [x] دعم --json وcorrelation_id وhuman-readable output
+- [x] دعم --expected-version وtyped exit codes
+- [x] اختبار services بعيدًا عن CLI
+- [x] اختبار CLI text/JSON/errors/deterministic output
+- [x] تشغيل regression وRuff وmypy strict وformatting وwheel build
+- [x] توثيق 0.3.f وإنشاء checkpoint قبل 0.3.g
