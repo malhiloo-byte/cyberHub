@@ -292,3 +292,21 @@
 - [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
 - [x] تحديث توثيق 0.4.f
 - [x] إنشاء checkpoint لـ0.4.f
+
+### 0.4.g — Application Scope Services + Boundary Guards
+
+- [x] تعريف TargetCandidate immutable DTO مع raw_value وTargetKind
+- [x] تعريف ScopeEvaluationResult وExecutionAuthorization DTOs
+- [x] تعريف service contract لـScopeValidationService
+- [x] ربط الخدمة بـScopeRepository وTargetRepository وUnitOfWork
+- [x] تطبيق authorize_execution مع ScopeMatcher
+- [x] رفض Scope غير authorized أو archived أو expired
+- [x] رفض EXCLUDED وDENIED_OUT_OF_SCOPE بشكل fail-closed
+- [x] توفير أسباب وبيانات audit قابلة للتدقيق دون SQL leakage
+- [x] ضمان عدم تنفيذ task/subprocess/network من الخدمة
+- [x] كتابة service وintegration tests للـauthorized workflow والحدود
+- [x] اختبار rollback وقراءة البيانات عبر repositories
+- [x] تنفيذ boundary/security review دون CLI أو Task Runner
+- [x] تشغيل pytest وRuff وmypy strict وformatting وwheel build
+- [x] تحديث توثيق 0.4.g
+- [x] إنشاء checkpoint لـ0.4.g
