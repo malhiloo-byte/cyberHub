@@ -2,8 +2,8 @@
 
 ## Workspace & Engagement Domain Layer
 
-**الحالة:** التصميم معتمد؛ 0.3.a منفّذ ومختبر  
-**الإصدار المقترح:** 0.3.0-design / 0.3.a  
+**الحالة:** التصميم معتمد؛ 0.3.a و0.3.b منفّذتان ومختبرتان  
+**الإصدار المقترح:** 0.3.0-design / 0.3.b  
 **يعتمد على:** Module 0.1 — Core Contracts وModule 0.2 — Persistence Kernel  
 **نطاق الوثيقة:** أول Domain Layer فقط؛ لا تشمل Targets أو Findings أو Evidence أو Recon
 
@@ -13,7 +13,7 @@
 
 ### حالة التنفيذ
 
-تم تنفيذ **0.3.a — Domain Primitives + Workspace Model** داخل `cyberos-core/`. أضيف Workspace immutable مع UUID4 وUTC timestamps وvalidation وarchiving وversioning، دون SQLite أو Engagement أو CLI. بقية التصميم ينتظر تنفيذ الأجزاء الفرعية التالية.
+تم تنفيذ **0.3.a — Domain Primitives + Workspace Model** و**0.3.b — Engagement Model + Lifecycle Rules** داخل `cyberos-core/`. أضيف Workspace وEngagement كـpure domain models مع UUID4 وUTC timestamps وvalidation وversioning وtyped transitions، دون SQLite أو repositories أو CLI. بقية التصميم ينتظر تثبيت schema والعلاقات قبل migration 0002.
 
 يضيف Module 0.3 أول كيانين لهما معنى عملي داخل CyberOS: **Workspace** لتنظيم مساحة عمل طويلة الأمد، و**Engagement** لتمثيل نشاط أو اختبار أو مختبر محدد داخل تلك المساحة.
 

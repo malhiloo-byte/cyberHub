@@ -100,3 +100,15 @@
 - [x] تطبيق archive invariant وversioning
 - [x] كتابة Unit Tests دون SQLite أو Engagement
 - [x] تشغيل الجودة والتوثيق وإنشاء checkpoint لـ0.3.a
+
+### 0.3.b — Engagement Model + Lifecycle Rules
+
+- [x] تثبيت EngagementId وEngagementKind وEngagementStatus primitives
+- [x] تعريف Engagement model مستقل عن SQLite وCLI
+- [x] تطبيق workspace_id typed reference دون تحميل Workspace persistence
+- [x] تطبيق start/end UTC invariants
+- [x] تطبيق authorization_reference guard عند التفعيل
+- [x] تطبيق allowed وforbidden lifecycle transitions
+- [x] تعريف typed domain errors لكل transition غير صالح
+- [x] كتابة Unit Tests شاملة دون SQLite أو Migration 0002
+- [x] تشغيل regression وquality gates والتوثيق وإنشاء checkpoint لـ0.3.b
