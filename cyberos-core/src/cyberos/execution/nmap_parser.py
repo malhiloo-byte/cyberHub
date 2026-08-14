@@ -157,6 +157,8 @@ class NmapXmlParserBridge:
                 "debugging",
                 "hostnames",
                 "hostname",
+                "extraports",
+                "extrareasons",
             }:
                 return
             raise CyberOSError(ErrorCode.NMAP_XML_INVALID, "Nmap XML element is not allowlisted.")

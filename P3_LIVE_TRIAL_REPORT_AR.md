@@ -135,3 +135,9 @@ cyberos recon nmap-localhost SCOPE_ID TARGET_ID \
 بعد التجربة، تم تنفيذ remediation offline فقط دون إعادة تشغيل Nmap أو أي اتصال شبكي. أضيف fixture قياسي من Nmap 7.94 يشمل `verbose` و`debugging` و`hostnames` و`runstats/hosts`، ثم أضيفت هذه العناصر البنيوية فقط إلى allowlist. لا تحفظ خصائصها أو محتواها، ولم تتغير سياسة رفض DTD الداخلي أو entities أو XXE أو external references.
 
 تم أيضًا تعديل `NmapLocalhostScanService` بحيث يحوّل أي typed failure صادر عن parser أو provenance أو ingestion بعد دخول Task إلى `RUNNING` إلى Task نهائي `FAILED` مع `error_message` redacted يتكون من ErrorCode فقط. تغطي الاختبارات الآن parser القياسي الناجح، XML غير مسموح به، وفشل provenance؛ وتثبت عدم إنشاء Evidence عند الفشل. نجحت بوابات الجودة كاملة عند **397 اختبارًا**. لا يغيّر هذا remediation نتيجة التجربة الأصلية ولا يخول إعادة P3؛ يلزم تفويض جديد منفصل لأي invocation حي لاحق.
+
+## 10. توافق ملخصات المنافذ المغلقة أو المفلترة
+
+أظهر فحص offline لملف Nmap DTD المحلي أن النتائج القياسية قد تستخدم `extraports` و`extrareasons` لتلخيص المنافذ المغلقة أو المفلترة بدل إدراج عنصر `port` منفصل لكل منفذ. لذلك أضيفت هاتان العقدتان إلى allowlist البنيوي فقط. لا تُفسر خصائصهما، ولا تُضاف إلى `ReconObservation`، ولا تُخزّن في SQLite؛ فالنتيجة الصحيحة لفحص لا يحتوي منافذ مفتوحة هي **صفر observations** وليست error.
+
+أضيف fixture مستقل لهذه الحالة مع `runstats/hosts`، ونجحت بوابات الجودة عند **398 اختبارًا**. لم يُنفذ Nmap حي في هذا patch. يظل تنفيذ P3 الحي التالي مشروطًا بتفويض منفصل واحد فقط.

@@ -72,6 +72,20 @@ STANDARD_NMAP_XML = (
     b'<runstats><finished time="0"/><hosts up="1" down="0" total="1"/></runstats>'
     b"</nmaprun>"
 )
+CLOSED_PORTS_NMAP_XML = (
+    b'<?xml version="1.0"?>'
+    b'<!DOCTYPE nmaprun SYSTEM "nmap.dtd">'
+    b'<nmaprun scanner="nmap" scanner-version="7.94" xmloutputversion="1.05">'
+    b'<scaninfo type="connect" protocol="tcp" numservices="3" services="22,80,443"/>'
+    b'<verbose level="0"/><debugging level="0"/>'
+    b'<host><status state="up" reason="user-set" reason_ttl="0"/>'
+    b'<address addr="127.0.0.1" addrtype="ipv4"/><hostnames/>'
+    b'<ports><extraports state="closed" count="3">'
+    b'<extrareasons reason="conn-refused" count="3" proto="tcp" ports="22,80,443"/>'
+    b'</extraports></ports><times srtt="1000" rttvar="100" to="100000"/></host>'
+    b'<runstats><finished time="0"/><hosts up="1" down="0" total="1"/></runstats>'
+    b"</nmaprun>"
+)
 
 
 def factory_for(tmp_path: Path) -> SQLiteConnectionFactory:
@@ -357,6 +371,17 @@ def test_nmap_xml_bridge_accepts_minimal_standard_nmap_794_structure() -> None:
         canonical_target="127.0.0.1",
     )
     assert result.observations[0].value == "http@127.0.0.1:80"
+
+
+def test_nmap_xml_bridge_accepts_closed_port_summary_without_observations() -> None:
+    result = NmapXmlParserBridge().parse(
+        CLOSED_PORTS_NMAP_XML,
+        scope_id=uuid4(),  # type: ignore[arg-type]
+        target_id=uuid4(),  # type: ignore[arg-type]
+        canonical_target="127.0.0.1",
+    )
+    assert result.services == ()
+    assert result.observations == ()
 
 
 def test_injected_runner_is_used_and_redacts_raw_fixture_output(tmp_path: Path) -> None:

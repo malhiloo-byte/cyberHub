@@ -920,3 +920,26 @@
 - [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan دون live execution
 - [x] تحديث README/architecture/P3 report ورفع commit إلى GitHub والتحقق من CI
 - [x] عدم طلب أو تنفيذ P3 جديد قبل اعتماد نتيجة remediation صراحة
+
+## P3 Retry — Single Localhost TCP Connect Trial After Remediation
+
+- [ ] تثبيت التفويض الجديد كتجربة واحدة فقط على `127.0.0.1`
+- [ ] إنشاء Scope/Target جديدين ومصرح بهما للتحقق المستقل من التجربة
+- [ ] التحقق من `/usr/bin/nmap` والإصدار وSHA-256 قبل spawn
+- [ ] تنفيذ invocation واحد exact عبر `NmapLocalhostScanService` باستخدام `-sT` والمنافذ `22,80,443`
+- [ ] منع retry وfallback وأي target أو port خارج السياسة
+- [ ] التحقق من Task terminal status وbounded/redacted receipt وparser success
+- [ ] التحقق من Assets/Observations/Evidence وprovenance وSQLite integrity عند schema 0006
+- [ ] توثيق command receipt ونتيجة التجربة النهائية
+- [ ] إعداد وثيقة Module 2.2 التصميمية فقط دون implementation
+
+## P3 Preflight Hardening — Closed/Filtered Port XML Compatibility (Offline)
+
+- [x] تثبيت عدم تنفيذ P3 أو أي Nmap حي أثناء patch الحالي
+- [x] إضافة `extraports` و`extrareasons` إلى allowlist البنيوي فقط مع تجاهل attributes/content
+- [x] إضافة fixture قياسي للمنافذ المغلقة/المفلترة يشمل `runstats/hosts`
+- [x] إثبات أن parser يعيد صفر observations عند غياب أي port مفتوح
+- [x] إثبات استمرار رفض internal DTD وXXE/entities/external references
+- [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan
+- [ ] تحديث التوثيق ثم commit/push والتحقق من CI
+- [x] التوقف وطلب/انتظار تفويض P3 بعد تقرير نجاح patch
