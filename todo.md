@@ -527,5 +527,5 @@
 - [x] توثيق `cyberos/core/plugins.py` كـLegacy Compatibility Layer
 - [x] تحديث README إلى إغلاق Module 1.0 وعدد 293+ اختبارًا
 - [x] تشغيل pytest وRuff وformat وmypy strict وwheel build
-- [ ] إنشاء commit نظيف ورفع `main` إلى `github/main`
-- [ ] التحقق من GitHub Actions ورفع checkpoint بعد النجاح
+- [x] إنشاء commit نظيف ورفع `main` إلى `github/main`
+- [x] التحقق من GitHub Actions ورفع checkpoint بعد النجاح
