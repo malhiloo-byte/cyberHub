@@ -10,9 +10,9 @@ readonly REPOSITORY_DIR="${CYBEROS_REPOSITORY_DIR:-$HOME/cyberHub}"
 readonly CORE_DIR="$REPOSITORY_DIR/cyberos-core"
 readonly CONFIG_PATH="${CYBEROS_CONFIG:-$HOME/.cyberos/cyberos.toml}"
 readonly DATA_DIR="$HOME/.cyberos"
-readonly P3_GUARD="$DATA_DIR/localhost-p3-single-use.lock"
 readonly RUN_LABEL="$(date -u +%Y%m%dT%H%M%SZ)-$$"
 readonly RUN_LOG="$DATA_DIR/localhost-p3-run-${RUN_LABEL}.log"
+P3_GUARD="$DATA_DIR/localhost-p3-preflight-only.lock"
 
 on_error() {
   local exit_code=$?
@@ -124,13 +124,22 @@ if [[ "${CYBEROS_P3_AUTHORIZED:-NO}" != "YES" ]]; then
   exit 0
 fi
 
+P3_AUTHORIZATION_REF="${CYBEROS_P3_AUTHORIZATION_REF:-}"
+if [[ ! "$P3_AUTHORIZATION_REF" =~ ^[A-Za-z0-9._-]{8,128}$ ]]; then
+  printf '%s\n' 'A new CYBEROS_P3_AUTHORIZATION_REF (8-128 safe characters) is required.' >&2
+  exit 1
+fi
+P3_AUTHORIZATION_DIGEST="$(printf '%s' "$P3_AUTHORIZATION_REF" | sha256sum | awk '{print $1}')"
+P3_GUARD="$DATA_DIR/localhost-p3-authorization-${P3_AUTHORIZATION_DIGEST}.lock"
+
 if [[ -e "$P3_GUARD" ]]; then
-  printf '%s\n' 'Single-use P3 guard already exists. No scan will be executed.' >&2
+  printf '%s\n' 'This authorization reference was already consumed. No scan will be executed.' >&2
   printf 'Guard path: %s\n' "$P3_GUARD" >&2
   exit 1
 fi
 
 date --iso-8601=seconds > "$P3_GUARD"
+printf 'Authorization reference digest: %s\n' "$P3_AUTHORIZATION_DIGEST"
 printf '%s\n' '=== Executing exactly one localhost-only Nmap scan ==='
 
 set +e

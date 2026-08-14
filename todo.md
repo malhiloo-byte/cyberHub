@@ -1002,7 +1002,22 @@
 - [x] تأكيد عدم وجود retry وأن السكربت أنهى العملية وحفظ receipt/log محليًا
 - [x] فحص service metadata القياسي في Nmap XML وتصميم allowlist offline minimal
 - [x] تنفيذ patch offline واختباراته بعد موافقة صريحة
-- [ ] طلب تفويض P3 جديد فقط بعد نجاح patch quality gates
+- [x] طلب تفويض P3 جديد فقط بعد نجاح patch quality gates
+
+## P3 Localhost Retry — After Strict Service Metadata Patch
+
+- [x] تسجيل التفويض الصريح: `127.0.0.1` و`-sT` والمنافذ `22,80,443` ومحاولة واحدة بلا retry
+- [ ] تحقق المستخدم من `git pull` و`bash scripts/check.sh` قبل الاستدعاء
+- [ ] تنفيذ invocation واحد عبر السكربت المحدث مع `CYBEROS_P3_AUTHORIZED=YES`
+- [ ] تحليل receipt وTask/Evidence/SQLite بعد الاستدعاء دون إعادة تنفيذ
+
+## P3 Authorization-Scoped Single-Use Guard (Offline)
+
+- [x] اشتراط `CYBEROS_P3_AUTHORIZATION_REF` صريح بصيغة آمنة
+- [x] اشتقاق guard مستقل وحتمي من مرجع التفويض دون حذف guards السابقة
+- [x] رفض إعادة استخدام نفس المرجع قبل الوصول إلى Nmap
+- [x] فحص syntax وعلامات localhost-only بلا live scan
+- [ ] تحديث الدليل ثم commit/push والتحقق من CI
 
 ## P3 Preflight Hardening — Strict Service Metadata (Offline)
 

@@ -148,7 +148,7 @@ cyberos scope evaluate "$SCOPE_ID" \
 
 ## 8. الفحص الحي الواحد على localhost فقط
 
-> **نفّذ هذا block مرة واحدة فقط بعد التفويض الصريح لتجربة واحدة.** لا تغيّر target أو ports أو flags، ولا تكرره تلقائيًا عند الخطأ.
+> **نفّذ هذا block مرة واحدة فقط بعد التفويض الصريح لتجربة واحدة.** لا تغيّر target أو ports أو flags، ولا تكرره تلقائيًا عند الخطأ. استخدم مرجع تفويض جديدًا وفريدًا في كل تجربة مصرح بها؛ السكربت يحفظ hash للمرجع كحارس محلي ولا يحذف حراس المحاولات السابقة.
 
 ```bash
 cyberos recon nmap-localhost "$SCOPE_ID" "$TARGET_ID" \
@@ -160,6 +160,14 @@ cyberos recon nmap-localhost "$SCOPE_ID" "$TARGET_ID" \
 ```
 
 هذا هو المسار الرسمي المقيد. داخليًا يستخدم TCP Connect (`-sT`) إلى `127.0.0.1` فقط، ويقيد المنافذ إلى `22,80,443`، ويتحقق من هوية binary ويحول XML bounded/redacted إلى نتائج مهيكلة عندما ينجح.
+
+عند استخدام سكربت WSL الواحد، مرّر المرجع هكذا:
+
+```bash
+CYBEROS_P3_AUTHORIZED=YES \
+CYBEROS_P3_AUTHORIZATION_REF="P3-localhost-20260814-001" \
+bash run-localhost-p3-wsl.sh
+```
 
 ## 9. التحقق بعد الفحص — لا retry
 
