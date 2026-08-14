@@ -68,10 +68,13 @@ class NmapXmlParserBridge:
         current_state: str | None = None
         current_service: dict[str, str] | None = None
 
-        def reject_doctype(
+        def accept_benign_doctype(
             _name: str, _system_id: str | None, _public_id: str | None, _has_internal_subset: int
         ) -> None:
-            raise CyberOSError(ErrorCode.NMAP_XML_INVALID, "Nmap XML DTD is not permitted.")
+            if _name != "nmaprun" or _public_id is not None or _has_internal_subset:
+                raise CyberOSError(ErrorCode.NMAP_XML_INVALID, "Nmap XML DTD is not permitted.")
+            # A SYSTEM identifier may appear in standard Nmap output. It is
+            # deliberately ignored; no DTD is loaded and no URI is fetched.
 
         def reject_entity(
             _entity_name: str,
@@ -180,9 +183,10 @@ class NmapXmlParserBridge:
         parser = expat.ParserCreate()
         parser.StartElementHandler = start
         parser.EndElementHandler = end
-        parser.StartDoctypeDeclHandler = reject_doctype
+        parser.StartDoctypeDeclHandler = accept_benign_doctype
         parser.EntityDeclHandler = reject_entity
         parser.ExternalEntityRefHandler = reject_external
+        parser.SetParamEntityParsing(expat.XML_PARAM_ENTITY_PARSING_NEVER)
         try:
             parser.Parse(payload, True)
         except CyberOSError:

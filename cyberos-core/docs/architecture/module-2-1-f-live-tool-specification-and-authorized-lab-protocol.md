@@ -189,7 +189,7 @@ P0–P2 يمكن اختبارها دون تشغيل scanner. أول تشغيل �
 
 الـraw stdout/stderr يبقى في الذاكرة داخل process receipt فقط وبحدود bytes. لا يُكتب إلى file، log، SQLite، Evidence metadata، أو error message. قبل parser يجب تطبيق redaction للـcredentials، absolute paths، control bytes، وtraceback-like content. يُحتفظ فقط بـdigest، byte counts، truncation flag، parser schema، وعدد observations.
 
-الـparser يرفض output إذا كان truncated أو malformed أو يحتوي DTD/entity/external reference أو schema version غير `1.0`. لا توجد best-effort parsing ولا field guessing. إذا كان stderr يحوي warning غير حساس، لا يُخزن raw؛ يمكن حفظ `stderr_present=true` أو typed category فقط.
+الـparser يرفض output إذا كان truncated أو malformed، أو يحتوي internal subset أو `PUBLIC` identifier أو entity declaration أو external reference أو schema version غير `1.0`. يقبل فقط ترويسة Nmap القياسية benign من الشكل `<!DOCTYPE nmaprun SYSTEM "...">` كصيغة، لكنه يتجاهل URI ولا يحمّل أو يجلب DTD. لا توجد best-effort parsing ولا field guessing. إذا كان stderr يحوي warning غير حساس، لا يُخزن raw؛ يمكن حفظ `stderr_present=true` أو typed category فقط.
 
 ## 10. ReconObservation and Evidence handoff
 
@@ -302,8 +302,14 @@ P0–P2 يمكن اختبارها دون تشغيل scanner. أول تشغيل �
 
 تم تنفيذ الشرائح المصرح بها فقط. أُضيف `VerifiedBinaryIdentity` مع absolute-path، regular-file، executable، SHA-256، وversion contracts دون PATH lookup أو package installation. أُضيف `NmapLocalhostManifest` و`NmapLocalhostLabPolicy` لبناء dry-run request مقيد بالـ`lab.localhost.tcp-syn.v1`، وبالهدف `127.0.0.1`، والـports `{22, 80, 443}`، والـargv الثابت `-sS -T3 -n -Pn -p <ports> -oX -`.
 
-أُضيف `NmapXmlParserBridge` كـpure Expat bridge يرفض DTD/entities/external references، ويحول subset مغلقًا من Nmap XML إلى parser contracts الموجودة في Module 2.1.e. أُضيفت injected runner doubles تختبر redaction، timeout/error boundaries، وعدم تشغيل `SafeSubprocessRunner` الحقيقي. كما أُثبت تدفق XML fixture إلى `ReconObservation` ثم `ReconIngestionService` و`ReconEvidenceService` مع atomic provenance، دون حفظ raw XML.
+أُضيف `NmapXmlParserBridge` كـpure Expat bridge يقبل benign `nmaprun` DOCTYPE فقط ويرفض internal subsets/entities/external references، ويحول subset مغلقًا من Nmap XML إلى parser contracts الموجودة في Module 2.1.e. أُضيفت injected runner doubles تختبر redaction، timeout/error boundaries، وعدم تشغيل `SafeSubprocessRunner` الحقيقي. كما أُثبت تدفق XML fixture إلى `ReconObservation` ثم `ReconIngestionService` و`ReconEvidenceService` مع atomic provenance، دون حفظ raw XML.
 
 أُضيفت 10 اختبارات جديدة، وأصبح الإجمالي **390 اختبارًا ناجحًا**. نجحت Ruff، format، `mypy --strict`، wheel build، وboundary scan. لم يُشغّل Nmap أو أي binary حي، ولم تُفتح sockets، ولم تُضف migrations، ولم يحدث P3. تبقى confirmation gate ذات المستويين مفتوحة: اعتماد نتائج a–d أولًا، ثم طلب منفصل قبل P3.
 
-**Current state:** Slices 2.1.f.a–d complete offline. لا Nmap execution، لا network socket، لا home-subnet scan، ولا checkpoint نهائي قبل رفع التغييرات ومراجعة المستخدم.
+## 20. DOCTYPE compatibility patch record
+
+The parser now accepts a standard Nmap `nmaprun` DOCTYPE declaration only when it has no public identifier and no internal subset. Expat parameter-entity parsing remains disabled, entity declarations remain rejected, and external entity callbacks remain hard-fail handlers. The referenced SYSTEM URI is ignored rather than opened or fetched. Offline tests cover the standard Nmap header and an XXE/internal-subset rejection fixture. The patch does not add a migration and does not authorize or execute a new live trial.
+
+The TCP Connect profile is additive: `ScanMode.CONNECT` produces `-sT`, and the localhost manifest exposes `lab.localhost.tcp-connect.v1`. The default SYN profile remains available for privileged environments, while the unprivileged first-run guide should use TCP Connect.
+
+**Current state:** Slices 2.1.f.a–d plus the offline DOCTYPE compatibility patch pass 390 tests and all quality gates. No new live trial has been executed after this patch, no home-subnet scan has been performed, and a new explicit P3 authorization is required before any localhost invocation.

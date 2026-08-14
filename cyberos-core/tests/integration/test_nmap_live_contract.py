@@ -316,6 +316,14 @@ def test_nmap_xml_bridge_normalizes_fixture_and_rejects_dtd() -> None:
     assert isinstance(result, NetworkScanParseResult)
     assert result.output_format is MachineOutputFormat.XML
     assert result.observations[0].value == "http@127.0.0.1:80"
+    standard_nmap = b'<?xml version="1.0"?><!DOCTYPE nmaprun SYSTEM "nmap.dtd">' + NMAP_XML
+    standard_result = bridge.parse(
+        standard_nmap,
+        scope_id=scope_id,  # type: ignore[arg-type]
+        target_id=target_id,  # type: ignore[arg-type]
+        canonical_target="127.0.0.1",
+    )
+    assert standard_result.observations[0].value == "http@127.0.0.1:80"
     malicious = b'<!DOCTYPE nmaprun [<!ENTITY x SYSTEM "file:///etc/passwd">]>' + NMAP_XML
     with pytest.raises(CyberOSError) as error:
         bridge.parse(

@@ -802,6 +802,65 @@
 - [x] توثيق confirmation gate وعدم تشغيل P3
 - [ ] حفظ checkpoint وعرض نتائج الاختبار قبل طلب P3
 
+## Slice 2.1.f.e — P3 First Live Execution Trial
+
+- [ ] تسجيل تفويض P3 الصريح وتجربة واحدة فقط
+- [ ] التحقق من `/usr/bin/nmap` وbinary identity/sha256/version قبل spawn
+- [ ] التحقق من `lab.localhost.tcp-syn.v1` و127.0.0.1 وInclude/expiry/context
+- [ ] تنفيذ argv المعتمد مرة واحدة فقط دون retry أو fallback
+- [ ] حفظ bounded stdout/stderr in-memory فقط
+- [ ] تطبيق redaction والتحقق من عدم تسريب payload/path/credential
+- [ ] parse Nmap XML وإنتاج ReconObservation deterministic
+- [ ] atomic ReconIngestion ثم Evidence provenance عند نجاح parser فقط
+- [ ] قبول صفر ports المفتوحة إذا اكتملت XML/provenance invariants
+- [ ] توثيق receipt والعدادات والـdigest والنتيجة والتوقف دون تجربة ثانية
+
+## P3 Re-Authorization — Single Trial
+
+- [ ] تسجيل إعادة التفويض الصريح لمسار `/usr/bin/nmap` والإصدار 7.94SVN
+- [ ] تنفيذ preflight واحد ثم invocation حي واحد فقط على 127.0.0.1
+- [ ] منع retry/fallback وأي target أو port range خارج 22/80/443
+- [ ] توثيق stdout/stderr bounded وredaction وparser/provenance result
+
+## P3 Workspace Re-Authorization
+
+- [ ] تثبيت Nmap داخل بيئة التنفيذ الفعلية فقط
+- [ ] التحقق من `/usr/bin/nmap` والإصدار والـSHA-256 بعد التثبيت
+- [ ] تنفيذ preflight ثم invocation حي واحد فقط على 127.0.0.1
+- [ ] منع retry/fallback وأي target خارج localhost
+- [ ] توثيق provenance receipt وobservation count وredaction verification
+
+## P3 TCP Connect Re-Authorization
+
+- [ ] تثبيت التفويض الجديد للـ`-sT` وتجربة واحدة فقط
+- [ ] استخدام profile معزول `lab.localhost.tcp-connect.v1`
+- [ ] التحقق من argv exact: `-sT -T3 -n -Pn -p 22,80,443 -oX - 127.0.0.1`
+- [ ] تنفيذ pipeline bounded/redacted/XML/Recon/Evidence دون retry أو fallback
+- [ ] توثيق النتيجة والتوقف بعد هذه المحاولة
+
+## Readiness & WSL/GitHub Integration Audit
+
+- [ ] فحص remote/main وHEAD وworking tree ومقارنة GitHub commit الحالي
+- [ ] التحقق من أن تغييرات TCP Connect وP3 diagnosis موثقة ومرفوعة أو تحديد ما هو local فقط
+- [ ] تشغيل full quality gates وP3 regression دون إعادة live scan تلقائيًا
+- [ ] تدقيق فجوة Nmap DOCTYPE ووضع إصلاح آمن offline إن لزم
+- [ ] إعادة تشغيل parser/fixture tests بعد الإصلاح
+- [ ] تحديث README/docs بحالة الجاهزية الحقيقية والقيود
+- [ ] تقديم خطوات clone/install/run/test آمنة لـUbuntu WSL
+- [ ] عدم إعلان live recon جاهزًا قبل نجاح parser contract وموافقة P3 جديدة
+
+## Nmap DOCTYPE Compatibility & WSL Delivery
+
+- [x] السماح فقط بـbenign Nmap DOCTYPE مع منع SYSTEM/PUBLIC/external entity expansion
+- [x] إضافة standard DOCTYPE وXXE rejection fixtures
+- [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
+- [x] التحقق من بقاء schema عند 0006 وعدم وجود migrations جديدة
+- [ ] مراجعة diff وتجهيز commit نظيف ودفعه إلى GitHub
+- [ ] التحقق من GitHub Actions الأخضر بعد الدفع
+- [x] تحديث README/docs بحالة TCP Connect وparser compatibility
+- [ ] إعداد دليل clone/install/test/run لـUbuntu WSL
+- [ ] تقديم first authorized localhost command مع تحذير واضح من home-subnet scanning
+
 ## Module 2.0 — Live Subprocess & Execution Adapter Implementation
 
 - [x] حماية Phase 1 وعدم تعديل Modules 0–1.7 إلا عند regression موثق

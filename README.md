@@ -65,7 +65,7 @@ The platform follows one deliberate rule: **build the missing personal operating
 | Recon Export Presentation & Schema Drift Fixtures (Module 1.7) | **Complete — 360 full-suite tests; Phase 1 closed** |
 | Live Subprocess & Execution Adapter Boundary (Module 2.0) | **Complete contract slice — 370 full-suite tests; neutral local doubles only** |
 | Network & Port Scanning Adapter Boundary (Module 2.1) | **Complete offline slices 2.1.a–e — 380 full-suite tests; live tool integration not started** |
-| Nmap Live Tool Specification (Module 2.1.f.a–d) | **Complete offline contract slices — 390 full-suite tests; P3 live invocation not authorized** |
+| Nmap Live Tool Specification (Module 2.1.f.a–d) | **Complete offline contract slices — 390 full-suite tests; TCP Connect profile and safe DOCTYPE compatibility verified** |
 | Real reconnaissance tooling | **Not started — design first** |
 
 ## Operating model
@@ -244,7 +244,7 @@ The canonical command is `./scripts/check.sh`. Continuous integration runs on ev
 
 ## Status and next decision
 
-The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, Module 2.0 live process boundary, Module 2.1 offline port-scan adapter contracts, and Nmap preflight/parser boundary are intentionally stable. Phase 1 remains officially closed at Module 1.7. Module 2.1.f.a–d is complete as an offline contract/test slice with 390 passing tests; P3 live Nmap invocation remains explicitly unauthorized and no home-network scan has been performed.
+The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, Module 2.0 live process boundary, Module 2.1 offline port-scan adapter contracts, and Nmap preflight/parser boundary are intentionally stable. Phase 1 remains officially closed at Module 1.7. Module 2.1.f.a–d is complete as an offline contract/test slice with 390 passing tests. The unprivileged TCP Connect profile and safe standard Nmap DOCTYPE compatibility are verified offline; no home-network scan has been performed.
 
 <div align="center">
 

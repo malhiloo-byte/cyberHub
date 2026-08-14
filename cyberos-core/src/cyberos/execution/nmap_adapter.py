@@ -111,12 +111,15 @@ class NmapLocalhostManifest:
     max_ports: int = 3
     max_timeout_seconds: int = 30
     max_output_bytes: int = 262_144
+    scan_mode: ScanMode = ScanMode.SYN
 
     def __post_init__(self) -> None:
         if self.output_format is not MachineOutputFormat.XML:
             raise CyberOSError(
                 ErrorCode.NMAP_MANIFEST_INVALID, "Localhost Nmap output must be XML."
             )
+        if self.scan_mode not in {ScanMode.SYN, ScanMode.CONNECT}:
+            raise CyberOSError(ErrorCode.NMAP_MANIFEST_INVALID, "Localhost scan mode is invalid.")
         if self.max_ports != 3 or self.max_timeout_seconds != 30:
             raise CyberOSError(ErrorCode.NMAP_MANIFEST_INVALID, "Localhost lab limits are fixed.")
         if self.max_output_bytes != 262_144:
@@ -127,10 +130,11 @@ class NmapLocalhostManifest:
             raise CyberOSError(
                 ErrorCode.NMAP_MANIFEST_INVALID, "Binary identity does not match Nmap manifest."
             )
+        scan_flag = "-sS" if self.scan_mode is ScanMode.SYN else "-sT"
         return ApprovedExecutable(
             logical_id=self.executable_id,
             executable=identity.absolute_path,
-            command_prefix=(identity.absolute_path, *_FIXED_PREFIX),
+            command_prefix=(identity.absolute_path, scan_flag, *_FIXED_PREFIX[1:]),
             supported_target_kinds=(TargetKind.IPV4,),
             require_target_argument=True,
             max_timeout_seconds=self.max_timeout_seconds,
@@ -199,7 +203,7 @@ class NmapLocalhostLabPolicy:
         if authorization.expires_at is not None and authorization.expires_at <= timestamp:
             raise CyberOSError(ErrorCode.LIVE_ADAPTER_UNAUTHORIZED, "Authorization has expired.")
         if (
-            invocation.scan_mode is not ScanMode.SYN
+            invocation.scan_mode is not manifest.scan_mode
             or invocation.timing_profile is not TimingProfile.T4
         ):
             raise CyberOSError(
@@ -212,9 +216,11 @@ class NmapLocalhostLabPolicy:
             raise CyberOSError(
                 ErrorCode.PORT_SCAN_LIMIT_EXCEEDED, "Nmap localhost limits are exceeded."
             )
+        scan_flag = "-sS" if manifest.scan_mode is ScanMode.SYN else "-sT"
         argv = (
             identity.absolute_path,
-            *_FIXED_PREFIX,
+            scan_flag,
+            *_FIXED_PREFIX[1:],
             "-p",
             ",".join(str(port) for port in sorted(invocation.ports)),
             "-oX",
@@ -238,8 +244,13 @@ class NmapLocalhostLabPolicy:
             max_stdout_bytes=invocation.max_output_bytes,
             max_stderr_bytes=invocation.max_output_bytes,
         )
+        profile_id = (
+            "lab.localhost.tcp-syn.v1"
+            if manifest.scan_mode is ScanMode.SYN
+            else "lab.localhost.tcp-connect.v1"
+        )
         return NmapPreflightPlan(
-            self.profile_id,
+            profile_id,
             request,
             hashlib.sha256("\x00".join(argv).encode()).hexdigest(),
         )

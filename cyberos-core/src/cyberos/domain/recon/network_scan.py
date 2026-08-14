@@ -38,6 +38,7 @@ class MachineOutputFormat(StrEnum):
 
 class ScanMode(StrEnum):
     SYN = "syn"
+    CONNECT = "connect"
 
 
 class TimingProfile(StrEnum):
@@ -303,4 +304,5 @@ class NetworkScanInvocation:
         output_flag = (
             "--output-xml" if self.output_format is MachineOutputFormat.XML else "--output-json"
         )
-        return ("-sS", "-p", ports, "-T4", output_flag, self.canonical_target)
+        scan_flag = "-sS" if self.scan_mode is ScanMode.SYN else "-sT"
+        return (scan_flag, "-p", ports, "-T4", output_flag, self.canonical_target)
