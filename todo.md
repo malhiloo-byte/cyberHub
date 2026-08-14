@@ -971,6 +971,14 @@
 - [x] تقديم أمر localhost Nmap single-use المقيد بـ127.0.0.1 و22/80/443
 - [x] تقديم أوامر Task/SQLite verification بعد التنفيذ ومنع retry التلقائي
 
+## Ubuntu WSL — Single Localhost Operation Script
+
+- [x] إنشاء سكربت واحد يثبت البيئة ويزامن المشروع ويضبط SQLite ويشغّل quality gates
+- [x] إنشاء Scope/Target localhost جديدين واستخراج IDs من JSON دون توسيع النطاق
+- [x] اشتراط `CYBEROS_P3_AUTHORIZED=YES` قبل invocation Nmap الحي الواحد
+- [x] تنفيذ verification read-only بعد الفحص ومنع retry أو أي target آخر
+- [x] مراجعة السكربت وتسليمه بصيغة قابلة للنسخ
+
 ## P3 Preflight Hardening — State Metadata & Module 2.2 Review (Offline)
 
 - [x] تثبيت منع أي live scan أو retry أثناء patch الحالي
