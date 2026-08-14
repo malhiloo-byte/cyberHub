@@ -11,10 +11,13 @@ readonly CORE_DIR="$REPOSITORY_DIR/cyberos-core"
 readonly CONFIG_PATH="${CYBEROS_CONFIG:-$HOME/.cyberos/cyberos.toml}"
 readonly DATA_DIR="$HOME/.cyberos"
 readonly P3_GUARD="$DATA_DIR/localhost-p3-single-use.lock"
+readonly RUN_LABEL="$(date -u +%Y%m%dT%H%M%SZ)-$$"
+readonly RUN_LOG="$DATA_DIR/localhost-p3-run-${RUN_LABEL}.log"
 
 on_error() {
   local exit_code=$?
-  printf '\nStopped with exit code %s. No retry was attempted.\n' "$exit_code" >&2
+  printf '\nScript stopped with exit code %s. Ubuntu/WSL was not shut down. No retry was attempted.\n' "$exit_code" >&2
+  printf 'Run log: %s\n' "$RUN_LOG" >&2
   exit "$exit_code"
 }
 trap on_error ERR
@@ -57,6 +60,7 @@ python -m pip install --upgrade pip
 python -m pip install -e '.[dev]'
 
 mkdir -p "$DATA_DIR/logs"
+exec > >(tee -a "$RUN_LOG") 2>&1
 if [[ ! -f "$CONFIG_PATH" ]]; then
   cp config/cyberos.example.toml "$CONFIG_PATH"
 fi
@@ -76,20 +80,20 @@ if [[ -z "$NMAP_VERSION" || ! "$NMAP_SHA256" =~ ^[0-9a-f]{64}$ ]]; then
 fi
 
 printf '%s\n' '=== Creating explicit localhost-only context ==='
-workspace_json="$(cyberos workspace create "WSL Localhost Lab" \
+workspace_json="$(cyberos workspace create "WSL Localhost Lab $RUN_LABEL" \
   --description "One explicit localhost-only CyberOS lab" \
   --json --file "$CYBEROS_CONFIG")"
 WORKSPACE_ID="$(printf '%s' "$workspace_json" | extract_id)"
 require_id "$WORKSPACE_ID" 'Workspace ID'
 
-engagement_json="$(cyberos engagement create "$WORKSPACE_ID" "Localhost TCP Connect Lab" \
+engagement_json="$(cyberos engagement create "$WORKSPACE_ID" "Localhost TCP Connect Lab $RUN_LABEL" \
   --kind learning \
   --authorization-reference "LOCALHOST-ONLY-$(date +%F)" \
   --json --file "$CYBEROS_CONFIG")"
 ENGAGEMENT_ID="$(printf '%s' "$engagement_json" | extract_id)"
 require_id "$ENGAGEMENT_ID" 'Engagement ID'
 
-scope_json="$(cyberos scope create "$ENGAGEMENT_ID" "127.0.0.1 Only" \
+scope_json="$(cyberos scope create "$ENGAGEMENT_ID" "127.0.0.1 Only $RUN_LABEL" \
   --description "Explicit WSL loopback only; no LAN, CIDR, gateway, or external target" \
   --json --file "$CYBEROS_CONFIG")"
 SCOPE_ID="$(printf '%s' "$scope_json" | extract_id)"

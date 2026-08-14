@@ -979,6 +979,14 @@
 - [x] تنفيذ verification read-only بعد الفحص ومنع retry أو أي target آخر
 - [x] مراجعة السكربت وتسليمه بصيغة قابلة للنسخ
 
+## Ubuntu WSL — One-Shot Script Name-Conflict Remediation
+
+- [x] تشخيص توقف السكربت عند `WORKSPACE_NAME_CONFLICT` بعد preflight سابق
+- [x] توليد suffix فريد للـWorkspace/Engagement/Scope في كل تشغيل
+- [x] حفظ الفشل في log وشرح أن Terminal لا ينطفئ بل تنتهي عملية السكربت
+- [x] فحص syntax ومسار preflight دون `CYBEROS_P3_AUTHORIZED=YES`
+- [ ] رفع الإصلاح وتحديث أمر التشغيل للمستخدم
+
 ## P3 Preflight Hardening — State Metadata & Module 2.2 Review (Offline)
 
 - [x] تثبيت منع أي live scan أو retry أثناء patch الحالي
