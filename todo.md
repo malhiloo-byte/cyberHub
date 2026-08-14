@@ -628,3 +628,28 @@
 - [x] مراجعة عدم تعديل Modules 0–1.3 وعدم إضافة migration/network/subprocess
 - [x] رفع commit والتحقق من GitHub Actions
 - [x] حفظ checkpoint وتسليم تقرير Module 1.4 والتوقف قبل Module 1.5
+
+## Module 1.5 — Recon Reporting & Web API Offline Fixtures Design
+- [x] تثبيت نطاق reporting projections read-only وعلاقتها بـModule 1.4
+- [x] تصميم Target Recon Summary وAsset Distribution Breakdown وProvenance Audit Summary
+- [x] تصميم bounded aggregation وmetadata/redaction policy دون reporting state mutable
+- [x] تصميم Multi-Web API Offline Fixtures للـREST headers والـparameter discovery
+- [x] توثيق scenario composition وfixture labels وno-network/no-subprocess boundaries
+- [x] تحديد typed errors وcontext isolation وtest strategy
+- [x] مراجعة القرارات وعرض الوثيقة للاعتماد
+- [x] عدم كتابة implementation أو migration قبل approval صريح
+
+## Module 1.5 — Recon Reporting & Multi-Web API Offline Fixtures Implementation
+
+- [x] تنفيذ reporting DTOs immutable والـbudget/error contracts
+- [x] تنفيذ ReconReportingService عبر read/query boundaries الحالية فقط
+- [x] تنفيذ TargetReconSummary وAssetDistributionBreakdown وProvenanceAuditSummary
+- [x] تنفيذ bounded page traversal وcontext isolation وhonest completeness
+- [x] تنفيذ MultiWebApiOfflineScenario وstep vocabulary المغلق
+- [x] تنفيذ REST endpoint/header/parameter fixture plugins مع synthetic labels
+- [x] إثبات chaining Endpoint → Headers → Parameters عبر Pipeline/Ingestion/Evidence/Reporting
+- [x] إضافة partial failure وcancel-before-ingest وheader/parameter privacy tests
+- [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
+- [x] مراجعة عدم تعديل Modules 0–1.4 وعدم إضافة migration/network/subprocess
+- [ ] رفع commit والتحقق من GitHub Actions
+- [ ] حفظ checkpoint وتسليم تقرير Module 1.5 والتوقف قبل Module 1.6
