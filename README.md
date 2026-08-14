@@ -64,6 +64,7 @@ The platform follows one deliberate rule: **build the missing personal operating
 | Recon Reporting Export & Negative Offline Fixtures (Module 1.6) | **Complete — 350 full-suite tests** |
 | Recon Export Presentation & Schema Drift Fixtures (Module 1.7) | **Complete — 360 full-suite tests; Phase 1 closed** |
 | Live Subprocess & Execution Adapter Boundary (Module 2.0) | **Complete contract slice — 370 full-suite tests; neutral local doubles only** |
+| Network & Port Scanning Adapter Boundary (Module 2.1) | **Complete offline slices 2.1.a–e — 380 full-suite tests; live tool integration not started** |
 | Real reconnaissance tooling | **Not started — design first** |
 
 ## Operating model
@@ -234,13 +235,14 @@ The canonical command is `./scripts/check.sh`. Continuous integration runs on ev
 | [`cyberos-core/docs/architecture/module-1-0-recon-plugin-contracts-design.md`](cyberos-core/docs/architecture/module-1-0-recon-plugin-contracts-design.md) | Approved and implemented Module 1.0 plugin contracts and boundary decisions |
 | [`cyberos-core/docs/architecture/module-1-2-recon-orchestration-design.md`](cyberos-core/docs/architecture/module-1-2-recon-orchestration-design.md) | Implemented Module 1.2 pipeline orchestration, chaining, budgets, cancellation, and result adapter |
 | [`cyberos-core/docs/architecture/module-1-7-recon-export-presentation-and-schema-drift-fixtures-design.md`](cyberos-core/docs/architecture/module-1-7-recon-export-presentation-and-schema-drift-fixtures-design.md) | Module 1.7 presentation adapters, bounded views, and offline schema/version drift fixtures |
+| [`cyberos-core/docs/architecture/module-2-1-network-port-scan-adapter-design.md`](cyberos-core/docs/architecture/module-2-1-network-port-scan-adapter-design.md) | Module 2.1 manifest, target/flag policy, offline XML/JSON parser, and provenance boundary |
 | [`docs/reports/cyberos-complete-project-report-ar.md`](docs/reports/cyberos-complete-project-report-ar.md) | Project chronology and engineering record |
 | [`ideas.md`](ideas.md) | Command Center visual direction and design decisions |
 | [`SECURITY.md`](SECURITY.md) | Security reporting and responsible-use boundaries |
 
 ## Status and next decision
 
-The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, and Module 2.0 live process boundary are intentionally stable before tool-specific reconnaissance begins. Phase 1 remains officially closed at Module 1.7, and Module 2.0 is complete only as a contract slice using neutral local process doubles. Work stops here until the next tool-specific adapter is explicitly authorized. No Nmap, DNS, HTTP probe, OSINT engine, external API, AI/LLM integration, or unreviewed live scanner is included.
+The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, Module 2.0 live process boundary, and Module 2.1 offline port-scan adapter contracts are intentionally stable before tool-specific reconnaissance begins. Phase 1 remains officially closed at Module 1.7. Module 2.1 is complete only through offline slices 2.1.a–e: no Nmap/Masscan execution, network socket, DNS/HTTP call, external scanner, or live tool integration was performed. Work stops here before Slice 2.1.f pending explicit authorization.
 
 <div align="center">
 

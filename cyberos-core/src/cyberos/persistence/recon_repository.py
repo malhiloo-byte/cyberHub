@@ -219,7 +219,7 @@ class SQLiteReconRepository:
                     "(id, asset_id, scope_id, target_id, task_id, transport, port, "
                     "service_name, product, service_version, status, first_seen_at, "
                     "last_seen_at, created_at, updated_at, archived_at, version) "
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     (
                         str(asset.id),
                         str(asset.id),

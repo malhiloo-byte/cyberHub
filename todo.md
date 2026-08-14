@@ -727,6 +727,44 @@
 - [x] كتابة وثيقة phase-2-overview-and-module-2-0-live-adapter-boundary-design.md
 - [ ] عرض الوثيقة للاعتماد قبل أي implementation أو migration
 
+## Module 2.1 — Network & Port Scanning Adapter Boundary Design
+
+- [x] تثبيت Module 2.0 checkpoint bb43eb53 كـbaseline معتمد عند 370 اختبارًا وCI أخضر
+- [x] حصر النطاق في network/port scanning adapter واحد فقط
+- [x] تصميم AdapterManifest وexecutable identity وcontract version
+- [x] تصميم strict flag allowlist وmachine-readable output mode
+- [x] تصميم target grammar لـIP/CIDR/hostname ورفض wildcard/range غير صالح
+- [x] تصميم ScopeId/TargetId/ExecutionAuthorization alignment قبل spawn
+- [x] تصميم offline XML/JSON parser contract دون live scan
+- [x] تصميم deterministic XML/JSON fixtures للحالات الطبيعية والسلبية
+- [x] تصميم redaction وbounded parsing ورفض malformed/oversized/truncated output
+- [x] تصميم ReconObservation وEvidence provenance mapping عبر العقود الحالية
+- [x] تحديد fail-closed limits وno-retry/no-background-daemon policy
+- [x] إعداد threat model وsecurity invariants وtest matrix
+- [x] كتابة module-2-1-network-port-scan-adapter-design.md
+- [x] عرض الوثيقة للاعتماد قبل أي implementation أو migration أو live network scan
+
+## Module 2.1 — Network & Port Scanning Adapter Offline Implementation
+
+- [x] حماية baseline Modules 0–2.0 وعدم إعادة فتحها
+- [x] تنفيذ 2.1.a: NetworkPortScanAdapterManifest وNetworkScanInvocation
+- [x] تنفيذ output/contract versions وmachine-readable format contracts
+- [x] تنفيذ 2.1.b: target grammar وScope/Target/Task/Authorization alignment
+- [x] تنفيذ strict typed port/scan/timing/output flag policy
+- [x] رفض wildcard/target lists/invalid CIDR وCIDR over-budget
+- [x] تنفيذ 2.1.c: pure XML parser مع entity/include denial
+- [x] تنفيذ pure JSON parser مع closed schema/version validation
+- [x] إضافة deterministic positive/negative/malformed/truncated fixtures
+- [x] تنفيذ redaction وbounded bytes/depth/counts/field sizes
+- [x] تنفيذ 2.1.d: normalized observation candidates وEvidence provenance bridge
+- [x] إثبات atomic ingestion وno raw payload persistence وsynthetic/offline markers
+- [x] تنفيذ 2.1.e: neutral in-process adapter harness دون live scanner/subprocess/network
+- [x] إضافة tests للـmanifest/flags/targets/parsers/redaction/provenance/atomicity
+- [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
+- [x] مراجعة zero migrations وschema 0006 وعدم تعديل Modules 0–2.0
+- [ ] رفع commit والتحقق من GitHub Actions
+- [ ] حفظ checkpoint والتوقف قبل Slice 2.1.f/live tool integration
+
 ## Module 2.0 — Live Subprocess & Execution Adapter Implementation
 
 - [x] حماية Phase 1 وعدم تعديل Modules 0–1.7 إلا عند regression موثق
