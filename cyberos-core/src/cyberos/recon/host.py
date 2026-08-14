@@ -84,12 +84,56 @@ class PluginHost:
         input: ReconInput,
         now: datetime | None = None,
     ) -> ReconResult:
+        return self._invoke(
+            plugin_id,
+            task=task,
+            authorization=authorization,
+            input=input,
+            now=now,
+            allow_running=False,
+        )
+
+    def invoke_running(
+        self,
+        plugin_id: str,
+        *,
+        task: Task,
+        authorization: ExecutionAuthorization,
+        input: ReconInput,
+        now: datetime | None = None,
+    ) -> ReconResult:
+        """Internal orchestration route for an already-running Task.
+
+        This is additive: the public legacy `invoke` route remains pending-only.
+        All other host validation, capability, identity, expiry, and limit checks
+        are shared with the legacy route.
+        """
+
+        return self._invoke(
+            plugin_id,
+            task=task,
+            authorization=authorization,
+            input=input,
+            now=now,
+            allow_running=True,
+        )
+
+    def _invoke(
+        self,
+        plugin_id: str,
+        *,
+        task: Task,
+        authorization: ExecutionAuthorization,
+        input: ReconInput,
+        now: datetime | None,
+        allow_running: bool,
+    ) -> ReconResult:
         plugin = self._plugins.get(plugin_id)
         if plugin is None:
             raise CyberOSError(ErrorCode.PLUGIN_NOT_READY, "Plugin is not registered.")
         manifest = plugin.manifest
         timestamp = ensure_utc(now) if now is not None else utc_now()
-        self._validate_binding(manifest, task, authorization, input, timestamp)
+        self._validate_binding(manifest, task, authorization, input, timestamp, allow_running)
         limits = self._effective_limits(task, manifest, input)
         invocation = create_host_invocation(
             plugin_id=manifest.plugin_id,
@@ -119,12 +163,15 @@ class PluginHost:
         authorization: ExecutionAuthorization,
         input: ReconInput,
         now: datetime,
+        allow_running: bool = False,
     ) -> None:
         if input.candidate.kind not in manifest.supported_target_kinds:
             raise CyberOSError(
                 ErrorCode.PLUGIN_INPUT_INVALID, "Plugin does not support this TargetKind."
             )
-        if task.status is not TaskStatus.PENDING:
+        if task.status is not TaskStatus.PENDING and not (
+            allow_running and task.status is TaskStatus.RUNNING
+        ):
             raise CyberOSError(
                 ErrorCode.PLUGIN_AUTHORIZATION_INVALID, "Plugin invocation requires a pending Task."
             )

@@ -555,3 +555,31 @@
 - [x] تشغيل full regression وpytest وRuff وformat وmypy strict وwheel build
 - [ ] حفظ checkpoint فقط بعد نجاح جميع البوابات
 - [ ] تسليم تقرير Module 1.1 والتوقف قبل Module 1.2
+
+## Module 1.2 — Recon Execution Orchestration Architecture Design Review
+
+- [x] تثبيت حدود orchestration فوق PluginHost وReconIngestionService وTask
+- [x] تصميم pipeline flow وplugin chaining وتمرير assets بأمان
+- [x] تصميم orchestrator interfaces وحدود الخدمات
+- [x] تصميم Task lifecycle matrix وIngesting state semantics
+- [x] تصميم UnitOfWork وatomic ingestion per plugin output
+- [x] تصميم partial failure وcancellation وrecovery rules
+- [x] تصميم authorization/resource/timeout/max-assets/max-payload enforcement
+- [x] إعداد security verification strategy وboundary tests
+- [x] توثيق القرارات المفتوحة وطلب اعتماد التصميم قبل أي كود
+
+## Module 1.2 — Implementation
+
+- [x] حسم تعارض Task PENDING/RUNNING واعتماد `invoke_running` additive host extension
+- [x] اعتماد ReconTaskResultAdapter كجسر محايد وصادق إلى ExecutionResult دون migration
+- [x] تنفيذ ReconTaskResultAdapter مع Pipeline Summary JSON وredacted stderr وexit-code semantics
+- [x] تنفيذ PipelineDefinition وPipelineStepDefinition وPipelineContext وExecutionReport
+- [x] تنفيذ PipelineBudget وCancellationSignal وephemeral PipelinePhase
+- [x] تنفيذ PipelineInputResolver بحدود Scope/Target وasset-kind
+- [x] تنفيذ ReconPipelineOrchestrator فوق PluginHost وReconIngestionService
+- [x] تنفيذ per-step atomic ingestion وpartial failure isolation
+- [x] تنفيذ cancel-before-ingest وcumulative budget enforcement
+- [x] إضافة chaining/scope isolation/limits/atomicity/cancellation/audit redaction tests
+- [x] تشغيل full regression وpytest وRuff وformat وmypy strict وwheel build
+- [x] حماية Modules 0 و1.0 و1.1 وعدم إضافة migration أو network/subprocess
+- [x] حفظ checkpoint فقط بعد نجاح جميع البوابات والتوقف قبل Module 1.3
