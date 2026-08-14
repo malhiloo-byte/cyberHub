@@ -604,3 +604,27 @@
 - [x] مراجعة عدم تعديل Modules 0 و1.0 و1.1 و1.2 وعدم إضافة network/subprocess
 - [x] رفع commit والتحقق من GitHub Actions
 - [x] حفظ checkpoint وتسليم تقرير Module 1.3 والتوقف قبل Module 1.4
+
+## Module 1.4 — Evidence Query & Offline Web-Pentest Workflow Design
+
+- [x] تثبيت نطاق read-only Evidence Query APIs وحدودها مع Module 1.3
+- [x] تصميم filters وpagination وsorting وmetadata projection بشكل bounded
+- [x] تصميم Offline Web-Pentest Workflow باستخدام persisted/mock inputs فقط
+- [x] توثيق authorization وredaction وno-network/no-subprocess boundaries
+- [x] تحديد data flow وinterfaces وerror semantics وtest strategy
+- [ ] مراجعة القرارات المعمارية وعرض الوثيقة للاعتماد
+- [ ] عدم كتابة implementation أو migration قبل approval صريح
+
+## Module 1.4 — Evidence Query & Offline Workflow Implementation
+
+- [x] تنفيذ EvidenceQuery DTOs وEvidenceSort وEvidenceCursor وmetadata modes
+- [x] تنفيذ EvidenceQueryPort وSQLite read adapter دون تسريب SQL أو rows
+- [x] تنفيذ EvidenceQueryService مع context-root وtyped redacted errors
+- [x] تنفيذ keyset pagination وquery-bound opaque cursors
+- [x] تنفيذ allowlisted stable sorting والـprojection safety
+- [x] تنفيذ OfflineWebPentestScenario وfixture workflow harness
+- [x] إضافة query وpagination وprojection وoffline happy/negative/security tests
+- [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
+- [x] مراجعة عدم تعديل Modules 0–1.3 وعدم إضافة migration/network/subprocess
+- [ ] رفع commit والتحقق من GitHub Actions
+- [ ] حفظ checkpoint وتسليم تقرير Module 1.4 والتوقف قبل Module 1.5
