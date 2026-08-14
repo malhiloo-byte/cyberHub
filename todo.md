@@ -627,4 +627,4 @@
 - [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
 - [x] مراجعة عدم تعديل Modules 0–1.3 وعدم إضافة migration/network/subprocess
 - [x] رفع commit والتحقق من GitHub Actions
-- [ ] حفظ checkpoint وتسليم تقرير Module 1.4 والتوقف قبل Module 1.5
+- [x] حفظ checkpoint وتسليم تقرير Module 1.4 والتوقف قبل Module 1.5
