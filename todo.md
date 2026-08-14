@@ -512,3 +512,20 @@
 - [x] تشغيل full regression وpytest وRuff وformat وmypy strict وwheel build
 - [x] توثيق unresolved architectural decisions قبل الإغلاق
 - [x] طلب الموافقة على التصميم قبل تنفيذ العقود والـfixture
+
+## Master Project Specification Compliance Audit
+
+- [x] استخراج المتطلبات والادعاءات القابلة للتحقق من الملف المرفق
+- [x] مقارنة الحالة الفعلية مع checkpoints والملفات والاختبارات
+- [x] التحقق التشغيلي من quality gates والحدود الأمنية الحالية
+- [x] توثيق المطابق والمنجز والفجوات والأولويات دون تعديل المشروع
+
+## Module 1.0 — Synchronization & Cleanup Pass
+
+- [x] إضافة اختبارات unknown manifest fields وunsupported major contract
+- [x] توسيع edge-case coverage للـplugin boundary
+- [x] توثيق `cyberos/core/plugins.py` كـLegacy Compatibility Layer
+- [x] تحديث README إلى إغلاق Module 1.0 وعدد 293+ اختبارًا
+- [x] تشغيل pytest وRuff وformat وmypy strict وwheel build
+- [ ] إنشاء commit نظيف ورفع `main` إلى `github/main`
+- [ ] التحقق من GitHub Actions ورفع checkpoint بعد النجاح

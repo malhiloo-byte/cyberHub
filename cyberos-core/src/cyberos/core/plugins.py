@@ -1,3 +1,11 @@
+"""Legacy plugin compatibility contracts.
+
+This module is retained for backward compatibility with the Module 0 core
+contract surface. New Recon plugins must use :mod:`cyberos.recon` instead;
+`cyberos.core.plugins.PluginManifest` is not the Module 1.0 manifest and must
+not be used as an authorization, execution, or capability-policy boundary.
+"""
+
 from __future__ import annotations
 
 from typing import Any, Protocol

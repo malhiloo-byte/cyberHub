@@ -9,7 +9,7 @@
 <p>
   <a href="https://github.com/malhiloo-byte/cyberHub/actions/workflows/ci.yml"><img src="https://github.com/malhiloo-byte/cyberHub/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status" /></a>
   <a href="cyberos-core/pyproject.toml"><img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white" alt="Python 3.11+" /></a>
-  <a href="cyberos-core/tests/"><img src="https://img.shields.io/badge/tests-278%20passing-238636?logo=pytest&logoColor=white" alt="278 tests passing" /></a>
+  <a href="cyberos-core/tests/"><img src="https://img.shields.io/badge/tests-293%20passing-238636?logo=pytest&logoColor=white" alt="293 tests passing" /></a>
   <a href="https://docs.astral.sh/ruff/"><img src="https://img.shields.io/badge/style-Ruff-D7FF64?logo=ruff&logoColor=111111" alt="Ruff" /></a>
   <a href="https://mypy.readthedocs.io/"><img src="https://img.shields.io/badge/types-mypy%20strict-1674B1" alt="mypy strict" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea44f.svg" alt="MIT license" /></a>
@@ -25,7 +25,7 @@
 
 </div>
 
-> **Current release posture** — Module 0 is closed after a clean zero-state end-to-end audit: **278 tests passing**, migrations 0001–0004 verified, and the execution boundary is fail-closed by default. Module 1 begins with design review, not premature implementation.
+> **Current release posture** — Module 0 remains closed after a clean zero-state end-to-end audit: **278 Module 0 tests**. Module 1.0 is now closed with **293 full-suite tests**, a deny-by-default Plugin Host, target-bound invocation, deterministic results, and an offline fixture only. No real reconnaissance integration has started.
 
 ---
 
@@ -54,8 +54,9 @@ The platform follows one deliberate rule: **build the missing personal operating
 | Target-bound, time-aware execution authorization | **Complete and tested** |
 | Safe argv-only subprocess execution with bounded output | **Complete and tested** |
 | Task persistence, optimistic concurrency, and CLI | **Complete and tested** |
-| Zero-state full-system integration audit | **Passed — 278 tests** |
-| Reconnaissance tooling | **Next — design first** |
+| Zero-state full-system integration audit | **Passed — 278 Module 0 tests** |
+| Recon Plugin Architecture & Contracts (Module 1.0) | **Complete — 293 full-suite tests** |
+| Real reconnaissance tooling | **Not started — design first** |
 
 ## Operating model
 
@@ -101,7 +102,7 @@ The roadmap is aligned to a long-term security engineering path rather than a li
 | Stage | Focus | Status |
 |---:|---|---|
 | 0 | Core domain, scope safety, task execution, persistence, and audit | **Closed** |
-| 1 | Recon Orchestrator | **Next — architecture review** |
+| 1 | Recon Plugin Foundation and Orchestrator | **1.0 closed — 1.1 design next** |
 | 2 | Web Pentest Workflow and Evidence Capture | Planned |
 | 3 | Network and Active Directory Security | Planned |
 | 4 | Cloud Security Operations | Planned |
@@ -221,13 +222,14 @@ The canonical command is `./scripts/check.sh`. Continuous integration runs on ev
 |---|---|
 | [`cyberos-core/README.md`](cyberos-core/README.md) | Core package installation, contracts, and development workflow |
 | [`cyberos-core/docs/development/module-0-final-audit.md`](cyberos-core/docs/development/module-0-final-audit.md) | Final Module 0 zero-state audit and limitations |
+| [`cyberos-core/docs/architecture/module-1-0-recon-plugin-contracts-design.md`](cyberos-core/docs/architecture/module-1-0-recon-plugin-contracts-design.md) | Approved and implemented Module 1.0 plugin contracts and boundary decisions |
 | [`docs/reports/cyberos-complete-project-report-ar.md`](docs/reports/cyberos-complete-project-report-ar.md) | Project chronology and engineering record |
 | [`ideas.md`](ideas.md) | Command Center visual direction and design decisions |
 | [`SECURITY.md`](SECURITY.md) | Security reporting and responsible-use boundaries |
 
 ## Status and next decision
 
-The foundation is intentionally stable before Module 1 begins. The next architectural decision is the **Recon Orchestrator contract**: plugin boundaries, capability declarations, evidence ownership, dry-run behavior, authorization hand-off, and deterministic result envelopes. No reconnaissance engine is added until that design is reviewed and approved.
+The foundation and Module 1.0 plugin boundary are intentionally stable before real reconnaissance begins. The next architectural decision is **Module 1.1**: the smallest safe orchestration foundation, including future trust and transport boundaries, evidence ownership, dry-run behavior, authorization hand-off, and deterministic result envelopes. No reconnaissance engine is added until that design is reviewed and approved.
 
 <div align="center">
 

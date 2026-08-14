@@ -113,6 +113,29 @@ class OversizedPlugin(StaticPlugin):
         )
 
 
+class MismatchedResultPlugin(StaticPlugin):
+    def execute(self, invocation: PluginInvocation) -> ReconResult:
+        return ReconResult.success(
+            task_id=invocation.task.id,
+            scope_id=invocation.input.scope_id,
+            target_id=new_target_id(),
+            plugin_id=self.manifest.plugin_id,
+            plugin_version=self.manifest.plugin_version,
+            contract_version=self.manifest.contract_version,
+            observations=(ReconObservation("test.mismatch", "wrong-target"),),
+        )
+
+
+class LimitProbePlugin(StaticPlugin):
+    def __init__(self, plugin_manifest: PluginManifest) -> None:
+        super().__init__(plugin_manifest)
+        self.last_invocation: PluginInvocation | None = None
+
+    def execute(self, invocation: PluginInvocation) -> ReconResult:
+        self.last_invocation = invocation
+        return super().execute(invocation)
+
+
 def test_manifest_is_immutable_canonical_and_rejects_invalid_identity() -> None:
     value = manifest(capabilities=(PluginCapability.OFFLINE_DETERMINISTIC,))
     assert value.capabilities == (PluginCapability.OFFLINE_DETERMINISTIC,)
@@ -148,6 +171,20 @@ def test_manifest_rejects_invalid_declarations(kwargs: dict[str, object], code: 
     assert captured.value.code is code
 
 
+def test_unknown_manifest_fields_are_rejected() -> None:
+    with pytest.raises(TypeError):
+        PluginManifest(
+            plugin_id="test.plugin",
+            display_name="Test Plugin",
+            description="Contract test plugin",
+            plugin_version="1.0.0",
+            contract_version="1.0",
+            capabilities=(PluginCapability.OFFLINE_DETERMINISTIC,),
+            supported_target_kinds=(TargetKind.FQDN,),
+            unknown_field="rejected",  # type: ignore[call-arg]
+        )
+
+
 def test_host_is_deny_by_default_and_validates_contract_version() -> None:
     host = PluginHost()
     with pytest.raises(CyberOSError) as denied:
@@ -158,6 +195,26 @@ def test_host_is_deny_by_default_and_validates_contract_version() -> None:
             StaticPlugin(manifest(contract_version="1.1"))
         )
     assert incompatible.value.code is ErrorCode.PLUGIN_CONTRACT_UNSUPPORTED
+
+
+def test_host_rejects_unsupported_major_contract_version() -> None:
+    with pytest.raises(CyberOSError) as captured:
+        PluginHost(host_contract_version="1.0").register(
+            StaticPlugin(manifest(contract_version="2.0"))
+        )
+    assert captured.value.code is ErrorCode.PLUGIN_CONTRACT_UNSUPPORTED
+
+
+def test_registry_rejects_duplicate_identity_and_unknown_plugin() -> None:
+    host = PluginHost()
+    plugin = OfflineFixturePlugin()
+    host.register(plugin)
+    with pytest.raises(CyberOSError) as duplicate:
+        host.register(plugin)
+    assert duplicate.value.code is ErrorCode.PLUGIN_DUPLICATE_ID
+    with pytest.raises(CyberOSError) as missing:
+        host.get_manifest("missing.plugin")
+    assert missing.value.code is ErrorCode.PLUGIN_NOT_READY
 
 
 def test_fixture_success_is_structured_and_deterministic() -> None:
@@ -292,6 +349,59 @@ def test_unsupported_target_kind_and_oversized_result_are_rejected() -> None:
             now=NOW,
         )
     assert result_error.value.code is ErrorCode.PLUGIN_LIMIT_EXCEEDED
+
+
+def test_result_identity_mismatch_is_rejected_without_silent_repair() -> None:
+    task, authorization, candidate = build_execution_context()
+    from cyberos.recon.contracts import ReconInput
+
+    host = PluginHost()
+    plugin = MismatchedResultPlugin(manifest(plugin_id="test.mismatch"))
+    host.register(plugin)
+    with pytest.raises(CyberOSError) as captured:
+        host.invoke(
+            "test.mismatch",
+            task=task,
+            authorization=authorization,
+            input=ReconInput(scope_id=task.scope_id, target_id=task.target_id, candidate=candidate),
+            now=NOW,
+        )
+    assert captured.value.code is ErrorCode.PLUGIN_RESULT_INVALID
+
+
+def test_effective_limits_cannot_exceed_task_limits() -> None:
+    task, authorization, candidate = build_execution_context()
+    from cyberos.recon.contracts import ReconInput
+
+    plugin = LimitProbePlugin(
+        manifest(
+            plugin_id="test.limits",
+            limits=PluginDeclaredLimits(
+                timeout_seconds=3_600,
+                max_output_bytes=16_777_216,
+                max_input_bytes=4_096,
+                max_observations=8,
+            ),
+        )
+    )
+    host = PluginHost()
+    host.register(plugin)
+    host.invoke(
+        "test.limits",
+        task=task,
+        authorization=authorization,
+        input=ReconInput(scope_id=task.scope_id, target_id=task.target_id, candidate=candidate),
+        now=NOW,
+    )
+    assert plugin.last_invocation is not None
+    assert (
+        plugin.last_invocation.effective_limits.timeout_seconds
+        <= task.execution_spec.timeout_seconds
+    )
+    assert (
+        plugin.last_invocation.effective_limits.max_output_bytes
+        <= task.execution_spec.max_output_bytes
+    )
 
 
 def test_recon_package_has_no_forbidden_side_effect_imports_or_calls() -> None:
