@@ -680,3 +680,32 @@
 - [x] مراجعة عدم تعديل Modules 0–1.5 وعدم إضافة migration/filesystem/network/subprocess
 - [x] رفع commit والتحقق من GitHub Actions
 - [x] حفظ checkpoint وتسليم تقرير Module 1.6 والتوقف قبل Module 1.7
+
+## Module 1.7 — Recon Export Presentation & Schema Drift Fixtures Design
+
+- [x] تثبيت نطاق presentation DTOs/view adapters read-only وعلاقتها بـModule 1.6
+- [x] تصميم structured summary presentation contracts in-memory وscope-rooted
+- [x] توثيق منع HTML/DOM/renderers/filesystem/unredacted payloads
+- [x] تصميم schema drift fixtures لإزالة الحقول وتغير envelopes والعقود
+- [x] تصميم synthetic API version mismatch وdeprecated field scenarios
+- [x] توثيق typed redacted receipts وno-Evidence/no-repository-pollution policy
+- [x] تحديد context isolation وno-retry وbudget boundaries واستراتيجية الاختبار
+- [x] مراجعة القرارات وعرض الوثيقة للاعتماد
+- [x] عدم كتابة implementation أو migration أو filesystem exporter قبل approval صريح
+
+## Module 1.7 — Export Presentation & Schema Drift Fixtures Implementation
+
+- [x] تنفيذ ReconPresentationView وPresentationSectionView وPresentationMetricView
+- [x] تنفيذ ReconExportPresentationService فوق Module 1.6 export models فقط
+- [x] تنفيذ context/fingerprint/completeness propagation وimmutable view boundaries
+- [x] تنفيذ section/metric/label/scalar byte budgets fail-closed
+- [x] تنفيذ SchemaDriftCaseKind وMultiWebApiSchemaDriftScenario
+- [x] تنفيذ SchemaDriftReceipt ephemeral typed redacted contract
+- [x] إثبات deprecated field وcontract shift وversion mismatch وenvelope drift
+- [x] إثبات no-ingestion/no-Evidence/no-repository-pollution وprior-state preservation
+- [x] إثبات no-retry/no-negotiation/no-auth-renewal policy
+- [x] إضافة presentation/drift/privacy/context/boundary tests
+- [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
+- [x] مراجعة عدم تعديل Modules 0–1.6 وعدم إضافة migration/rendering/filesystem/network/subprocess
+- [ ] رفع commit والتحقق من GitHub Actions
+- [ ] حفظ checkpoint وإغلاق Phase 1 والتوقف قبل Phase 2

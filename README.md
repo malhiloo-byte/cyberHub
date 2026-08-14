@@ -9,7 +9,7 @@
 <p>
   <a href="https://github.com/malhiloo-byte/cyberHub/actions/workflows/ci.yml"><img src="https://github.com/malhiloo-byte/cyberHub/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status" /></a>
   <a href="cyberos-core/pyproject.toml"><img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white" alt="Python 3.11+" /></a>
-  <a href="cyberos-core/tests/"><img src="https://img.shields.io/badge/tests-350%20passing-238636?logo=pytest&logoColor=white" alt="350 tests passing" /></a>
+  <a href="cyberos-core/tests/"><img src="https://img.shields.io/badge/tests-360%20passing-238636?logo=pytest&logoColor=white" alt="360 tests passing" /></a>
   <a href="https://docs.astral.sh/ruff/"><img src="https://img.shields.io/badge/style-Ruff-D7FF64?logo=ruff&logoColor=111111" alt="Ruff" /></a>
   <a href="https://mypy.readthedocs.io/"><img src="https://img.shields.io/badge/types-mypy%20strict-1674B1" alt="mypy strict" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea44f.svg" alt="MIT license" /></a>
@@ -25,7 +25,7 @@
 
 </div>
 
-> **Current release posture** — Module 0 remains closed after a clean zero-state end-to-end audit: **278 Module 0 tests**. Modules 1.0 through 1.6 are now closed with **350 full-suite tests**. The Recon foundation now includes deny-by-default plugin execution, persistent asset correlation, target-bound orchestration, an evidence/provenance ledger, bounded read APIs, reporting projections, canonical in-memory exports, and deterministic negative Web API fixtures. No real network reconnaissance integration has started.
+> **Current release posture** — Module 0 remains closed after a clean zero-state end-to-end audit: **278 Module 0 tests**. Phase 1 (Offline Foundation), including Modules 1.0 through 1.7, is now closed with **360 full-suite tests**. The Recon foundation now includes deny-by-default plugin execution, persistent asset correlation, target-bound orchestration, an evidence/provenance ledger, bounded read APIs, reporting projections, canonical in-memory exports, renderer-neutral presentation adapters, and deterministic negative/schema-drift Web API fixtures. No real network reconnaissance integration has started.
 
 ---
 
@@ -62,6 +62,7 @@ The platform follows one deliberate rule: **build the missing personal operating
 | Evidence Query & Offline Web-Pentest Workflow (Module 1.4) | **Complete — 335 full-suite tests** |
 | Recon Reporting & Multi-Web API Offline Fixtures (Module 1.5) | **Complete — 341 full-suite tests** |
 | Recon Reporting Export & Negative Offline Fixtures (Module 1.6) | **Complete — 350 full-suite tests** |
+| Recon Export Presentation & Schema Drift Fixtures (Module 1.7) | **Complete — 360 full-suite tests; Phase 1 closed** |
 | Real reconnaissance tooling | **Not started — design first** |
 
 ## Operating model
@@ -108,7 +109,7 @@ The roadmap is aligned to a long-term security engineering path rather than a li
 | Stage | Focus | Status |
 |---:|---|---|
 | 0 | Core domain, scope safety, task execution, persistence, and audit | **Closed** |
-| 1 | Recon Plugin Foundation, Orchestrator, Evidence Ledger, Reporting, and Offline Web API Fixtures | **1.5 closed** |
+| 1 | Recon Plugin Foundation, Orchestrator, Evidence Ledger, Reporting, Presentation, and Offline Web API Fixtures | **Closed — 1.7; Phase 1 complete** |
 | 2 | Web Pentest Workflow and Evidence Capture | Planned |
 | 3 | Network and Active Directory Security | Planned |
 | 4 | Cloud Security Operations | Planned |
@@ -195,7 +196,7 @@ cyberHub/
 │   ├── src/cyberos/persistence/  SQLite mappers, repositories, UnitOfWork
 │   ├── src/cyberos/execution/    Safe subprocess execution boundary
 │   ├── src/cyberos/cli/          Structured Typer/Click interface
-│   ├── migrations/               Forward-only schema migrations 0001–0005
+│   ├── migrations/               Forward-only schema migrations 0001–0006
 │   ├── tests/                    Unit, integration, CLI, and E2E tests
 │   └── docs/                     Architecture, reviews, and module records
 ├── client/                       React Command Center presentation layer
@@ -230,13 +231,14 @@ The canonical command is `./scripts/check.sh`. Continuous integration runs on ev
 | [`cyberos-core/docs/development/module-0-final-audit.md`](cyberos-core/docs/development/module-0-final-audit.md) | Final Module 0 zero-state audit and limitations |
 | [`cyberos-core/docs/architecture/module-1-0-recon-plugin-contracts-design.md`](cyberos-core/docs/architecture/module-1-0-recon-plugin-contracts-design.md) | Approved and implemented Module 1.0 plugin contracts and boundary decisions |
 | [`cyberos-core/docs/architecture/module-1-2-recon-orchestration-design.md`](cyberos-core/docs/architecture/module-1-2-recon-orchestration-design.md) | Implemented Module 1.2 pipeline orchestration, chaining, budgets, cancellation, and result adapter |
+| [`cyberos-core/docs/architecture/module-1-7-recon-export-presentation-and-schema-drift-fixtures-design.md`](cyberos-core/docs/architecture/module-1-7-recon-export-presentation-and-schema-drift-fixtures-design.md) | Module 1.7 presentation adapters, bounded views, and offline schema/version drift fixtures |
 | [`docs/reports/cyberos-complete-project-report-ar.md`](docs/reports/cyberos-complete-project-report-ar.md) | Project chronology and engineering record |
 | [`ideas.md`](ideas.md) | Command Center visual direction and design decisions |
 | [`SECURITY.md`](SECURITY.md) | Security reporting and responsible-use boundaries |
 
 ## Status and next decision
 
-The foundation, plugin boundary, asset persistence layer, and orchestration boundary are intentionally stable before real reconnaissance begins. The next architectural decision is **Module 1.3**, to be proposed separately and approved explicitly. No real reconnaissance engine, network adapter, external API, AI/LLM integration, or new module is added by this checkpoint.
+The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, and presentation compatibility boundary are intentionally stable before real reconnaissance begins. **Phase 1 is officially closed at Module 1.7.** Work stops here until the next phase is explicitly authorized. No real reconnaissance engine, network adapter, external API, AI/LLM integration, or Phase 2 module is added by this checkpoint.
 
 <div align="center">
 
