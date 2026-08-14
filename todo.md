@@ -918,5 +918,5 @@
 - [x] تحويل Task من RUNNING إلى FAILED مع typed redacted result وoptimistic version guard
 - [x] إضافة integration tests تثبت failure finalization وعدم إنشاء Evidence عند الفشل
 - [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan دون live execution
-- [ ] تحديث README/architecture/P3 report ورفع commit إلى GitHub والتحقق من CI
+- [x] تحديث README/architecture/P3 report ورفع commit إلى GitHub والتحقق من CI
 - [x] عدم طلب أو تنفيذ P3 جديد قبل اعتماد نتيجة remediation صراحة
