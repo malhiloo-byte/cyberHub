@@ -1012,17 +1012,7 @@
 - [x] الاحتفاظ بـname/product/version فقط وإهمال metadata غير الضرورية
 - [x] إضافة fixtures إيجابية وسلبية لـservice metadata وDTD/XXE regression
 - [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan
-- [ ] تحديث docs ثم commit/push والتحقق من CI
-
-## P3 Preflight Hardening — Strict Service Metadata (Offline)
-
-- [ ] تثبيت عدم تنفيذ live scan أو retry أثناء patch الحالي
-- [ ] قبول service attributes القياسية مع name/conf/method الإلزامية وallowlist مغلقة
-- [ ] التحقق من conf وmethod والحقول الرقمية/المحدودة قبل normalization
-- [ ] الاحتفاظ بـname/product/version فقط وإهمال metadata غير الضرورية
-- [ ] إضافة fixtures إيجابية وسلبية لـservice metadata وDTD/XXE regression
-- [ ] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan
-- [ ] تحديث docs ثم commit/push والتحقق من CI
+- [x] تحديث docs ثم commit/push والتحقق من CI
 
 ## P3 Preflight Hardening — State Metadata & Module 2.2 Review (Offline)
 
