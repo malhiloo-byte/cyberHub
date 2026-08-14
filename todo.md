@@ -964,6 +964,13 @@
 - [x] توثيق localhost-only P3 boundary والحالة الحالية غير الجاهزة لإعادة P3
 - [x] تسليم الدليل مع troubleshooting وقرارات التشغيل التالية
 
+## Ubuntu WSL — Copy/Paste Localhost Command Sequence
+
+- [x] تقديم أوامر clone/sync وvenv/config وquality verification بالترتيب
+- [x] تقديم أوامر إنشاء Workspace/Engagement/Scope/Target محليين بصيغة JSON قابلة للنسخ
+- [x] تقديم أمر localhost Nmap single-use المقيد بـ127.0.0.1 و22/80/443
+- [x] تقديم أوامر Task/SQLite verification بعد التنفيذ ومنع retry التلقائي
+
 ## P3 Preflight Hardening — State Metadata & Module 2.2 Review (Offline)
 
 - [x] تثبيت منع أي live scan أو retry أثناء patch الحالي
