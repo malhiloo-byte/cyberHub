@@ -33,7 +33,7 @@ NOW = datetime(2026, 8, 13, 12, 0, tzinfo=UTC)
 def test_full_system_integration_audit_and_fail_closed(tmp_path: Path) -> None:
     factory = SQLiteConnectionFactory(DatabaseSettings(path=tmp_path / "audit.sqlite3"))
     migration_result = MigrationRunner(factory, MIGRATIONS_DIR).run()
-    assert [item.version for item in migration_result.applied] == [1, 2, 3, 4]
+    assert [item.version for item in migration_result.applied] == [1, 2, 3, 4, 5]
 
     workspace = Workspace.create("Audit Workspace", now=NOW)
     engagement = Engagement.create(workspace.id, "Audit Engagement", "learning", now=NOW)

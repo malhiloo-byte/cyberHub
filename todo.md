@@ -529,3 +529,29 @@
 - [x] تشغيل pytest وRuff وformat وmypy strict وwheel build
 - [x] إنشاء commit نظيف ورفع `main` إلى `github/main`
 - [x] التحقق من GitHub Actions ورفع checkpoint بعد النجاح
+
+## Module 1.1 — Recon Data Models & Persistence Architecture Design Review
+
+- [x] تثبيت حدود Module 1.1 ومفردات Recon Assets فوق Module 1.0
+- [x] تصميم Domain aggregates وvalue objects وفصلها عن SQLite
+- [x] إعداد Draft DDL لـ0005_recon_assets.sql دون تنفيذ
+- [x] تحديد القيود والفهارس وFK/RESTRICT وسياسات integrity
+- [x] تصميم data flow وER diagram والعلاقات مع Task/Target/Scope
+- [x] تصميم deduplication وcorrelation وupsert strategy
+- [x] تصميم ReconRepositoryPort وSQLiteReconRepository وUnitOfWork boundaries
+- [x] تصميم structured/raw artifact retention strategy
+- [x] إعداد test strategy وsecurity boundary protections
+- [x] توثيق القرارات المفتوحة وطلب اعتماد التصميم قبل أي كود
+
+## Module 1.1 — Implementation
+
+- [x] تنفيذ migration 0005 عبر MigrationRunner دون تعديل 0001–0004
+- [x] تنفيذ Domain models وvalue objects وtyped errors
+- [x] تنفيذ mappers وReconRepositoryPort وSQLiteReconRepository
+- [x] تنفيذ ReconIngestionService مع authorization/target/scope guards
+- [x] إضافة migration/schema/FK/constraint/rollback tests
+- [x] إضافة correlation/idempotency/round-trip/concurrency tests
+- [x] إضافة security boundary وstatic forbidden-side-effect tests
+- [x] تشغيل full regression وpytest وRuff وformat وmypy strict وwheel build
+- [ ] حفظ checkpoint فقط بعد نجاح جميع البوابات
+- [ ] تسليم تقرير Module 1.1 والتوقف قبل Module 1.2
