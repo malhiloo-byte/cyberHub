@@ -985,7 +985,7 @@
 - [x] توليد suffix فريد للـWorkspace/Engagement/Scope في كل تشغيل
 - [x] حفظ الفشل في log وشرح أن Terminal لا ينطفئ بل تنتهي عملية السكربت
 - [x] فحص syntax ومسار preflight دون `CYBEROS_P3_AUTHORIZED=YES`
-- [ ] رفع الإصلاح وتحديث أمر التشغيل للمستخدم
+- [x] رفع الإصلاح وتحديث أمر التشغيل للمستخدم
 
 ## P3 Preflight Hardening — State Metadata & Module 2.2 Review (Offline)
 
