@@ -66,7 +66,8 @@ STANDARD_NMAP_XML = (
     b'<verbose level="0"/><debugging level="0"/>'
     b'<host><status state="up" reason="user-set" reason_ttl="0"/>'
     b'<address addr="127.0.0.1" addrtype="ipv4"/><hostnames/>'
-    b'<ports><port protocol="tcp" portid="80"><state state="open"/>'
+    b'<ports><port protocol="tcp" portid="80">'
+    b'<state state="open" reason="syn-ack" reason_ttl="0"/>'
     b'<service name="http" product="fixture" version="1.0"/></port></ports>'
     b'<times srtt="1000" rttvar="100" to="100000"/></host>'
     b'<runstats><finished time="0"/><hosts up="1" down="0" total="1"/></runstats>'
@@ -371,6 +372,30 @@ def test_nmap_xml_bridge_accepts_minimal_standard_nmap_794_structure() -> None:
         canonical_target="127.0.0.1",
     )
     assert result.observations[0].value == "http@127.0.0.1:80"
+    assert dict(result.observations[0].metadata)["state"] == "open"
+    assert "reason" not in dict(result.observations[0].metadata)
+    assert "reason_ttl" not in dict(result.observations[0].metadata)
+
+
+@pytest.mark.parametrize(
+    "invalid_state",
+    (
+        b'<state reason="syn-ack"/>',
+        b'<state state="open" unsupported="value"/>',
+    ),
+)
+def test_nmap_xml_bridge_rejects_missing_or_unallowlisted_state_metadata(
+    invalid_state: bytes,
+) -> None:
+    payload = NMAP_XML.replace(b'<state state="open"/>', invalid_state)
+    with pytest.raises(CyberOSError) as error:
+        NmapXmlParserBridge().parse(
+            payload,
+            scope_id=uuid4(),  # type: ignore[arg-type]
+            target_id=uuid4(),  # type: ignore[arg-type]
+            canonical_target="127.0.0.1",
+        )
+    assert error.value.code is ErrorCode.NMAP_XML_INVALID
 
 
 def test_nmap_xml_bridge_accepts_closed_port_summary_without_observations() -> None:

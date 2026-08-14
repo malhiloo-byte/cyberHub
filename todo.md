@@ -955,3 +955,21 @@
 - [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan
 - [x] تحديث التوثيق ثم commit/push والتحقق من CI
 - [x] التوقف وطلب/انتظار تفويض P3 بعد تقرير نجاح patch
+
+## Ubuntu WSL — Local Setup and Safe Operation Guide
+
+- [ ] التحقق من branch/commit الحالي والمتطلبات والأوامر الرسمية
+- [ ] توثيق clone/sync وPython venv وinstallation وconfiguration من الصفر
+- [ ] توثيق quality gates وdoctor وCLI lifecycle المحلي الآمن
+- [ ] توثيق localhost-only P3 boundary والحالة الحالية غير الجاهزة لإعادة P3
+- [ ] تسليم الدليل مع troubleshooting وقرارات التشغيل التالية
+
+## P3 Preflight Hardening — State Metadata & Module 2.2 Review (Offline)
+
+- [x] تثبيت منع أي live scan أو retry أثناء patch الحالي
+- [x] قبول attributes المحددة فقط لـ`state`: `state` و`reason` و`reason_ttl`
+- [x] رفض state بلا `state` أو state attributes غير المعتمدة
+- [x] إضافة fixtures واختبارات metadata وXXE/DTD regression
+- [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan
+- [x] مراجعة وتأكيد اتساق قرارات Module 2.2 Section 14
+- [ ] تحديث docs ثم commit/push والتحقق من CI

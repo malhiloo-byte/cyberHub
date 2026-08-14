@@ -236,3 +236,20 @@ Before any implementation, the following decisions must be approved:
 ## 15. Approval Gate and Stop Condition
 
 This document authorizes no code and no live scan. The next implementation may begin only after explicit approval of Section 14. Separately, no future P3 retry should occur until the standard Nmap `state` metadata parser compatibility issue is fixed offline, quality-gated, and explicitly authorized for a new single invocation.
+
+## 16. Review Record — Alignment with Section 14
+
+The P3 state-metadata compatibility patch is now complete offline and quality-gated. This removes the last **known parser compatibility blocker** identified by the two prior localhost receipts, but it does not retroactively create P3 authority or imply a successful live ingestion receipt. A separately authorized clean localhost P3 run remains the operational validation gate before any future live expansion discussion.
+
+The design remains aligned with the closed Modules 0–2.1 invariants. Section 14 deliberately preserves the following decisions as explicit approvals rather than assumptions:
+
+| Section 14 decision | Alignment review | Status |
+|---|---|---|
+| Option C: pre-existing explicit Target IDs only | Preserves authorized Scope immutability and target-bound provenance | Pending explicit approval |
+| Initial host/budget values | Must be quantified and fail closed; no default may silently broaden capacity | Pending explicit approval |
+| Sequential-only scheduler and stop/isolate policy | Consistent with deterministic receipts, existing cancellation policy, and no-retry rule | Pending explicit approval |
+| Ephemeral batch reports with zero migrations | Consistent with schema freeze at 0006 and local-first retention policy | Pending explicit approval |
+| Defer Scope revision/materialization and live multi-host adapter | Avoids conflict with existing authorized Scope immutability | Pending explicit approval |
+| Preserve localhost Nmap policy | Module 2.2 cannot widen ports, targets, flags, or adapter authority | Pending explicit approval |
+
+Therefore the project is ready for a **design approval decision** immediately after a clean P3 validation, but it is not yet authorized to implement Module 2.2 or execute any multi-host operation.

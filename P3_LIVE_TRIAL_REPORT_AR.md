@@ -155,3 +155,9 @@ cyberos recon nmap-localhost SCOPE_ID TARGET_ID \
 لم تنشأ Assets أو Asset Observations أو Evidence لأن الفشل وقع قبل ingestion. بقيت قاعدة SQLite سليمة: `quick_check=ok`، و`foreign_key_check` بلا مخالفات، والـschema عند 0006. كان stderr الخارجي فارغًا ولم يُحفظ XML الخام. لا توجد retry أو fallback أو محاولة إضافية.
 
 الخطوة الصحيحة التالية ليست إعادة P3 فورًا: يلزم patch offline إضافي ومحدد لعقدة Nmap القياسية `state` التي قد تحمل metadata مثل reason/TTL؛ يجب قبول allowlist محدودة لهذه الخصائص مع استخدام `state` فقط في normalization، ثم اختبارها offline وطلب تفويض جديد منفصل قبل أي invocation حي لاحق.
+
+## 12. Patch offline لعقدة state metadata
+
+اكتمل patch offline المحدد لعقدة Nmap `state`. يقبل parser الآن `state` بشرط وجود القيمة الإلزامية غير الفارغة `state`، ويسمح فقط بالخصائص الاختيارية القياسية `reason` و`reason_ttl`. أي خاصية إضافية أو غياب `state` يُرفض بالرمز typed `NMAP_XML_INVALID`.
+
+يحفظ normalization قيمة `state` فقط؛ ولا يحتفظ بـreason أو TTL ضمن Observations أو Evidence. أضيفت fixtures للقبول والرفض، ونجحت البوابات الرسمية عند **400 اختبارًا**. لم يُنفذ أي scan حي ضمن هذا patch، لذلك يتطلب أي P3 جديد تفويضًا صريحًا منفصلًا.
