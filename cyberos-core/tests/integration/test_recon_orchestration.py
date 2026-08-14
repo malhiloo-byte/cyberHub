@@ -142,7 +142,7 @@ def parents(factory: SQLiteConnectionFactory) -> tuple[Scope, Target, Task, Exec
         scope_id=scope.id,
         candidate=TargetCandidate("api.example.com", TargetKind.FQDN),
         authorized_at=NOW,
-        expires_at=NOW + timedelta(hours=1),
+        expires_at=NOW + timedelta(days=1),
         matched_target_id=target.id,
         matching_rule=TargetRule.INCLUDE,
         reason="orchestration_test",

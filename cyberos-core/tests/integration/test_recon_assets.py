@@ -163,7 +163,7 @@ def test_migration_0005_is_forward_only_and_idempotent(tmp_path: Path) -> None:
     second = MigrationRunner(factory, MIGRATIONS_DIR).run()
     source = (MIGRATIONS_DIR / "0005_recon_assets.sql").read_text(encoding="utf-8")
     assert second.applied == ()
-    assert second.current_version == 5
+    assert second.current_version == 6
     assert "IF NOT EXISTS" not in source.upper()
     assert "BEGIN" not in source.upper()
     assert "COMMIT" not in source.upper()
@@ -315,6 +315,7 @@ def test_recon_rejects_result_identity_mismatch_and_oversized_result(tmp_path: P
             authorization=authorization,
             result=result,
             effective_limits=ExecutionLimits(30, 4096, 1, 10),
+            observed_at=NOW,
         )
     assert captured_limit.value.code is ErrorCode.PLUGIN_LIMIT_EXCEEDED
 

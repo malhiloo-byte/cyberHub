@@ -583,3 +583,24 @@
 - [x] تشغيل full regression وpytest وRuff وformat وmypy strict وwheel build
 - [x] حماية Modules 0 و1.0 و1.1 وعدم إضافة migration أو network/subprocess
 - [x] حفظ checkpoint فقط بعد نجاح جميع البوابات والتوقف قبل Module 1.3
+
+## Module 1.3 — Next Slice Planning (Not Started)
+
+- [x] استخراج نطاق Module 1.3 من roadmap2(1).html وسجل المشروع الحالي
+- [x] تحديد purpose وnon-goals والاعتماديات والواجهات مع Module 1.2
+- [x] إعداد وثيقة التصميم المعماري والاختبارات الأمنية قبل أي تنفيذ
+- [x] الحصول على اعتماد صريح للتصميم والقرارات المعمارية
+
+## Module 1.3 — Recon Evidence & Provenance Ledger Implementation
+
+- [x] تنفيذ Migration 0006 عبر MigrationRunner مع checksum وforward-only checks
+- [x] تنفيذ EvidenceId وEvidenceKind وEvidenceStatus وEvidenceRecord
+- [x] تنفيذ EvidenceFactory مع authorization/provenance/metadata guards
+- [x] تنفيذ ReconEvidenceRepositoryPort وSQLite mapper/repository
+- [x] تنفيذ archive-only lifecycle وoptimistic concurrency
+- [x] ربط إنشاء Evidence بنتائج ReconIngestion الملتزمة داخل UnitOfWork قصير
+- [x] إضافة migration/domain/repository/provenance/idempotency/security tests
+- [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
+- [x] مراجعة عدم تعديل Modules 0 و1.0 و1.1 و1.2 وعدم إضافة network/subprocess
+- [ ] رفع commit والتحقق من GitHub Actions
+- [ ] حفظ checkpoint وتسليم تقرير Module 1.3 والتوقف قبل Module 1.4

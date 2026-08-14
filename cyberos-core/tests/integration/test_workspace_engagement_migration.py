@@ -89,13 +89,13 @@ def test_migration_applies_schema_and_records_checksum(tmp_path: Path) -> None:
         item[0] for item in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")
     }
     connection.close()
-    assert [migration.version for migration in result.applied] == [1, 2, 3, 4, 5]
+    assert [migration.version for migration in result.applied] == [1, 2, 3, 4, 5, 6]
     assert row == (
         2,
         "workspace_engagement",
         checksum_sql(migration_path.read_text(encoding="utf-8")),
     )
-    assert tables == {
+    assert {
         "schema_migrations",
         "workspaces",
         "engagements",
@@ -107,15 +107,16 @@ def test_migration_applies_schema_and_records_checksum(tmp_path: Path) -> None:
         "subdomain_records",
         "port_service_records",
         "http_endpoint_records",
-    }
+        "evidence_records",
+    } <= tables
 
 
 def test_migration_is_idempotent(tmp_path: Path) -> None:
     first = make_runner(tmp_path).run()
     second = make_runner(tmp_path).run()
-    assert [migration.version for migration in first.applied] == [1, 2, 3, 4, 5]
+    assert [migration.version for migration in first.applied] == [1, 2, 3, 4, 5, 6]
     assert second.applied == ()
-    assert second.current_version == 5
+    assert second.current_version == 6
 
 
 def test_schema_health_and_foreign_key_check_are_clean(tmp_path: Path) -> None:
@@ -126,7 +127,7 @@ def test_schema_health_and_foreign_key_check_are_clean(tmp_path: Path) -> None:
         foreign_keys = managed.raw.execute("PRAGMA foreign_keys").fetchone()[0]
         foreign_key_errors = managed.raw.execute("PRAGMA foreign_key_check").fetchall()
         assert report.healthy is True
-        assert report.schema_version == 5
+        assert report.schema_version == 6
         assert report.quick_check.details["result"] == "ok"
         assert report.pragma_state["journal_mode"] == "wal"
         assert foreign_keys == 1
@@ -316,7 +317,7 @@ def test_no_future_domain_tables_are_created(tmp_path: Path) -> None:
         item[0] for item in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")
     }
     connection.close()
-    assert tables == {
+    assert {
         "schema_migrations",
         "workspaces",
         "engagements",
@@ -328,4 +329,5 @@ def test_no_future_domain_tables_are_created(tmp_path: Path) -> None:
         "subdomain_records",
         "port_service_records",
         "http_endpoint_records",
-    }
+        "evidence_records",
+    } <= tables

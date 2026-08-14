@@ -91,11 +91,11 @@ def test_full_system_pipeline_zero_state_and_security_matrix(tmp_path: Path) -> 
     database = tmp_path / "cyberos.sqlite3"
     factory = SQLiteConnectionFactory(DatabaseSettings(path=database))
     applied = MigrationRunner(factory, MIGRATIONS_DIR).run()
-    assert [migration.version for migration in applied.applied] == [1, 2, 3, 4, 5]
+    assert [migration.version for migration in applied.applied] == [1, 2, 3, 4, 5, 6]
     with factory.connect() as managed:
         assert managed.raw.execute("PRAGMA quick_check").fetchone()[0] == "ok"
         assert managed.raw.execute("PRAGMA foreign_key_check").fetchall() == []
-        assert managed.health().schema_version == 5
+        assert managed.health().schema_version == 6
 
     workspace = invoke(tmp_path, ["workspace", "create", "Zero State Workspace", "--json"])
     assert workspace.exit_code == 0

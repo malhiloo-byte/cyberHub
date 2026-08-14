@@ -9,7 +9,7 @@
 <p>
   <a href="https://github.com/malhiloo-byte/cyberHub/actions/workflows/ci.yml"><img src="https://github.com/malhiloo-byte/cyberHub/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status" /></a>
   <a href="cyberos-core/pyproject.toml"><img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white" alt="Python 3.11+" /></a>
-  <a href="cyberos-core/tests/"><img src="https://img.shields.io/badge/tests-319%20passing-238636?logo=pytest&logoColor=white" alt="319 tests passing" /></a>
+  <a href="cyberos-core/tests/"><img src="https://img.shields.io/badge/tests-328%20passing-238636?logo=pytest&logoColor=white" alt="328 tests passing" /></a>
   <a href="https://docs.astral.sh/ruff/"><img src="https://img.shields.io/badge/style-Ruff-D7FF64?logo=ruff&logoColor=111111" alt="Ruff" /></a>
   <a href="https://mypy.readthedocs.io/"><img src="https://img.shields.io/badge/types-mypy%20strict-1674B1" alt="mypy strict" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea44f.svg" alt="MIT license" /></a>
@@ -25,7 +25,7 @@
 
 </div>
 
-> **Current release posture** — Module 0 remains closed after a clean zero-state end-to-end audit: **278 Module 0 tests**. Module 1.0, 1.1, and 1.2 are now closed with **319 full-suite tests**. The Recon foundation now includes deny-by-default plugin execution, persistent asset correlation, and a target-bound multi-step orchestration engine. No real network reconnaissance integration has started.
+> **Current release posture** — Module 0 remains closed after a clean zero-state end-to-end audit: **278 Module 0 tests**. Modules 1.0 through 1.3 are now closed with **328 full-suite tests**. The Recon foundation now includes deny-by-default plugin execution, persistent asset correlation, target-bound orchestration, and an evidence/provenance ledger. No real network reconnaissance integration has started.
 
 ---
 
@@ -48,7 +48,7 @@ The platform follows one deliberate rule: **build the missing personal operating
 | Capability | Delivery status |
 |---|---|
 | Core contracts, configuration, typed errors, and structured logging | **Complete** |
-| SQLite persistence, migrations, integrity checks, and UnitOfWork | **Complete through Migration 0004** |
+| SQLite persistence, migrations, integrity checks, and UnitOfWork | **Complete through Migration 0006** |
 | Workspace and Engagement lifecycle | **Complete and tested** |
 | Scope, Target, canonicalization, and include/exclude policy | **Complete and tested** |
 | Target-bound, time-aware execution authorization | **Complete and tested** |
@@ -58,6 +58,7 @@ The platform follows one deliberate rule: **build the missing personal operating
 | Recon Plugin Architecture & Contracts (Module 1.0) | **Complete — 293 full-suite tests** |
 | Recon Assets & Persistence (Module 1.1) | **Complete — 307-test milestone** |
 | Recon Execution Orchestration (Module 1.2) | **Complete — 319 full-suite tests** |
+| Recon Evidence & Provenance Ledger (Module 1.3) | **Complete — 328 full-suite tests** |
 | Real reconnaissance tooling | **Not started — design first** |
 
 ## Operating model
@@ -104,7 +105,7 @@ The roadmap is aligned to a long-term security engineering path rather than a li
 | Stage | Focus | Status |
 |---:|---|---|
 | 0 | Core domain, scope safety, task execution, persistence, and audit | **Closed** |
-| 1 | Recon Plugin Foundation and Orchestrator | **1.2 closed — 1.3 design next** |
+| 1 | Recon Plugin Foundation, Orchestrator, and Evidence Ledger | **1.3 closed** |
 | 2 | Web Pentest Workflow and Evidence Capture | Planned |
 | 3 | Network and Active Directory Security | Planned |
 | 4 | Cloud Security Operations | Planned |
