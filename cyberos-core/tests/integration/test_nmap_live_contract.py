@@ -55,7 +55,7 @@ NMAP_XML = (
     b'<nmaprun scanner="nmap" scanner-version="7.95">'
     b'<host><address addr="127.0.0.1" addrtype="ipv4"/><ports>'
     b'<port protocol="tcp" portid="80"><state state="open"/>'
-    b'<service name="http" product="fixture" version="1.0"/></port>'
+    b'<service name="http" conf="3" method="table" product="fixture" version="1.0"/></port>'
     b"</ports></host></nmaprun>"
 )
 STANDARD_NMAP_XML = (
@@ -68,7 +68,7 @@ STANDARD_NMAP_XML = (
     b'<address addr="127.0.0.1" addrtype="ipv4"/><hostnames/>'
     b'<ports><port protocol="tcp" portid="80">'
     b'<state state="open" reason="syn-ack" reason_ttl="0"/>'
-    b'<service name="http" product="fixture" version="1.0"/></port></ports>'
+    b'<service name="http" conf="3" method="table" product="fixture" version="1.0"/></port></ports>'
     b'<times srtt="1000" rttvar="100" to="100000"/></host>'
     b'<runstats><finished time="0"/><hosts up="1" down="0" total="1"/></runstats>'
     b"</nmaprun>"
@@ -375,6 +375,57 @@ def test_nmap_xml_bridge_accepts_minimal_standard_nmap_794_structure() -> None:
     assert dict(result.observations[0].metadata)["state"] == "open"
     assert "reason" not in dict(result.observations[0].metadata)
     assert "reason_ttl" not in dict(result.observations[0].metadata)
+
+
+def test_nmap_xml_bridge_accepts_and_discards_standard_service_metadata() -> None:
+    standard_service = (
+        b'<service name="http" conf="3" method="probed" product="fixture" version="1.0" '
+        b'extrainfo="fixture-extra" tunnel="ssl" proto="rpc" rpcnum="80" lowver="1" '
+        b'highver="2" hostname="localhost" ostype="Linux" devicetype="general" '
+        b'servicefp="fixture-fp"><cpe>cpe:/a:fixture:http:1.0</cpe></service>'
+    )
+    result = NmapXmlParserBridge().parse(
+        NMAP_XML.replace(
+            b'<service name="http" conf="3" method="table" product="fixture" version="1.0"/>',
+            standard_service,
+        ),
+        scope_id=uuid4(),  # type: ignore[arg-type]
+        target_id=uuid4(),  # type: ignore[arg-type]
+        canonical_target="127.0.0.1",
+    )
+    metadata = dict(result.observations[0].metadata)
+    assert metadata["service_name"] == "http"
+    assert metadata["product"] == "fixture"
+    assert metadata["service_version"] == "1.0"
+    assert not {"conf", "method", "extrainfo", "servicefp"} & set(metadata)
+
+
+@pytest.mark.parametrize(
+    "invalid_service",
+    (
+        b'<service name="http" conf="3"/>',
+        b'<service name="http" conf="11" method="table"/>',
+        b'<service name="http" conf="3" method="unknown"/>',
+        b'<service name="http" conf="3" method="table" unknown="value"/>',
+        b'<service name="http" conf="3" method="table" extrainfo=""/>',
+        b'<service name="http" conf="3" method="table" rpcnum="invalid"/>',
+    ),
+)
+def test_nmap_xml_bridge_rejects_invalid_or_unallowlisted_service_metadata(
+    invalid_service: bytes,
+) -> None:
+    payload = NMAP_XML.replace(
+        b'<service name="http" conf="3" method="table" product="fixture" version="1.0"/>',
+        invalid_service,
+    )
+    with pytest.raises(CyberOSError) as error:
+        NmapXmlParserBridge().parse(
+            payload,
+            scope_id=uuid4(),  # type: ignore[arg-type]
+            target_id=uuid4(),  # type: ignore[arg-type]
+            canonical_target="127.0.0.1",
+        )
+    assert error.value.code is ErrorCode.NMAP_XML_INVALID
 
 
 @pytest.mark.parametrize(

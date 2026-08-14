@@ -24,6 +24,29 @@ from cyberos.domain.target.primitives import TargetId, TargetKind
 
 __all__ = ["NmapXmlParserBridge"]
 _DEFAULT_PARSER_LIMITS = ParserLimits()
+_SERVICE_REQUIRED_ATTRIBUTES = frozenset({"name", "conf", "method"})
+_SERVICE_ALLOWED_ATTRIBUTES = _SERVICE_REQUIRED_ATTRIBUTES | frozenset(
+    {
+        "version",
+        "product",
+        "extrainfo",
+        "tunnel",
+        "proto",
+        "rpcnum",
+        "lowver",
+        "highver",
+        "hostname",
+        "ostype",
+        "devicetype",
+        "servicefp",
+    }
+)
+_SERVICE_TEXT_ATTRIBUTES = _SERVICE_ALLOWED_ATTRIBUTES - frozenset(
+    {"conf", "method", "tunnel", "proto", "rpcnum", "lowver", "highver"}
+)
+_SERVICE_NUMERIC_ATTRIBUTES = frozenset({"rpcnum", "lowver", "highver"})
+_SERVICE_CONF_VALUES = frozenset(str(value) for value in range(11))
+_SERVICE_METHOD_VALUES = frozenset({"table", "probed"})
 
 
 @dataclass(frozen=True, slots=True)
@@ -154,11 +177,32 @@ class NmapXmlParserBridge:
                 current_state = state
                 return
             if name == "service":
-                if current_port is None or set(attributes) - {"name", "product", "version"}:
+                if (
+                    current_port is None
+                    or not _SERVICE_REQUIRED_ATTRIBUTES <= set(attributes)
+                    or set(attributes) - _SERVICE_ALLOWED_ATTRIBUTES
+                    or attributes["conf"] not in _SERVICE_CONF_VALUES
+                    or attributes["method"] not in _SERVICE_METHOD_VALUES
+                    or (attributes.get("tunnel") not in {None, "ssl"})
+                    or (attributes.get("proto") not in {None, "rpc"})
+                    or any(
+                        not attributes[field]
+                        or len(attributes[field].encode()) > limits.max_field_bytes
+                        for field in _SERVICE_TEXT_ATTRIBUTES & set(attributes)
+                    )
+                    or any(
+                        not attributes[field].isdecimal() or int(attributes[field]) > 2_147_483_647
+                        for field in _SERVICE_NUMERIC_ATTRIBUTES & set(attributes)
+                    )
+                ):
                     raise CyberOSError(
                         ErrorCode.NMAP_XML_INVALID, "Nmap service element is invalid."
                     )
                 current_service = attributes
+                return
+            if name == "cpe":
+                if current_port is None or current_service is None or attributes:
+                    raise CyberOSError(ErrorCode.NMAP_XML_INVALID, "Nmap CPE context is invalid.")
                 return
             if name in {
                 "scaninfo",

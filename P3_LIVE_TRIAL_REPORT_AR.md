@@ -161,3 +161,9 @@ cyberos recon nmap-localhost SCOPE_ID TARGET_ID \
 اكتمل patch offline المحدد لعقدة Nmap `state`. يقبل parser الآن `state` بشرط وجود القيمة الإلزامية غير الفارغة `state`، ويسمح فقط بالخصائص الاختيارية القياسية `reason` و`reason_ttl`. يجب أن تكون `reason` غير فارغة ومحدودة بالحجم، وأن تكون `reason_ttl` قيمة عشرية بين 0 و255. أي خاصية إضافية أو غياب `state` أو metadata غير صالحة يُرفض بالرمز typed `NMAP_XML_INVALID`.
 
 يحفظ normalization قيمة `state` فقط؛ ولا يحتفظ بـreason أو TTL ضمن Observations أو Evidence. أضيفت fixtures للقبول والرفض، ونجحت البوابات الرسمية عند **402 اختبارًا**. لم يُنفذ أي scan حي ضمن هذا patch، لذلك يتطلب أي P3 جديد تفويضًا صريحًا منفصلًا.
+
+## 13. محاولة P3 المحلية: service metadata
+
+نفذت بيئة WSL invocation حيًا واحدًا مصرحًا به بعد نجاح preflight الكامل. أثبت receipt أن Scope وTarget `127.0.0.1` وSHA-256 للـbinary وquality gates كانت سليمة، ووصل التنفيذ إلى Nmap خلال 3144ms. توقفت النتيجة عند parser بالخطأ redacted `NMAP_XML_INVALID: Nmap service element is invalid.` ولم يحدث retry أو توسع نطاق.
+
+سبب التوقف هو أن XML القياسي لـNmap يستخدم `conf` و`method` كخصائص إلزامية لعقدة `service`، إضافة إلى metadata اختيارية، بينما allowlist السابقة كانت ضيقة أكثر من اللازم. patch offline الجديد يطبق allowlist مغلقة ويُدقق كل قيمة، لكنه يحتفظ بعد التحليل بـ`name` و`product` و`version` فقط؛ ولا يخزن CPE أو fingerprint أو host metadata أو confidence/method. نجحت البوابات عند **409 اختبارات**. يلزم تفويض P3 جديد منفصل قبل أي تجربة حية لاحقة.

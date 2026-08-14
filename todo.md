@@ -987,6 +987,43 @@
 - [x] فحص syntax ومسار preflight دون `CYBEROS_P3_AUTHORIZED=YES`
 - [x] رفع الإصلاح وتحديث أمر التشغيل للمستخدم
 
+## Ubuntu WSL — Stale Script Diagnosis
+
+- [x] تأكيد أن الملف المرسل هو النسخة القديمة قبل `RUN_LABEL` و`RUN_LOG`
+- [x] تزويد المستخدم بأوامر `git pull` والتحقق من ظهور السطرين في النسخة المصححة
+- [x] توضيح أن Workspace/Engagement السابقين محفوظان في SQLite رغم توقف السكربت
+- [x] التوقف قبل أي P3 جديد إلى أن ينجح preflight المحدث
+
+## P3 Local Receipt — Service Metadata Parser Gap
+
+- [x] تأكيد أن preflight وScope/Target وbinary identity وquality gates نجحت على WSL
+- [x] تأكيد تنفيذ invocation حي واحد على `127.0.0.1` عبر `-sT` وports `22,80,443`
+- [x] تسجيل error redacted: `NMAP_XML_INVALID` عند service element بعد 3144ms
+- [x] تأكيد عدم وجود retry وأن السكربت أنهى العملية وحفظ receipt/log محليًا
+- [x] فحص service metadata القياسي في Nmap XML وتصميم allowlist offline minimal
+- [x] تنفيذ patch offline واختباراته بعد موافقة صريحة
+- [ ] طلب تفويض P3 جديد فقط بعد نجاح patch quality gates
+
+## P3 Preflight Hardening — Strict Service Metadata (Offline)
+
+- [x] تثبيت عدم تنفيذ live scan أو retry أثناء patch الحالي
+- [x] قبول service attributes القياسية مع name/conf/method الإلزامية وallowlist مغلقة
+- [x] التحقق من conf وmethod والحقول الرقمية/المحدودة قبل normalization
+- [x] الاحتفاظ بـname/product/version فقط وإهمال metadata غير الضرورية
+- [x] إضافة fixtures إيجابية وسلبية لـservice metadata وDTD/XXE regression
+- [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan
+- [ ] تحديث docs ثم commit/push والتحقق من CI
+
+## P3 Preflight Hardening — Strict Service Metadata (Offline)
+
+- [ ] تثبيت عدم تنفيذ live scan أو retry أثناء patch الحالي
+- [ ] قبول service attributes القياسية مع name/conf/method الإلزامية وallowlist مغلقة
+- [ ] التحقق من conf وmethod والحقول الرقمية/المحدودة قبل normalization
+- [ ] الاحتفاظ بـname/product/version فقط وإهمال metadata غير الضرورية
+- [ ] إضافة fixtures إيجابية وسلبية لـservice metadata وDTD/XXE regression
+- [ ] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan
+- [ ] تحديث docs ثم commit/push والتحقق من CI
+
 ## P3 Preflight Hardening — State Metadata & Module 2.2 Review (Offline)
 
 - [x] تثبيت منع أي live scan أو retry أثناء patch الحالي

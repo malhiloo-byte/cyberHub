@@ -35,7 +35,7 @@ NMAP_XML = (
     b'<nmaprun scanner="nmap" scanner-version="7.94">'
     b'<host><address addr="127.0.0.1" addrtype="ipv4"/><ports>'
     b'<port protocol="tcp" portid="80"><state state="open"/>'
-    b'<service name="http" product="fixture" version="1.0"/></port>'
+    b'<service name="http" conf="3" method="table" product="fixture" version="1.0"/></port>'
     b"</ports></host></nmaprun>"
 )
 STANDARD_NMAP_XML = (
@@ -47,7 +47,7 @@ STANDARD_NMAP_XML = (
     b'<address addr="127.0.0.1" addrtype="ipv4"/><hostnames/>'
     b'<ports><port protocol="tcp" portid="80">'
     b'<state state="open" reason="syn-ack" reason_ttl="0"/>'
-    b'<service name="http" product="fixture" version="1.0"/></port></ports>'
+    b'<service name="http" conf="3" method="table" product="fixture" version="1.0"/></port></ports>'
     b'<times srtt="1000" rttvar="100" to="100000"/></host>'
     b'<runstats><finished time="0"/><hosts up="1" down="0" total="1"/></runstats>'
     b"</nmaprun>"
