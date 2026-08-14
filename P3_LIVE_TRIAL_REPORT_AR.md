@@ -158,6 +158,6 @@ cyberos recon nmap-localhost SCOPE_ID TARGET_ID \
 
 ## 12. Patch offline لعقدة state metadata
 
-اكتمل patch offline المحدد لعقدة Nmap `state`. يقبل parser الآن `state` بشرط وجود القيمة الإلزامية غير الفارغة `state`، ويسمح فقط بالخصائص الاختيارية القياسية `reason` و`reason_ttl`. أي خاصية إضافية أو غياب `state` يُرفض بالرمز typed `NMAP_XML_INVALID`.
+اكتمل patch offline المحدد لعقدة Nmap `state`. يقبل parser الآن `state` بشرط وجود القيمة الإلزامية غير الفارغة `state`، ويسمح فقط بالخصائص الاختيارية القياسية `reason` و`reason_ttl`. يجب أن تكون `reason` غير فارغة ومحدودة بالحجم، وأن تكون `reason_ttl` قيمة عشرية بين 0 و255. أي خاصية إضافية أو غياب `state` أو metadata غير صالحة يُرفض بالرمز typed `NMAP_XML_INVALID`.
 
-يحفظ normalization قيمة `state` فقط؛ ولا يحتفظ بـreason أو TTL ضمن Observations أو Evidence. أضيفت fixtures للقبول والرفض، ونجحت البوابات الرسمية عند **400 اختبارًا**. لم يُنفذ أي scan حي ضمن هذا patch، لذلك يتطلب أي P3 جديد تفويضًا صريحًا منفصلًا.
+يحفظ normalization قيمة `state` فقط؛ ولا يحتفظ بـreason أو TTL ضمن Observations أو Evidence. أضيفت fixtures للقبول والرفض، ونجحت البوابات الرسمية عند **402 اختبارًا**. لم يُنفذ أي scan حي ضمن هذا patch، لذلك يتطلب أي P3 جديد تفويضًا صريحًا منفصلًا.

@@ -382,6 +382,8 @@ def test_nmap_xml_bridge_accepts_minimal_standard_nmap_794_structure() -> None:
     (
         b'<state reason="syn-ack"/>',
         b'<state state="open" unsupported="value"/>',
+        b'<state state="open" reason=""/>',
+        b'<state state="open" reason_ttl="invalid"/>',
     ),
 )
 def test_nmap_xml_bridge_rejects_missing_or_unallowlisted_state_metadata(

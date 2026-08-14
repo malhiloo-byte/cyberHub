@@ -134,13 +134,24 @@ class NmapXmlParserBridge:
                 current_port = attributes
                 return
             if name == "state":
+                state = attributes.get("state")
+                reason = attributes.get("reason")
+                reason_ttl = attributes.get("reason_ttl")
                 if (
                     current_port is None
-                    or not attributes.get("state")
+                    or not state
                     or set(attributes) - {"state", "reason", "reason_ttl"}
+                    or (
+                        reason is not None
+                        and (not reason or len(reason.encode()) > limits.max_field_bytes)
+                    )
+                    or (
+                        reason_ttl is not None
+                        and (not reason_ttl.isdecimal() or not 0 <= int(reason_ttl) <= 255)
+                    )
                 ):
                     raise CyberOSError(ErrorCode.NMAP_XML_INVALID, "Nmap state element is invalid.")
-                current_state = attributes["state"]
+                current_state = state
                 return
             if name == "service":
                 if current_port is None or set(attributes) - {"name", "product", "version"}:

@@ -972,4 +972,4 @@
 - [x] إضافة fixtures واختبارات metadata وXXE/DTD regression
 - [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan
 - [x] مراجعة وتأكيد اتساق قرارات Module 2.2 Section 14
-- [ ] تحديث docs ثم commit/push والتحقق من CI
+- [ ] تحديث docs ثم commit/push والتحقق من CI بعد strict state metadata validation
