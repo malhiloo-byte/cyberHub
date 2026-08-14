@@ -295,6 +295,27 @@ class NmapLocalhostScanService:
                 target_id=task.target_id,
                 canonical_target=_LOCALHOST,
             )
+            if not parsed.observations:
+                saved = self._persist_completed(running_task, bounded)
+                return NmapLocalhostScanReceipt(
+                    task_id=saved.task.id,
+                    scope_id=saved.task.scope_id,
+                    target_id=saved.task.target_id,
+                    profile_id=plan.profile_id,
+                    argv_digest=plan.argv_digest,
+                    exit_code=bounded.exit_code,
+                    timeout_exceeded=bounded.timeout_exceeded,
+                    output_digest=bounded.output_digest,
+                    stdout_bytes=len(bounded.stdout),
+                    stderr_bytes=len(bounded.stderr),
+                    redaction_applied=bounded.redaction_applied,
+                    parsed_services=len(parsed.services),
+                    parsed_observations=0,
+                    inserted_assets=0,
+                    inserted_observations=0,
+                    created_evidence=0,
+                    task_status=saved.task.status.value,
+                )
             provenance = NetworkPortScanProvenanceBridge(self.factory).ingest_and_create_evidence(
                 task=task,
                 authorization=authorization,
@@ -306,13 +327,7 @@ class NmapLocalhostScanService:
         except CyberOSError as error:
             self._persist_failure(running_task, bounded, error.code.value)
             raise
-        result = self._execution_result(bounded)
-        completed = running_task.transition(TaskStatus.COMPLETED, at=self.clock())
-        with SQLiteUnitOfWork(self.factory) as unit:
-            saved = SQLiteTaskRepository(unit).update_status_and_result(
-                TaskRecord(completed, result), expected_version=running_task.version
-            )
-            unit.commit()
+        saved = self._persist_completed(running_task, bounded)
         return NmapLocalhostScanReceipt(
             task_id=saved.task.id,
             scope_id=saved.task.scope_id,
@@ -355,6 +370,16 @@ class NmapLocalhostScanService:
                 TaskRecord(failed, result), expected_version=task.version
             )
             unit.commit()
+
+    def _persist_completed(self, task: Task, bounded: BoundedProcessReceipt) -> TaskRecord:
+        result = self._execution_result(bounded)
+        completed = task.transition(TaskStatus.COMPLETED, at=self.clock())
+        with SQLiteUnitOfWork(self.factory) as unit:
+            saved = SQLiteTaskRepository(unit).update_status_and_result(
+                TaskRecord(completed, result), expected_version=task.version
+            )
+            unit.commit()
+        return saved
 
     @staticmethod
     def _execution_result(

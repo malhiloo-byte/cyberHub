@@ -71,6 +71,7 @@ The platform follows one deliberate rule: **build the missing personal operating
 | P3 Closed/Filtered Port XML Preflight | **Complete offline compatibility patch — 398 full-suite tests; P3 remains separately authorized** |
 | P3 State Metadata Preflight | **Complete offline compatibility patch — 402 full-suite tests; P3 requires a new explicit authorization** |
 | P3 Service Metadata Preflight | **Complete offline compatibility patch — 409 full-suite tests; P3 requires a new explicit authorization** |
+| P3 No-Findings Success Contract | **Complete offline consolidation — 410 full-suite tests; zero open ports are a valid completed outcome** |
 | Real reconnaissance tooling | **Not started — design first** |
 
 ## Operating model
@@ -251,7 +252,7 @@ The canonical command is `./scripts/check.sh`. Continuous integration runs on ev
 
 ## Status and next decision
 
-The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, Module 2.0 live process boundary, Module 2.1 offline port-scan adapter contracts, Nmap preflight/parser boundary, and localhost application/CLI boundary are intentionally stable. A third explicitly authorized localhost P3 invocation passed preflight and reached Nmap, then exposed standard `service` metadata before ingestion. That strict parser contract is now regression-tested offline at **409 passing tests**. No retry, home-network scan, or other live invocation has been performed after that receipt. Module 2.2 remains design-only pending explicit Section 14 decisions.
+The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, Module 2.0 live process boundary, Module 2.1 offline port-scan adapter contracts, Nmap preflight/parser boundary, and localhost application/CLI boundary are intentionally stable. A third explicitly authorized localhost P3 invocation passed Nmap/XML parsing and found no open ports in the allowed set; the former no-findings ingestion contradiction is now fixed offline at **410 passing tests**. No retry, home-network scan, or other live invocation has been performed after that receipt. Module 2.2 remains design-only pending explicit Section 14 decisions.
 
 <div align="center">
 

@@ -167,3 +167,9 @@ cyberos recon nmap-localhost SCOPE_ID TARGET_ID \
 نفذت بيئة WSL invocation حيًا واحدًا مصرحًا به بعد نجاح preflight الكامل. أثبت receipt أن Scope وTarget `127.0.0.1` وSHA-256 للـbinary وquality gates كانت سليمة، ووصل التنفيذ إلى Nmap خلال 3144ms. توقفت النتيجة عند parser بالخطأ redacted `NMAP_XML_INVALID: Nmap service element is invalid.` ولم يحدث retry أو توسع نطاق.
 
 سبب التوقف هو أن XML القياسي لـNmap يستخدم `conf` و`method` كخصائص إلزامية لعقدة `service`، إضافة إلى metadata اختيارية، بينما allowlist السابقة كانت ضيقة أكثر من اللازم. patch offline الجديد يطبق allowlist مغلقة ويُدقق كل قيمة، لكنه يحتفظ بعد التحليل بـ`name` و`product` و`version` فقط؛ ولا يخزن CPE أو fingerprint أو host metadata أو confidence/method. نجحت البوابات عند **409 اختبارات**. يلزم تفويض P3 جديد منفصل قبل أي تجربة حية لاحقة.
+
+## 14. عقد no-findings للنتيجة الصحيحة بلا منافذ مفتوحة
+
+بعد patch service metadata، وصلت محاولة P3 إلى parser ونجحت، ثم لم تجد أي observation ضمن المنافذ المصرح بها. كان الخطأ `RECON_RESULT_INVALID` صادرًا من طبقة ingestion لأنها ترفض النتائج الفارغة صراحة؛ لا يعني ذلك فشل Nmap أو XML أو Scope.
+
+تم حل التناقض offline داخل `NmapLocalhostScanService` فقط: إذا كانت النتيجة parsed صحيحة وعدد observations صفرًا، تتحول Task إلى `COMPLETED` وتُحفظ receipt bounded/redacted، وتعود counters صفرية. لا تنشأ Assets أو Observations أو Evidence وهمية. نجحت اختبارات SQLite integrity وبوابات الجودة عند **410 اختبارات**. لم تنفذ أي تجربة حية في هذا الإصلاح، وأي P3 تالٍ يحتاج تفويضًا منفصلًا.

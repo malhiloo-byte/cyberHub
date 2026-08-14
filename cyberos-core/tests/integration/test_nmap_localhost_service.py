@@ -52,6 +52,19 @@ STANDARD_NMAP_XML = (
     b'<runstats><finished time="0"/><hosts up="1" down="0" total="1"/></runstats>'
     b"</nmaprun>"
 )
+CLOSED_PORTS_NMAP_XML = (
+    b'<?xml version="1.0"?><!DOCTYPE nmaprun SYSTEM "nmap.dtd">'
+    b'<nmaprun scanner="nmap" scanner-version="7.94" xmloutputversion="1.05">'
+    b'<scaninfo type="connect" protocol="tcp" numservices="3" services="22,80,443"/>'
+    b'<verbose level="0"/><debugging level="0"/>'
+    b'<host><status state="up" reason="user-set" reason_ttl="0"/>'
+    b'<address addr="127.0.0.1" addrtype="ipv4"/><hostnames/>'
+    b'<ports><extraports state="closed" count="3">'
+    b'<extrareasons reason="conn-refused" count="3" proto="tcp" ports="22,80,443"/>'
+    b'</extraports></ports><times srtt="1000" rttvar="100" to="100000"/></host>'
+    b'<runstats><finished time="0"/><hosts up="1" down="0" total="1"/></runstats>'
+    b"</nmaprun>"
+)
 
 
 class FixtureRunner:
@@ -151,6 +164,45 @@ def test_service_ingests_standard_nmap_xml_fixture(tmp_path: Path) -> None:
     assert result.data is not None
     assert result.data.parsed_observations == 1
     assert result.data.created_evidence == 1
+
+
+def test_service_completes_no_findings_without_creating_evidence(tmp_path: Path) -> None:
+    factory, scope, target = make_authorized_localhost(tmp_path)
+    nmap = tmp_path / "nmap"
+    nmap.write_bytes(b"neutral nmap binary fixture")
+    os.chmod(nmap, 0o700)
+    digest = hashlib.sha256(nmap.read_bytes()).hexdigest()
+    result = NmapLocalhostScanService(
+        factory,
+        runner=FixtureRunner(stdout=CLOSED_PORTS_NMAP_XML),
+        clock=lambda: NOW,
+    ).run(
+        scope.id,
+        target.id,
+        binary_path=str(nmap),
+        expected_sha256=digest,
+        expected_version="7.94",
+        ports=(22, 80, 443),
+    )
+
+    assert result.ok is True
+    assert result.data is not None
+    assert result.data.task_status == "completed"
+    assert result.data.parsed_services == 0
+    assert result.data.parsed_observations == 0
+    assert result.data.inserted_assets == 0
+    assert result.data.inserted_observations == 0
+    assert result.data.created_evidence == 0
+    with factory.connect() as managed:
+        task_row = managed.raw.execute(
+            "SELECT status, version, error_message, exit_code FROM tasks"
+        ).fetchone()
+        assert tuple(task_row) == ("completed", 3, None, 0)
+        assert managed.raw.execute("SELECT count(*) FROM assets").fetchone()[0] == 0
+        assert managed.raw.execute("SELECT count(*) FROM asset_observations").fetchone()[0] == 0
+        assert managed.raw.execute("SELECT count(*) FROM evidence_records").fetchone()[0] == 0
+        assert managed.raw.execute("PRAGMA quick_check").fetchone()[0] == "ok"
+        assert managed.raw.execute("PRAGMA foreign_key_check").fetchall() == []
 
 
 def test_service_finalizes_task_failed_when_parser_rejects_xml(tmp_path: Path) -> None:

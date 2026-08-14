@@ -1007,9 +1007,27 @@
 ## P3 Localhost Retry — After Strict Service Metadata Patch
 
 - [x] تسجيل التفويض الصريح: `127.0.0.1` و`-sT` والمنافذ `22,80,443` ومحاولة واحدة بلا retry
-- [ ] تحقق المستخدم من `git pull` و`bash scripts/check.sh` قبل الاستدعاء
-- [ ] تنفيذ invocation واحد عبر السكربت المحدث مع `CYBEROS_P3_AUTHORIZED=YES`
-- [ ] تحليل receipt وTask/Evidence/SQLite بعد الاستدعاء دون إعادة تنفيذ
+- [x] تحقق المستخدم من `git pull` و`bash scripts/check.sh` قبل الاستدعاء
+- [x] تنفيذ invocation واحد عبر السكربت المحدث مع `CYBEROS_P3_AUTHORIZED=YES`
+- [x] تحليل receipt: Nmap/parser نجحا؛ ingestion رفض `ReconResult` الناجح الفارغ دون Evidence
+
+## P3 No-Findings Success Contract (Offline)
+
+- [x] تأكيد وصول P3 إلى `ReconIngestionService` بعد parser بنجاح
+- [x] تسجيل `RECON_RESULT_INVALID` لأن النتيجة الناجحة لم تتضمن observations مفتوحة
+- [x] تصميم contract صريح لـsuccessful no-findings بلا Asset/Evidence مصطنعة
+- [x] تنفيذ patch offline واختبارات Task COMPLETED وSQLite integrity للنتيجة الفارغة
+- [ ] طلب تفويض P3 جديد فقط بعد نجاح patch quality gates
+
+## Module 2.1 — Offline Consolidation Slice
+
+- [x] تثبيت منع live scan/retry وتحديد canonical golden XML contract
+- [x] إضافة golden fixtures: no-findings، standard open service، CPE، وmalformed/XXE cases
+- [x] تنفيذ no-findings success branch: Task COMPLETED، counters صفرية، بلا Asset/Evidence مصطنعة
+- [x] توسيع service/state/parser assertions وضمان minimal normalized projection
+- [x] تنفيذ full regression وRuff/mypy/wheel/boundary checks
+- [ ] تحديث docs وWSL runner ثم commit/push والتحقق من CI
+- [x] تجهيز P3 readiness report دون تنفيذ live invocation
 
 ## P3 Authorization-Scoped Single-Use Guard (Offline)
 
