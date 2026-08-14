@@ -1026,7 +1026,7 @@
 - [x] تنفيذ no-findings success branch: Task COMPLETED، counters صفرية، بلا Asset/Evidence مصطنعة
 - [x] توسيع service/state/parser assertions وضمان minimal normalized projection
 - [x] تنفيذ full regression وRuff/mypy/wheel/boundary checks
-- [ ] تحديث docs وWSL runner ثم commit/push والتحقق من CI
+- [x] تحديث docs وWSL runner ثم commit/push والتحقق من CI
 - [x] تجهيز P3 readiness report دون تنفيذ live invocation
 
 ## P3 Authorization-Scoped Single-Use Guard (Offline)
