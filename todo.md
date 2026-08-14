@@ -923,15 +923,27 @@
 
 ## P3 Retry — Single Localhost TCP Connect Trial After Remediation
 
-- [ ] تثبيت التفويض الجديد كتجربة واحدة فقط على `127.0.0.1`
-- [ ] إنشاء Scope/Target جديدين ومصرح بهما للتحقق المستقل من التجربة
-- [ ] التحقق من `/usr/bin/nmap` والإصدار وSHA-256 قبل spawn
-- [ ] تنفيذ invocation واحد exact عبر `NmapLocalhostScanService` باستخدام `-sT` والمنافذ `22,80,443`
-- [ ] منع retry وfallback وأي target أو port خارج السياسة
-- [ ] التحقق من Task terminal status وbounded/redacted receipt وparser success
-- [ ] التحقق من Assets/Observations/Evidence وprovenance وSQLite integrity عند schema 0006
-- [ ] توثيق command receipt ونتيجة التجربة النهائية
-- [ ] إعداد وثيقة Module 2.2 التصميمية فقط دون implementation
+- [x] تسجيل التفويض الصريح الحالي بعد patch `extraports`/`extrareasons`
+- [x] تثبيت التفويض الجديد كتجربة واحدة فقط على `127.0.0.1`
+- [x] إنشاء Scope/Target جديدين ومصرح بهما للتحقق المستقل من التجربة
+- [x] التحقق من `/usr/bin/nmap` والإصدار وSHA-256 قبل spawn
+- [x] تنفيذ invocation واحد exact عبر `NmapLocalhostScanService` باستخدام `-sT` والمنافذ `22,80,443`
+- [x] منع retry وfallback وأي target أو port خارج السياسة
+- [x] التحقق من Task terminal status وbounded/redacted receipt؛ parser فشل عند state metadata لكن Task انتهى FAILED بشكل صحيح
+- [x] التحقق من Assets/Observations/Evidence وprovenance وSQLite integrity عند schema 0006؛ لا ingestion بسبب parser failure
+- [x] توثيق command receipt ونتيجة التجربة النهائية
+- [x] إعداد وثيقة Module 2.2 التصميمية فقط دون implementation
+
+**P3 retry outcome:** invocation واحد فقط نُفذ. أعاد parser `NMAP_XML_INVALID` عند state element metadata، لكن Task انتقل إلى `FAILED` version 3، ولم تُنشأ assets/observations/evidence، وSQLite بقيت سليمة. لا retry أو fallback. يلزم patch offline جديد لـstate attributes قبل أي P3 آخر.
+
+## Module 2.2 — Explicit Scope Expansion & Bounded Multi-Host Recon Design
+
+- [x] إعداد وثيقة التصميم المعماري التفصيلية والحدود الأمنية
+- [x] تحديد scope revision conflict وقرار عدم توسيع Scope authorized ضمنيًا
+- [x] تصميم immutable preview/batch/host plan contracts فوق authorization الحالي
+- [x] تصميم sequential scheduler وبودجتات وpartial-failure/cancellation policy
+- [x] تحديد API/CLI/UI boundaries وخطة الاختبارات والـapproval gates
+- [ ] عرض الوثيقة للاعتماد قبل أي implementation أو migration أو live multi-host execution
 
 ## P3 Preflight Hardening — Closed/Filtered Port XML Compatibility (Offline)
 

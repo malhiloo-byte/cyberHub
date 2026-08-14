@@ -141,3 +141,17 @@ cyberos recon nmap-localhost SCOPE_ID TARGET_ID \
 أظهر فحص offline لملف Nmap DTD المحلي أن النتائج القياسية قد تستخدم `extraports` و`extrareasons` لتلخيص المنافذ المغلقة أو المفلترة بدل إدراج عنصر `port` منفصل لكل منفذ. لذلك أضيفت هاتان العقدتان إلى allowlist البنيوي فقط. لا تُفسر خصائصهما، ولا تُضاف إلى `ReconObservation`، ولا تُخزّن في SQLite؛ فالنتيجة الصحيحة لفحص لا يحتوي منافذ مفتوحة هي **صفر observations** وليست error.
 
 أضيف fixture مستقل لهذه الحالة مع `runstats/hosts`، ونجحت بوابات الجودة عند **398 اختبارًا**. لم يُنفذ Nmap حي في هذا patch. يظل تنفيذ P3 الحي التالي مشروطًا بتفويض منفصل واحد فقط.
+
+## 11. محاولة P3 الثانية بعد إصلاح ملخصات المنافذ المغلقة
+
+نُفذت محاولة حيّة واحدة جديدة ومصرح بها على `127.0.0.1` فقط، باستخدام المسار الرسمي وargv المقيد:
+
+```text
+(/usr/bin/nmap, -sT, -T3, -n, -Pn, -p, 22,80,443, -oX, -, 127.0.0.1)
+```
+
+نجح preflight للـScope والـTarget وbinary SHA-256، ووصل التنفيذ إلى parser، إلا أن `NmapXmlParserBridge` أعاد `NMAP_XML_INVALID` بالرسالة redacted: `Nmap state element is invalid.` انتهى Task بشكل صحيح إلى `FAILED` (version 3، `exit_code=0`، و`error_message=NMAP_XML_INVALID`)؛ وهذا يثبت أن إصلاح failure finalization يعمل كما صُمم.
+
+لم تنشأ Assets أو Asset Observations أو Evidence لأن الفشل وقع قبل ingestion. بقيت قاعدة SQLite سليمة: `quick_check=ok`، و`foreign_key_check` بلا مخالفات، والـschema عند 0006. كان stderr الخارجي فارغًا ولم يُحفظ XML الخام. لا توجد retry أو fallback أو محاولة إضافية.
+
+الخطوة الصحيحة التالية ليست إعادة P3 فورًا: يلزم patch offline إضافي ومحدد لعقدة Nmap القياسية `state` التي قد تحمل metadata مثل reason/TTL؛ يجب قبول allowlist محدودة لهذه الخصائص مع استخدام `state` فقط في normalization، ثم اختبارها offline وطلب تفويض جديد منفصل قبل أي invocation حي لاحق.
