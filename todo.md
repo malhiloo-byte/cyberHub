@@ -495,3 +495,20 @@
 - [x] فصل المنجز الفعلي عن المخطط والقيود والـtechnical debt
 - [x] إنشاء التقرير النهائي بصيغة Markdown وWord/HTML عند الإمكان
 - [x] مراجعة التقرير وتسليمه مع الملفات المساندة
+
+## Module 1 — Recon Orchestrator
+
+### 1.0 — Recon Plugin Architecture & Contracts
+
+- [x] اعتماد حدود الشريحة وعدم إعادة فتح Module 0
+- [x] إعداد وثيقة التصميم المعماري والعقود قبل التنفيذ
+- [x] تعريف Plugin identity وmanifest وversioning وcontract versioning
+- [x] تعريف capability model وinput/output contracts وsupported target kinds
+- [x] تعريف authorization وresource/timeout/output limits فوق عقود Task الحالية
+- [x] تعريف lifecycle وcompatibility وdeterministic ReconResult وtyped error model
+- [x] تنفيذ Plugin boundary لا يسمح بتجاوز Scope أو Target أو Authorization أو Task controls
+- [x] تنفيذ Offline Fixture Plugin بلا network أو subprocess أو external APIs
+- [x] كتابة contract/security tests للتوافق والفشل والـmanifest والـcapabilities
+- [x] تشغيل full regression وpytest وRuff وformat وmypy strict وwheel build
+- [x] توثيق unresolved architectural decisions قبل الإغلاق
+- [x] طلب الموافقة على التصميم قبل تنفيذ العقود والـfixture
