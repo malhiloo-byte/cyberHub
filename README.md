@@ -67,6 +67,7 @@ The platform follows one deliberate rule: **build the missing personal operating
 | Network & Port Scanning Adapter Boundary (Module 2.1) | **Complete offline slices 2.1.a–e — 380 full-suite tests; live tool integration not started** |
 | Nmap Live Tool Specification (Module 2.1.f.a–d) | **Complete offline contract slices — 390 full-suite tests; TCP Connect profile and safe DOCTYPE compatibility verified** |
 | Localhost Nmap Application Service & CLI (Module 2.1.g) | **Offline/injected integration complete — 393 full-suite tests; live trial pending explicit authorization** |
+| P3 Hardening & Parser Compatibility | **Complete offline remediation — 397 full-suite tests; standard XML fixture and Task failure finalization verified** |
 | Real reconnaissance tooling | **Not started — design first** |
 
 ## Operating model
@@ -246,7 +247,7 @@ The canonical command is `./scripts/check.sh`. Continuous integration runs on ev
 
 ## Status and next decision
 
-The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, Module 2.0 live process boundary, Module 2.1 offline port-scan adapter contracts, Nmap preflight/parser boundary, and localhost application/CLI boundary are intentionally stable. Phase 1 remains officially closed at Module 1.7. Module 2.1.g is complete as an offline/injected contract slice with 393 passing tests. The unprivileged TCP Connect profile and safe standard Nmap DOCTYPE compatibility are verified offline; no live trial or home-network scan has been performed.
+The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, Module 2.0 live process boundary, Module 2.1 offline port-scan adapter contracts, Nmap preflight/parser boundary, and localhost application/CLI boundary are intentionally stable. Phase 1 remains officially closed at Module 1.7. One explicitly authorized localhost P3 trial was performed and exposed an XML compatibility/failure-finalization defect; the defect is remediated and regression-tested offline at **397 passing tests**. No retry, home-network scan, or other live invocation has been performed. A distinct future authorization is required before any new localhost trial.
 
 <div align="center">
 

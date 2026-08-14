@@ -145,7 +145,19 @@ class NmapXmlParserBridge:
                     )
                 current_service = attributes
                 return
-            if name in {"scaninfo", "status", "ports", "runstats", "finished", "times"}:
+            if name in {
+                "scaninfo",
+                "status",
+                "ports",
+                "runstats",
+                "finished",
+                "hosts",
+                "times",
+                "verbose",
+                "debugging",
+                "hostnames",
+                "hostname",
+            }:
                 return
             raise CyberOSError(ErrorCode.NMAP_XML_INVALID, "Nmap XML element is not allowlisted.")
 

@@ -288,20 +288,24 @@ class NmapLocalhostScanService:
             raise CyberOSError(
                 ErrorCode.LIVE_ADAPTER_START_FAILED, "Nmap localhost execution failed."
             )
-        parsed = NmapXmlParserBridge().parse(
-            bounded.stdout,
-            scope_id=task.scope_id,
-            target_id=task.target_id,
-            canonical_target=_LOCALHOST,
-        )
-        provenance = NetworkPortScanProvenanceBridge(self.factory).ingest_and_create_evidence(
-            task=task,
-            authorization=authorization,
-            manifest=generic_manifest,
-            invocation=invocation,
-            parsed=parsed,
-            observed_at=self.clock(),
-        )
+        try:
+            parsed = NmapXmlParserBridge().parse(
+                bounded.stdout,
+                scope_id=task.scope_id,
+                target_id=task.target_id,
+                canonical_target=_LOCALHOST,
+            )
+            provenance = NetworkPortScanProvenanceBridge(self.factory).ingest_and_create_evidence(
+                task=task,
+                authorization=authorization,
+                manifest=generic_manifest,
+                invocation=invocation,
+                parsed=parsed,
+                observed_at=self.clock(),
+            )
+        except CyberOSError as error:
+            self._persist_failure(running_task, bounded, error.code.value)
+            raise
         result = self._execution_result(bounded)
         completed = running_task.transition(TaskStatus.COMPLETED, at=self.clock())
         with SQLiteUnitOfWork(self.factory) as unit:

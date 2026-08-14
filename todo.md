@@ -893,3 +893,30 @@
 - [x] مراجعة zero migrations وعدم تعديل schema 0006 أو ReconIngestion/Evidence contracts
 - [ ] رفع commit والتحقق من GitHub Actions
 - [ ] حفظ checkpoint وعرض Module 2.0 للمراجعة والتوقف قبل tool-specific adapters
+
+## P3 Current Authorization — Single Localhost TCP Connect Trial
+
+- [x] تثبيت تفويض المستخدم الحالي كتجربة واحدة فقط على `127.0.0.1`
+- [x] التحقق من `/usr/bin/nmap` وversion وSHA-256 وauthorized Scope/Target قبل spawn
+- [x] تنفيذ invocation واحد exact عبر `NmapLocalhostScanService` باستخدام `-sT` والمنافذ `22,80,443`
+- [x] منع retry وfallback وأي target أو port خارج السياسة
+- [x] التحقق من bounded output وredaction؛ فشل XML parser عند عنصر حي غير موجود في allowlist
+- [ ] التحقق من ReconObservation وatomic Recon/Evidence persistence؛ لم يحدث ingestion لأن parser رفض النتيجة
+- [x] تنفيذ database integrity/foreign-key/provenance verification بعد التجربة: quick_check=ok وforeign_key_check فارغ وschema=0006
+- [x] إعداد تقرير P3 النهائي وCLI command الخاص بـWSL
+- [x] اقتراح Architecture لـModule 2.2 دون تنفيذ scope expansion
+
+**P3 outcome:** invocation واحد فقط نُفّذ. Nmap خرج بمخرجات XML، لكن `NmapXmlParserBridge` رفض عنصرًا قياسيًا غير موجود في allowlist وأعاد `NMAP_XML_INVALID`. لم تُنشأ assets أو observations أو evidence. Task `b4093e60-15c9-4f13-bdd3-70d1a05b13f5` بقي `RUNNING` (version 2)، وهو defect في failure finalization يجب إصلاحه offline قبل أي إعادة تفويض. لا توجد retry أو fallback.
+
+## P3 Hardening — Offline Parser Compatibility & Failure Finalization
+
+- [x] تثبيت baseline الحالي ورفض أي live network/Nmap execution
+- [x] إضافة standard Nmap 7.94SVN XML fixture offline مع `verbose` و`debugging` و`runstats` children الآمنة
+- [x] توسيع allowlist بأقل عناصر structural آمنة فقط مع إبقاء DTD/XXE/entities/external references مرفوضة
+- [x] إضافة regression tests للـstandard XML وDOCTYPE benign وXXE rejection
+- [x] تغليف parser/provenance/ingestion failures داخل NmapLocalhostScanService
+- [x] تحويل Task من RUNNING إلى FAILED مع typed redacted result وoptimistic version guard
+- [x] إضافة integration tests تثبت failure finalization وعدم إنشاء Evidence عند الفشل
+- [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan دون live execution
+- [ ] تحديث README/architecture/P3 report ورفع commit إلى GitHub والتحقق من CI
+- [x] عدم طلب أو تنفيذ P3 جديد قبل اعتماد نتيجة remediation صراحة
