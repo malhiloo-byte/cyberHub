@@ -765,6 +765,43 @@
 - [x] رفع commit والتحقق من GitHub Actions
 - [ ] حفظ checkpoint والتوقف قبل Slice 2.1.f/live tool integration
 
+## Slice 2.1.f — Live Tool Specification & Authorized Lab Protocol Design
+
+- [x] تثبيت checkpoint bf0bf4b و380 اختبارًا كـbaseline غير قابل للكسر
+- [x] اختيار أداة network scanner واحدة وتحديد سبب الاختيار
+- [x] تصميم binary identity: absolute path، presence، regular-file، executable، version، digest policy
+- [x] تصميم manifest binding مع CommandSandbox وLiveSubprocessAdapter
+- [x] تحديد allowlisted executable/flags/output mode ورفض PATH lookup والـarbitrary flags
+- [x] تصميم authorized lab target policy لـ127.0.0.1 أو local lab subnet صريح
+- [x] تصميم Scope/Target/Task/ExecutionAuthorization equality وexpiry checks قبل spawn
+- [x] تحديد منع home-network ranges العامة ورفض target drift وredirected targets
+- [x] تصميم controlled live trial phases وabort/rollback criteria
+- [x] تصميم raw stdout/stderr redaction وXML/JSON parser handoff وEvidence verification
+- [x] تحديد no-raw-payload/no-credential/no-path leakage assertions
+- [x] تحديد timeout/output/observation budgets وfail-closed error matrix
+- [x] إعداد integration test strategy دون تشغيل binary قبل اعتماد المواصفة
+- [x] كتابة وثيقة Slice 2.1.f specification and authorized lab protocol
+- [ ] عرض الوثيقة للاعتماد قبل implementation أو أول live execution
+
+## Slice 2.1.f.a–d — Nmap Offline Contract Implementation
+
+- [x] تثبيت baseline bf0bf4b و380 اختبارًا وعدم تعديل Modules 0–2.1.e
+- [x] منع P3 وأي live Nmap/binary/network execution طوال هذه الجولة
+- [x] تنفيذ 2.1.f.a: VerifiedBinaryIdentity وbinary path/version/digest policy
+- [x] تنفيذ Nmap manifest binding فوق ApprovedExecutable وCommandSandbox
+- [x] إضافة typed binary identity/manifest/preflight errors دون تسريب paths/raw output
+- [x] تنفيذ 2.1.f.b: lab.localhost.tcp-syn.v1 profile لـ127.0.0.1 فقط
+- [x] تنفيذ preflight authorization equality وtarget/port/flag dry-run
+- [x] إثبات رفض home subnet/RFC1918/target drift/expired authorization
+- [x] تنفيذ 2.1.f.c: Nmap XML stdout parser bridge فوق parser 2.1.e
+- [x] رفض file output/DTD/entities/schema mismatch/truncated output
+- [x] تنفيذ 2.1.f.d: injected runner double دون subprocess حي
+- [x] اختبار raw redaction وReconObservation وatomic ingestion/Evidence provenance
+- [x] اختبار rollback/no-Evidence عند parser/provenance/runner failure
+- [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
+- [x] توثيق confirmation gate وعدم تشغيل P3
+- [ ] حفظ checkpoint وعرض نتائج الاختبار قبل طلب P3
+
 ## Module 2.0 — Live Subprocess & Execution Adapter Implementation
 
 - [x] حماية Phase 1 وعدم تعديل Modules 0–1.7 إلا عند regression موثق

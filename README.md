@@ -65,6 +65,7 @@ The platform follows one deliberate rule: **build the missing personal operating
 | Recon Export Presentation & Schema Drift Fixtures (Module 1.7) | **Complete — 360 full-suite tests; Phase 1 closed** |
 | Live Subprocess & Execution Adapter Boundary (Module 2.0) | **Complete contract slice — 370 full-suite tests; neutral local doubles only** |
 | Network & Port Scanning Adapter Boundary (Module 2.1) | **Complete offline slices 2.1.a–e — 380 full-suite tests; live tool integration not started** |
+| Nmap Live Tool Specification (Module 2.1.f.a–d) | **Complete offline contract slices — 390 full-suite tests; P3 live invocation not authorized** |
 | Real reconnaissance tooling | **Not started — design first** |
 
 ## Operating model
@@ -236,13 +237,14 @@ The canonical command is `./scripts/check.sh`. Continuous integration runs on ev
 | [`cyberos-core/docs/architecture/module-1-2-recon-orchestration-design.md`](cyberos-core/docs/architecture/module-1-2-recon-orchestration-design.md) | Implemented Module 1.2 pipeline orchestration, chaining, budgets, cancellation, and result adapter |
 | [`cyberos-core/docs/architecture/module-1-7-recon-export-presentation-and-schema-drift-fixtures-design.md`](cyberos-core/docs/architecture/module-1-7-recon-export-presentation-and-schema-drift-fixtures-design.md) | Module 1.7 presentation adapters, bounded views, and offline schema/version drift fixtures |
 | [`cyberos-core/docs/architecture/module-2-1-network-port-scan-adapter-design.md`](cyberos-core/docs/architecture/module-2-1-network-port-scan-adapter-design.md) | Module 2.1 manifest, target/flag policy, offline XML/JSON parser, and provenance boundary |
+| [`cyberos-core/docs/architecture/module-2-1-f-live-tool-specification-and-authorized-lab-protocol.md`](cyberos-core/docs/architecture/module-2-1-f-live-tool-specification-and-authorized-lab-protocol.md) | Nmap binary identity, localhost lab protocol, P3 approval gate, and live-trial test strategy |
 | [`docs/reports/cyberos-complete-project-report-ar.md`](docs/reports/cyberos-complete-project-report-ar.md) | Project chronology and engineering record |
 | [`ideas.md`](ideas.md) | Command Center visual direction and design decisions |
 | [`SECURITY.md`](SECURITY.md) | Security reporting and responsible-use boundaries |
 
 ## Status and next decision
 
-The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, Module 2.0 live process boundary, and Module 2.1 offline port-scan adapter contracts are intentionally stable before tool-specific reconnaissance begins. Phase 1 remains officially closed at Module 1.7. Module 2.1 is complete only through offline slices 2.1.a–e: no Nmap/Masscan execution, network socket, DNS/HTTP call, external scanner, or live tool integration was performed. Work stops here before Slice 2.1.f pending explicit authorization.
+The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, Module 2.0 live process boundary, Module 2.1 offline port-scan adapter contracts, and Nmap preflight/parser boundary are intentionally stable. Phase 1 remains officially closed at Module 1.7. Module 2.1.f.a–d is complete as an offline contract/test slice with 390 passing tests; P3 live Nmap invocation remains explicitly unauthorized and no home-network scan has been performed.
 
 <div align="center">
 
