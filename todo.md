@@ -941,5 +941,5 @@
 - [x] إثبات أن parser يعيد صفر observations عند غياب أي port مفتوح
 - [x] إثبات استمرار رفض internal DTD وXXE/entities/external references
 - [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan
-- [ ] تحديث التوثيق ثم commit/push والتحقق من CI
+- [x] تحديث التوثيق ثم commit/push والتحقق من CI
 - [x] التوقف وطلب/انتظار تفويض P3 بعد تقرير نجاح patch
