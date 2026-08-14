@@ -651,5 +651,5 @@
 - [x] إضافة partial failure وcancel-before-ingest وheader/parameter privacy tests
 - [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
 - [x] مراجعة عدم تعديل Modules 0–1.4 وعدم إضافة migration/network/subprocess
-- [ ] رفع commit والتحقق من GitHub Actions
+- [x] رفع commit والتحقق من GitHub Actions
 - [ ] حفظ checkpoint وتسليم تقرير Module 1.5 والتوقف قبل Module 1.6
