@@ -63,6 +63,7 @@ The platform follows one deliberate rule: **build the missing personal operating
 | Recon Reporting & Multi-Web API Offline Fixtures (Module 1.5) | **Complete — 341 full-suite tests** |
 | Recon Reporting Export & Negative Offline Fixtures (Module 1.6) | **Complete — 350 full-suite tests** |
 | Recon Export Presentation & Schema Drift Fixtures (Module 1.7) | **Complete — 360 full-suite tests; Phase 1 closed** |
+| Live Subprocess & Execution Adapter Boundary (Module 2.0) | **Complete contract slice — 370 full-suite tests; neutral local doubles only** |
 | Real reconnaissance tooling | **Not started — design first** |
 
 ## Operating model
@@ -110,6 +111,7 @@ The roadmap is aligned to a long-term security engineering path rather than a li
 |---:|---|---|
 | 0 | Core domain, scope safety, task execution, persistence, and audit | **Closed** |
 | 1 | Recon Plugin Foundation, Orchestrator, Evidence Ledger, Reporting, Presentation, and Offline Web API Fixtures | **Closed — 1.7; Phase 1 complete** |
+| 2 | Live adapter boundary, safe subprocess mediation, and approved tool integrations | **2.0 contract slice complete; tool-specific adapters not started** |
 | 2 | Web Pentest Workflow and Evidence Capture | Planned |
 | 3 | Network and Active Directory Security | Planned |
 | 4 | Cloud Security Operations | Planned |
@@ -238,7 +240,7 @@ The canonical command is `./scripts/check.sh`. Continuous integration runs on ev
 
 ## Status and next decision
 
-The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, and presentation compatibility boundary are intentionally stable before real reconnaissance begins. **Phase 1 is officially closed at Module 1.7.** Work stops here until the next phase is explicitly authorized. No real reconnaissance engine, network adapter, external API, AI/LLM integration, or Phase 2 module is added by this checkpoint.
+The foundation, plugin boundary, asset persistence layer, orchestration boundary, reporting/export boundary, presentation compatibility boundary, and Module 2.0 live process boundary are intentionally stable before tool-specific reconnaissance begins. Phase 1 remains officially closed at Module 1.7, and Module 2.0 is complete only as a contract slice using neutral local process doubles. Work stops here until the next tool-specific adapter is explicitly authorized. No Nmap, DNS, HTTP probe, OSINT engine, external API, AI/LLM integration, or unreviewed live scanner is included.
 
 <div align="center">
 

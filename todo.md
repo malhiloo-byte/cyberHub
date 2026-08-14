@@ -709,3 +709,38 @@
 - [x] مراجعة عدم تعديل Modules 0–1.6 وعدم إضافة migration/rendering/filesystem/network/subprocess
 - [ ] رفع commit والتحقق من GitHub Actions
 - [ ] حفظ checkpoint وإغلاق Phase 1 والتوقف قبل Phase 2
+
+## Phase 2 / Module 2.0 — Live Adapter Boundary Architecture Design
+
+- [x] تسجيل Phase 1 Offline Foundation كمرحلة مغلقة عند 360 اختبارًا وCI أخضر
+- [x] تحديد رؤية Phase 2 والانتقال المنضبط من offline fixtures إلى live adapters
+- [x] تحديد حدود Module 2.0 وما يبقى خارج النطاق
+- [x] تصميم LiveSubprocessAdapter وCommandSandbox كحد تنفيذ مستقل
+- [x] تثبيت target context verification قبل spawn وربط Scope/Target/Task/Authorization
+- [x] تصميم strict argv allowlist ومنع raw shell execution وshell=True
+- [x] تصميم timeout/termination/output/environment controls
+- [x] تصميم stdout/stderr bounded parsing/redaction دون raw disk writes
+- [x] تصميم تحويل النتائج إلى Observations وEvidence عبر العقود الحالية
+- [x] تحديد typed errors: LIVE_ADAPTER_UNAUTHORIZED وCOMMAND_SANITIZATION_FAILED وSUBPROCESS_TIMEOUT
+- [x] إعداد threat model وsecurity invariants وfailure matrix
+- [x] إعداد test strategy design-only دون تشغيل subprocess أو network
+- [x] كتابة وثيقة phase-2-overview-and-module-2-0-live-adapter-boundary-design.md
+- [ ] عرض الوثيقة للاعتماد قبل أي implementation أو migration
+
+## Module 2.0 — Live Subprocess & Execution Adapter Implementation
+
+- [x] حماية Phase 1 وعدم تعديل Modules 0–1.7 إلا عند regression موثق
+- [x] إضافة typed errors لـlive adapter وcommand sanitization وtimeout والlimits
+- [x] تنفيذ immutable LiveSubprocessRequest وValidatedCommandPlan وBoundedProcessReceipt
+- [x] تنفيذ CommandSandbox authorization/context/target/argv validation
+- [x] تنفيذ executable/flag/target-kind allowlists ورفض PATH lookup غير الموثوق
+- [x] تنفيذ empty-by-default environment isolation وworking-directory policy
+- [x] تنفيذ LiveSubprocessAdapter بـshell=False وbounded stdout/stderr
+- [x] تنفيذ timeout escalation SIGTERM ثم kill مع no-retry policy
+- [x] تنفيذ redaction/normalization boundary دون raw output persistence
+- [x] إضافة neutral local process doubles فقط دون live scanners/network tools
+- [x] إضافة authorization/argv/timeout/output/env/privacy/atomicity tests
+- [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
+- [x] مراجعة zero migrations وعدم تعديل schema 0006 أو ReconIngestion/Evidence contracts
+- [ ] رفع commit والتحقق من GitHub Actions
+- [ ] حفظ checkpoint وعرض Module 2.0 للمراجعة والتوقف قبل tool-specific adapters
