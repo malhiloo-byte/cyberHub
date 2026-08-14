@@ -78,12 +78,14 @@ class ScopeExpansionPreviewRequest:
     target_ids: tuple[TargetId, ...]
     max_hosts: int
 
+
 @dataclass(frozen=True, slots=True)
 class ScopeExpansionPreview:
     scope_id: ScopeId
     eligible_target_ids: tuple[TargetId, ...]
     rejected: tuple[PreviewRejection, ...]
     source_fingerprint: str
+
 
 @dataclass(frozen=True, slots=True)
 class BoundedBatchDefinition:
@@ -95,12 +97,14 @@ class BoundedBatchDefinition:
     max_total_output_bytes: int
     tool_profile_id: str
 
+
 @dataclass(frozen=True, slots=True)
 class HostExecutionPlan:
     target_id: TargetId
     authorization: ExecutionAuthorization
     effective_limits: ExecutionLimits
     tool_profile_id: str
+
 
 @dataclass(frozen=True, slots=True)
 class HostReceipt:
@@ -111,6 +115,7 @@ class HostReceipt:
     assets_committed: int
     observations_committed: int
     evidence_created: int
+
 
 @dataclass(frozen=True, slots=True)
 class ReconBatchReport:
