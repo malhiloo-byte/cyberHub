@@ -11,6 +11,7 @@ import typer
 
 from cyberos import __version__
 from cyberos.application.doctor import run_doctor
+from cyberos.application.nmap_localhost import NmapLocalhostScanService
 from cyberos.application.scope_validation import ScopeValidationService, TargetCandidate
 from cyberos.application.services.common import execute_service
 from cyberos.application.services.engagement import (
@@ -47,12 +48,14 @@ engagement_app = typer.Typer(no_args_is_help=True)
 scope_app = typer.Typer(no_args_is_help=True)
 target_app = typer.Typer(no_args_is_help=True)
 task_app = typer.Typer(no_args_is_help=True)
+recon_app = typer.Typer(no_args_is_help=True)
 app.add_typer(config_app, name="config")
 app.add_typer(workspace_app, name="workspace")
 app.add_typer(engagement_app, name="engagement")
 app.add_typer(scope_app, name="scope")
 app.add_typer(target_app, name="target")
 app.add_typer(task_app, name="task")
+app.add_typer(recon_app, name="recon")
 
 T = TypeVar("T")
 MIGRATIONS_DIR = Path(__file__).resolve().parents[1] / "persistence" / "migrations" / "versions"
@@ -683,6 +686,37 @@ def task_show(
     _invoke(
         lambda context: TaskService(_service_factory(file)).show(
             parse_task_id(task_id), context=context
+        ),
+        json_output,
+        error_exit_code=_task_cli_exit,
+    )
+
+
+@recon_app.command("nmap-localhost")
+def recon_nmap_localhost(
+    scope_id: Annotated[str, typer.Argument()],
+    target_id: Annotated[str, typer.Argument()],
+    nmap_sha256: Annotated[str, typer.Option("--nmap-sha256", min=64, max=64)],
+    nmap_version: Annotated[str, typer.Option("--nmap-version")],
+    ports: Annotated[str, typer.Option("--ports")] = "22,80,443",
+    nmap_path: Annotated[str, typer.Option("--nmap-path")] = "/usr/bin/nmap",
+    json_output: Annotated[bool, typer.Option("--json")] = False,
+    file: Annotated[Path | None, typer.Option("--file", exists=True, dir_okay=False)] = None,
+) -> None:
+    """Run the approved localhost TCP Connect Nmap workflow."""
+    try:
+        parsed_ports = tuple(int(value.strip()) for value in ports.split(",") if value.strip())
+    except ValueError as exc:
+        raise typer.BadParameter("--ports must be a comma-separated integer list.") from exc
+    _invoke(
+        lambda context: NmapLocalhostScanService(_service_factory(file)).run(
+            parse_scope_id(scope_id),
+            _parse_task_target_id(target_id),
+            binary_path=nmap_path,
+            expected_sha256=nmap_sha256,
+            expected_version=nmap_version,
+            ports=parsed_ports,
+            context=context,
         ),
         json_output,
         error_exit_code=_task_cli_exit,

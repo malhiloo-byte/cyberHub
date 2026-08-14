@@ -313,3 +313,9 @@ The parser now accepts a standard Nmap `nmaprun` DOCTYPE declaration only when i
 The TCP Connect profile is additive: `ScanMode.CONNECT` produces `-sT`, and the localhost manifest exposes `lab.localhost.tcp-connect.v1`. The default SYN profile remains available for privileged environments, while the unprivileged first-run guide should use TCP Connect.
 
 **Current state:** Slices 2.1.f.a–d plus the offline DOCTYPE compatibility patch pass 390 tests and all quality gates. No new live trial has been executed after this patch, no home-subnet scan has been performed, and a new explicit P3 authorization is required before any localhost invocation.
+
+## 21. Module 2.1.g application boundary record
+
+Module 2.1.g adds `NmapLocalhostScanService` and the official `cyberos recon nmap-localhost` command. The service owns creation of a pending Task only after loading the explicit Target, verifying that it is ACTIVE IPv4 `127.0.0.1`, obtaining fresh `ExecutionAuthorization`, and validating the approved binary identity. It then persists the Task lifecycle through PENDING → RUNNING → COMPLETED/FAILED, delegates process execution to `LiveSubprocessAdapter`, parses only bounded redacted XML, and reuses `NetworkPortScanProvenanceBridge` for atomic Recon/Evidence persistence.
+
+The CLI requires an explicit Scope ID, Target ID, Nmap SHA-256, and Nmap version. Ports default to `22,80,443` and are fail-closed to that allowlist. No live invocation is performed by the test suite; injected runner tests prove exact argv, parser/provenance wiring, output redaction, CLI discovery, and invalid-port rejection. Schema remains at 0006. The implementation is complete at **393 passing tests**, and a separate explicit authorization remains required before the first localhost live trial.

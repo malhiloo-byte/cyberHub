@@ -861,6 +861,21 @@
 - [ ] إعداد دليل clone/install/test/run لـUbuntu WSL
 - [ ] تقديم first authorized localhost command مع تحذير واضح من home-subnet scanning
 
+## Module 2.1.g — Localhost Nmap Application Service & CLI Boundary
+
+- [x] تثبيت baseline `a7dd4f8` وعدم تشغيل live scan أثناء التنفيذ
+- [x] تنفيذ NmapLocalhostScanService orchestration boundary
+- [x] ربط ExecutionAuthorization وmanifest preflight وLiveSubprocessAdapter
+- [x] ربط NmapXmlParserBridge وReconIngestionService وEvidence persistence
+- [x] إضافة `cyberos recon nmap-localhost` و/أو alias `cyberos recon nmap`
+- [x] فرض 127.0.0.1 وports 22/80/443 ورفض flags/targets الإضافية
+- [x] إضافة injected runner وoffline CLI/service/provenance tests
+- [x] إثبات no live invocation وzero migrations وatomic rollback
+- [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
+- [x] تحديث README/docs بالحالة الجديدة
+- [ ] commit/push إلى GitHub والتحقق من CI
+- [ ] حفظ checkpoint وطلب تفويض P3 منفصل قبل أي localhost live trial
+
 ## Module 2.0 — Live Subprocess & Execution Adapter Implementation
 
 - [x] حماية Phase 1 وعدم تعديل Modules 0–1.7 إلا عند regression موثق
