@@ -958,11 +958,11 @@
 
 ## Ubuntu WSL — Local Setup and Safe Operation Guide
 
-- [ ] التحقق من branch/commit الحالي والمتطلبات والأوامر الرسمية
-- [ ] توثيق clone/sync وPython venv وinstallation وconfiguration من الصفر
-- [ ] توثيق quality gates وdoctor وCLI lifecycle المحلي الآمن
-- [ ] توثيق localhost-only P3 boundary والحالة الحالية غير الجاهزة لإعادة P3
-- [ ] تسليم الدليل مع troubleshooting وقرارات التشغيل التالية
+- [x] التحقق من branch/commit الحالي والمتطلبات والأوامر الرسمية
+- [x] توثيق clone/sync وPython venv وinstallation وconfiguration من الصفر
+- [x] توثيق quality gates وdoctor وCLI lifecycle المحلي الآمن
+- [x] توثيق localhost-only P3 boundary والحالة الحالية غير الجاهزة لإعادة P3
+- [x] تسليم الدليل مع troubleshooting وقرارات التشغيل التالية
 
 ## P3 Preflight Hardening — State Metadata & Module 2.2 Review (Offline)
 
@@ -972,4 +972,4 @@
 - [x] إضافة fixtures واختبارات metadata وXXE/DTD regression
 - [x] تشغيل pytest -q و`bash scripts/check.sh` وboundary scan
 - [x] مراجعة وتأكيد اتساق قرارات Module 2.2 Section 14
-- [ ] تحديث docs ثم commit/push والتحقق من CI بعد strict state metadata validation
+- [x] تحديث docs ثم commit/push والتحقق من CI بعد strict state metadata validation
