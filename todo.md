@@ -653,3 +653,30 @@
 - [x] مراجعة عدم تعديل Modules 0–1.4 وعدم إضافة migration/network/subprocess
 - [x] رفع commit والتحقق من GitHub Actions
 - [ ] حفظ checkpoint وتسليم تقرير Module 1.5 والتوقف قبل Module 1.6
+
+## Module 1.6 — Recon Reporting Export & Negative Offline Fixtures Design
+
+- [x] تثبيت نطاق export projections read-only وعلاقتها بـModule 1.5
+- [x] تصميم JSON export DTO وstructured summary presentation model
+- [x] توثيق context-rooted scope_id وredaction وno-disk-mutation policy
+- [x] تصميم negative fixtures لـ429 و401/403 وunexpected payload وparameter boundaries
+- [x] توثيق deterministic in-process synthetic/offline labels والـbudget behavior
+- [x] تحديد typed errors وnegative workflow semantics وtest strategy
+- [x] مراجعة القرارات وعرض الوثيقة للاعتماد
+- [x] عدم كتابة implementation أو migration أو filesystem exporter قبل approval صريح
+
+## Module 1.6 — Reporting Export & Negative Offline Fixtures Implementation
+
+- [x] تنفيذ ReconReportSnapshot وReconReportJsonExport وStructuredSummaryPresentation
+- [x] تنفيذ ReconReportingExportService وScope/Target/Task context validation
+- [x] تنفيذ canonical JSON serialization وsource/export SHA-256 digests
+- [x] تنفيذ max export byte budget وredaction/integrity fail-closed errors
+- [x] تنفيذ negative fixture vocabulary وMultiWebApiNegativeScenario
+- [x] تنفيذ ephemeral OfflineNegativeReceipt دون Evidence/raw payload persistence
+- [x] إثبات 429 و401/403 وunexpected payload وparameter boundary semantics
+- [x] إثبات partial preservation وcancel-before-ingest وno-retry/no-sleep
+- [x] إضافة export/negative/privacy/context/boundary tests
+- [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
+- [x] مراجعة عدم تعديل Modules 0–1.5 وعدم إضافة migration/filesystem/network/subprocess
+- [ ] رفع commit والتحقق من GitHub Actions
+- [ ] حفظ checkpoint وتسليم تقرير Module 1.6 والتوقف قبل Module 1.7

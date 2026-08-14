@@ -9,7 +9,7 @@
 <p>
   <a href="https://github.com/malhiloo-byte/cyberHub/actions/workflows/ci.yml"><img src="https://github.com/malhiloo-byte/cyberHub/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status" /></a>
   <a href="cyberos-core/pyproject.toml"><img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white" alt="Python 3.11+" /></a>
-  <a href="cyberos-core/tests/"><img src="https://img.shields.io/badge/tests-341%20passing-238636?logo=pytest&logoColor=white" alt="341 tests passing" /></a>
+  <a href="cyberos-core/tests/"><img src="https://img.shields.io/badge/tests-350%20passing-238636?logo=pytest&logoColor=white" alt="350 tests passing" /></a>
   <a href="https://docs.astral.sh/ruff/"><img src="https://img.shields.io/badge/style-Ruff-D7FF64?logo=ruff&logoColor=111111" alt="Ruff" /></a>
   <a href="https://mypy.readthedocs.io/"><img src="https://img.shields.io/badge/types-mypy%20strict-1674B1" alt="mypy strict" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2ea44f.svg" alt="MIT license" /></a>
@@ -25,7 +25,7 @@
 
 </div>
 
-> **Current release posture** — Module 0 remains closed after a clean zero-state end-to-end audit: **278 Module 0 tests**. Modules 1.0 through 1.5 are now closed with **341 full-suite tests**. The Recon foundation now includes deny-by-default plugin execution, persistent asset correlation, target-bound orchestration, an evidence/provenance ledger, bounded read APIs, reporting projections, and deterministic multi-step Web API fixtures. No real network reconnaissance integration has started.
+> **Current release posture** — Module 0 remains closed after a clean zero-state end-to-end audit: **278 Module 0 tests**. Modules 1.0 through 1.6 are now closed with **350 full-suite tests**. The Recon foundation now includes deny-by-default plugin execution, persistent asset correlation, target-bound orchestration, an evidence/provenance ledger, bounded read APIs, reporting projections, canonical in-memory exports, and deterministic negative Web API fixtures. No real network reconnaissance integration has started.
 
 ---
 
@@ -61,6 +61,7 @@ The platform follows one deliberate rule: **build the missing personal operating
 | Recon Evidence & Provenance Ledger (Module 1.3) | **Complete — 328 full-suite tests** |
 | Evidence Query & Offline Web-Pentest Workflow (Module 1.4) | **Complete — 335 full-suite tests** |
 | Recon Reporting & Multi-Web API Offline Fixtures (Module 1.5) | **Complete — 341 full-suite tests** |
+| Recon Reporting Export & Negative Offline Fixtures (Module 1.6) | **Complete — 350 full-suite tests** |
 | Real reconnaissance tooling | **Not started — design first** |
 
 ## Operating model
