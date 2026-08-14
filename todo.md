@@ -762,7 +762,7 @@
 - [x] إضافة tests للـmanifest/flags/targets/parsers/redaction/provenance/atomicity
 - [x] تشغيل full regression وRuff وformat وmypy strict وwheel build وboundary scan
 - [x] مراجعة zero migrations وschema 0006 وعدم تعديل Modules 0–2.0
-- [ ] رفع commit والتحقق من GitHub Actions
+- [x] رفع commit والتحقق من GitHub Actions
 - [ ] حفظ checkpoint والتوقف قبل Slice 2.1.f/live tool integration
 
 ## Module 2.0 — Live Subprocess & Execution Adapter Implementation
